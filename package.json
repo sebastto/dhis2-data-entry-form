@@ -13,6 +13,9 @@
     "@dhis2/cli-app-scripts": "^1.5.3"
   },
   "dependencies": {
-    "@dhis2/app-runtime": "^2.0.2"
+    "@dhis2/app-runtime": "^2.0.2",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.5.1",
+    "eslint-plugin-react": "^7.16.0"
   }
 }

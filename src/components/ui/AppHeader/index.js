@@ -2,7 +2,7 @@ import React from 'React'
 
 import './index.css'
 
-const Header = ({title, subtitle}) => (
+const AppHeader = ({title, subtitle}) => (
     <div className="app-header">
         <h2 className="app-header-title">
             {title}
@@ -13,4 +13,4 @@ const Header = ({title, subtitle}) => (
     </div>
 )
 
-export default Header
+export default AppHeader

@@ -2,6 +2,8 @@ import React from 'react'
 import { DataQuery } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 
+import AppHeader from './components/ui/AppHeader'
+
 const query = {
     me: {
         resource: 'me',
@@ -9,8 +11,10 @@ const query = {
 }
 
 const MyApp = () => (
-    <div className="container">
-        <style jsx>{`
+    <>
+        <AppHeader title="Form overview" subtitle="Bum Kaku MCHP" />
+        <div className="container">
+            <style jsx>{`
             .container {
                 position: absolute;
                 top: 48px;
@@ -24,21 +28,22 @@ const MyApp = () => (
                 font-size: 1rem;
             }
         }`}</style>
-        <DataQuery query={query}>
-            {({ error, loading, data }) => {
-                if (error) return <span>ERROR</span>
-                if (loading) return <span>...</span>
-                return (
-                    <>
-                        <h1>
-                            {i18n.t('Hello {{name}}', { name: data.me.name })}
-                        </h1>
-                        <h3>{i18n.t('Welcome to DHIS2!')}</h3>
-                    </>
-                )
-            }}
-        </DataQuery>
-    </div>
+            <DataQuery query={query}>
+                {({ error, loading, data }) => {
+                    if (error) return <span>ERROR</span>
+                    if (loading) return <span>...</span>
+                    return (
+                        <>
+                            <h1>
+                                {i18n.t('Hello {{name}}', { name: data.me.name })}
+                            </h1>
+                            <h3>{i18n.t('Welcome to DHIS2!')}</h3>
+                        </>
+                    )
+                }}
+            </DataQuery>
+        </div>
+    </>
 )
 
 export default MyApp

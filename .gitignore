@@ -3,6 +3,8 @@
 i18n
 src/locales
 
+.idea
+
 # Logs
 logs
 *.log

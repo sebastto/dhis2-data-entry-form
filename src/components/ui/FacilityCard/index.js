@@ -3,7 +3,7 @@ import {Chip} from '@dhis2/ui-core'
 
 import './index.css'
 
-const Index = ({title, deadlines, onClick}) => {
+const FacilityCard = ({title, deadlines, onClick}) => {
     return (
         <button className="facility-card" onClick={onClick}>
             <span className="facility-card-title">{title}</span>
@@ -18,4 +18,4 @@ const Index = ({title, deadlines, onClick}) => {
     );
 };
 
-export default Index;
+export default FacilityCard;

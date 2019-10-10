@@ -2,7 +2,10 @@ import React from 'react'
 import { DataQuery } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 
+import { TabBar, Tab } from '@dhis2/ui-core'
 import AppHeader from './components/ui/AppHeader'
+
+import './App.css';
 
 const query = {
     me: {
@@ -13,6 +16,20 @@ const query = {
 const MyApp = () => (
     <>
         <AppHeader title="Form overview" subtitle="Bum Kaku MCHP" />
+        <TabBar>
+            <Tab>
+                All
+            </Tab>
+            <Tab selected>
+                Due soon
+            </Tab>
+            <Tab>
+                Completed
+            </Tab>
+            <Tab>
+                Expired
+            </Tab>
+        </TabBar>
         <div className="container">
             <style jsx>{`
             .container {

@@ -1,9 +1,9 @@
 .tab-bar {
-    justify-content: center;
-    box-shadow: none !important;
-    background-color: #F6F9FC !important;
+  justify-content: center;
+  box-shadow: none !important;
+  background-color: #f6f9fc !important;
 }
 
 .tab {
-    border: none !important;
+  border: none !important;
 }

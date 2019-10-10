@@ -39,8 +39,8 @@ const MyApp = () => (
                                 {i18n.t('Hello {{name}}', { name: data.me.name })}
                             </h1>
                             <h3>{i18n.t('Welcome to DHIS2!')}</h3>
-                            <DataEntryBox title="Child Health" date="24.11" color="blue"></DataEntryBox>
-                            <DataEntryBox title="A Very very very very very very very very very very very very long form" date="31.12" color="red"></DataEntryBox>
+                            <DataEntryBox title="Child Health" date="24.11" color="blue" clickprop={() => console.log("forward to Data Entry with form_id")}></DataEntryBox>
+                            <DataEntryBox title="A Very very very very very very very very very very very very long form" date="31.12" color="red" clickprop={() => console.log("forward to Data Entry with form_id")}></DataEntryBox>
                         </>
                     )
                 }}

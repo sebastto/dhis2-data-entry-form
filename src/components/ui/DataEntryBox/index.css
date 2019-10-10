@@ -5,6 +5,11 @@
     margin: 5px;
 }
 
+.dataentrybutton {
+    height: 100%;
+    width: 100%;
+}
+
 .dataentrybox {
     display: inline-flex;
     height: 100%;

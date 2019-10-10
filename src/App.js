@@ -3,6 +3,7 @@ import { DataQuery } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 
 import AppHeader from './components/ui/AppHeader'
+import DataEntryBox from './components/ui/DataEntryBox'
 
 const query = {
     me: {
@@ -38,6 +39,8 @@ const MyApp = () => (
                                 {i18n.t('Hello {{name}}', { name: data.me.name })}
                             </h1>
                             <h3>{i18n.t('Welcome to DHIS2!')}</h3>
+                            <DataEntryBox title="Child Health" date="24.11" color="blue"></DataEntryBox>
+                            <DataEntryBox title="A Very very very very very very very very very very very very long form" date="31.12" color="red"></DataEntryBox>
                         </>
                     )
                 }}

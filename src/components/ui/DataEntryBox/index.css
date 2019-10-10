@@ -17,7 +17,7 @@
 }
 
 
-#colormark {
+.colormark {
     width: 3%;
     height: 100%;
     border-top-left-radius: 3px;
@@ -25,12 +25,12 @@
     margin-right: 20px;
 }
 
-#titlebox {
+.titlebox {
     border-right: 1px solid;
     width: 82%;
 }
 
-#datebox {
+.datebox {
     margin-left: 40px;
     margin-right: 10px;
     width: 15%

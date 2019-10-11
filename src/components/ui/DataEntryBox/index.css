@@ -1,35 +1,35 @@
 .datacard {
-  height: auto !important;
-  width: 400px !important;
-  margin: 5px;
+    height: auto !important;
+    width: 400px !important;
+    margin: 5px;
 }
 
 .dataentrybutton {
-  height: 100%;
-  width: 100%;
+    height: 100%;
+    width: 100%;
 }
 
 .dataentrybox {
-  display: inline-flex;
-  height: 100%;
-  width: 100%;
+    display: inline-flex;
+    height: 100%;
+    width: 100%;
 }
 
 .colormark {
-  width: 3%;
-  height: 100%;
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
-  margin-right: 20px;
+    width: 3%;
+    height: 100%;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    margin-right: 20px;
 }
 
 .titlebox {
-  border-right: 1px solid;
-  width: 82%;
+    border-right: 1px solid;
+    width: 82%;
 }
 
 .datebox {
-  margin-left: 40px;
-  margin-right: 10px;
-  width: 15%;
+    margin-left: 40px;
+    margin-right: 10px;
+    width: 15%;
 }

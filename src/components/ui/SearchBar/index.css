@@ -1,0 +1,24 @@
+.search-container {
+    border-radius: 0.3rem;
+    width: 14rem;
+    min-width: fit-content;
+    margin: 1rem auto;
+    background: #EEEFF1;
+    white-space: nowrap;
+}
+
+.search-icon {
+    color: #A9ADB0;
+    margin: 0.25rem 0.5rem -0.25rem;
+}
+
+.search-input{
+    border: 0;
+    padding: 0.5rem 0.5rem 0.5rem 0;
+    font-size: 0.63rem;
+    line-height: 0.1rem;
+    background-color: #EEEFF1;
+    outline: none;
+    width: inherit;
+    border-radius: 0.3rem;
+}

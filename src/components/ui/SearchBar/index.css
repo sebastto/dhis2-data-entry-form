@@ -1,9 +1,10 @@
 .search-container {
-    border-radius: 0.3rem;
-    width: 14rem;
+    border-radius: 1rem;
+    width: 70%;
     min-width: fit-content;
+    max-width: 25rem;
     margin: 1rem auto;
-    background: #EEEFF1;
+    background-color: white;
     white-space: nowrap;
 }
 
@@ -15,10 +16,10 @@
 .search-input{
     border: 0;
     padding: 0.5rem 0.5rem 0.5rem 0;
-    font-size: 0.63rem;
+    font-size: 0.8rem;
     line-height: 0.1rem;
-    background-color: #EEEFF1;
+    background-color: white;
     outline: none;
     width: inherit;
-    border-radius: 0.3rem;
+    border-radius: 1rem;
 }

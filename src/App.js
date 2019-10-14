@@ -7,6 +7,7 @@ import AppHeader from './components/ui/AppHeader';
 import DataEntryBox from './components/ui/DataEntryBox';
 
 import './App.css';
+import SearchBar from "./components/ui/SearchBar";
 
 const query = {
     me: {
@@ -39,7 +40,8 @@ const MyApp = () => (
                 font-size: 1rem;
             }
         }`}</style>
-            <DataQuery query={query}>
+          <SearchBar placeholder="Search facility" onChange={() => {}}/>
+          <DataQuery query={query}>
                 {({ error, loading, data }) => {
                     if (error) return <span>ERROR</span>;
                     if (loading) return <span>...</span>;

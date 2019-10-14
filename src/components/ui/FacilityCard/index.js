@@ -1,7 +1,7 @@
-import React from 'react';
-import { Chip } from '@dhis2/ui-core';
+import React from 'react'
+import { Chip } from '@dhis2/ui-core'
 
-import './index.css';
+import './index.css'
 
 const FacilityCard = ({ title, deadlines, onClick }) => {
     return (
@@ -20,7 +20,7 @@ const FacilityCard = ({ title, deadlines, onClick }) => {
                 )}
             </span>
         </button>
-    );
-};
+    )
+}
 
-export default FacilityCard;
+export default FacilityCard

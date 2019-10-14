@@ -1,19 +1,19 @@
-import React from 'react';
-import { DataQuery } from '@dhis2/app-runtime';
-import i18n from '@dhis2/d2-i18n';
+import React from 'react'
+import { DataQuery } from '@dhis2/app-runtime'
+import i18n from '@dhis2/d2-i18n'
 
-import { TabBar, Tab } from '@dhis2/ui-core';
-import AppHeader from './components/ui/AppHeader';
-import DataEntryBox from './components/ui/DataEntryBox';
+import { TabBar, Tab } from '@dhis2/ui-core'
+import AppHeader from './components/ui/AppHeader'
+import DataEntryBox from './components/ui/DataEntryBox'
 
-import './App.css';
-import SearchBar from "./components/ui/SearchBar";
+import './App.css'
+import SearchBar from './components/ui/SearchBar'
 
 const query = {
     me: {
         resource: 'me',
     },
-};
+}
 
 const MyApp = () => (
     <>
@@ -40,11 +40,11 @@ const MyApp = () => (
                 font-size: 1rem;
             }
         }`}</style>
-          <SearchBar placeholder="Search facility" onChange={() => {}}/>
-          <DataQuery query={query}>
+            <SearchBar placeholder="Search facility" onChange={() => {}} />
+            <DataQuery query={query}>
                 {({ error, loading, data }) => {
-                    if (error) return <span>ERROR</span>;
-                    if (loading) return <span>...</span>;
+                    if (error) return <span>ERROR</span>
+                    if (loading) return <span>...</span>
                     return (
                         <>
                             <h1>
@@ -74,11 +74,11 @@ const MyApp = () => (
                                 }
                             ></DataEntryBox>
                         </>
-                    );
+                    )
                 }}
             </DataQuery>
         </div>
     </>
-);
+)
 
-export default MyApp;
+export default MyApp

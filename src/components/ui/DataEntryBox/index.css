@@ -6,10 +6,6 @@
     margin: 1rem auto !important;
     display: block !important;
     background-color: #FAFAFA !important;
-
-    box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.18) !important;
-    -moz-box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.18) !important;
-    -webkit-box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.18) !important;
 }
 
 .dataentrybutton {

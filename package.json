@@ -7,7 +7,8 @@
   "scripts": {
     "build": "d2-app-scripts build",
     "start": "d2-app-scripts start",
-    "test": "d2-app-scripts test"
+    "test": "d2-app-scripts test",
+      "pretty": "prettier --write \"src/**/*.js\""
   },
   "devDependencies": {
     "@dhis2/cli-app-scripts": "^1.5.3",

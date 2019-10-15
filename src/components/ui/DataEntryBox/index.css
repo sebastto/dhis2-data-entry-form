@@ -1,11 +1,10 @@
-
 .datacard {
     height: auto !important;
     width: 90% !important;
     max-width: 25rem;
     margin: 1rem auto !important;
     display: block !important;
-    background-color: #FAFAFA !important;
+    background-color: #fafafa !important;
 }
 
 .dataentrybutton {
@@ -21,7 +20,6 @@
     height: 100%;
     width: 100%;
 }
-
 
 .colormark {
     width: 0.7rem;

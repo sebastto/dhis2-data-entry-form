@@ -1,6 +1,6 @@
 :root {
     --error-color: #891515;
-    --warning-color: #FFC324;
+    --warning-color: #ffc324;
 }
 
 .facility-card {
@@ -15,7 +15,7 @@
 }
 
 .facility-card:hover {
-    background-color: #1EA7FD;
+    background-color: #1ea7fd;
     color: #ffffff;
     cursor: pointer;
 }

@@ -15,7 +15,7 @@ const DataEntryBox = props => {
 
     return (
         <Card className="datacard">
-            <div className="dataentrybox" onClick={props.clickprop}>
+            <div className="dataentrybox box-shadow" onClick={props.clickprop}>
                 <div className="colormark" style={{ background: color }}></div>
                 <p className="titlebox">{title}</p>
                 <p className="datebox">{date}</p>

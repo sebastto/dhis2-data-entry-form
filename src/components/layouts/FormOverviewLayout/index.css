@@ -1,13 +1,12 @@
-
 .form-overview-light-container {
     padding-top: 0.5rem;
-    background-color: #E8F3FF;
+    background-color: #e8f3ff;
 }
 
 .tab-bar {
     justify-content: center;
     box-shadow: none !important;
-    background-color: #E8F3FF !important;
+    background-color: #e8f3ff !important;
 }
 
 .tab {

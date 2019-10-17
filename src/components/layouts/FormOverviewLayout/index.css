@@ -3,6 +3,11 @@
     background-color: #e8f3ff;
 }
 
+.form-overview-form-section {
+    max-width: 25rem;
+    margin: 1rem auto;
+}
+
 .tab-bar {
     justify-content: center;
     box-shadow: none !important;

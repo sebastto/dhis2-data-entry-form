@@ -1,0 +1,30 @@
+.sortingbuttons-container {
+    padding: 0 1rem;
+    outline: 0;
+}
+
+.first-option {
+    margin-left: 1rem;
+}
+
+.second-option {
+    float: right;
+}
+
+.first-option,
+.second-option {
+    color: #9a9a9a;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.first-option:focus,
+.second-option:focus {
+    outline: 0;
+}
+
+svg {
+    margin: 0 0 -0.1rem 0.2rem;
+    color: black;
+}

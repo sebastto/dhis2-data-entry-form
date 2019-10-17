@@ -5,6 +5,7 @@ import { TabBar, Tab } from '@dhis2/ui-core'
 
 import './index.css'
 import DataEntryBox from '../../ui/DataEntryBox'
+import SortingButtons from '../../ui/SortingButtons'
 
 const testForms = [
     {
@@ -45,8 +46,8 @@ const FormOverviewLayout = () => {
                 <SearchBar placeholder="Search form" onChange={() => {}} />
                 <FacilityTabs />
             </div>
-
             <section className="form-overview-form-section">
+                <SortingButtons labelOne="Form title" labelTwo="Due date" onClick={() => {}} />
                 <Forms displayedForms={displayedForms} />
             </section>
         </>

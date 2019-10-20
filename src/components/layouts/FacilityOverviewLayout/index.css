@@ -1,0 +1,11 @@
+.facility-overview-container {
+    background-color: #f6f9fc;
+    position: absolute;
+    z-index: 1;
+    height: 100%;
+    padding-right: 1rem;
+}
+
+.facility-overview-container > h1 {
+    margin: 1rem 2rem;
+}

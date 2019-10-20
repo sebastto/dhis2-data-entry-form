@@ -38,16 +38,16 @@ const FormOverviewLayout = () => {
 
     return (
         <>
-            <AppHeader
-                title="Form Overview"
-                subtitle={selectedFacility}
-            ></AppHeader>
             <div className="form-overview-light-container">
                 <SearchBar placeholder="Search form" onChange={() => {}} />
                 <FacilityTabs />
             </div>
             <section className="form-overview-form-section">
-                <SortingButtons labelOne="Form title" labelTwo="Due date" onClick={() => {}} />
+                <SortingButtons
+                    labelOne="Form title"
+                    labelTwo="Due date"
+                    onClick={() => {}}
+                />
                 <Forms displayedForms={displayedForms} />
             </section>
         </>

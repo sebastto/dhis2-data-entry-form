@@ -9,12 +9,16 @@ const FacilityCard = ({ title, deadlines, onClick }) => {
             <span className="facility-card-title">{title}</span>
             <span className="facility-card-deadlines">
                 {deadlines.expired > 0 ? (
-                    <Chip className="chip-expired">{deadlines.expired}</Chip>
+                    <Chip className="chip-expired">
+                        {deadlines.expired.toLocaleString()}
+                    </Chip>
                 ) : (
                     ''
                 )}
                 {deadlines.due > 0 ? (
-                    <Chip className="chip-due">{deadlines.due}</Chip>
+                    <Chip className="chip-due">
+                        {deadlines.due.toLocaleString()}
+                    </Chip>
                 ) : (
                     ''
                 )}

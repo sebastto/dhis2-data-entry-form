@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './index.css'
+import PropTypes from 'prop-types'
 import { Card } from '@dhis2/ui-core'
 
 const DataEntryBox = props => {
@@ -22,6 +23,18 @@ const DataEntryBox = props => {
             </div>
         </Card>
     )
+}
+
+export const Warning = {
+    DUE: '#FFC324',
+    EXPIRED: '#891515',
+    LOCKED: '#212934',
+}
+
+DataEntryBox.propTypes = {
+    title: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
+    color: PropTypes.oneOf(Object.values(Warning)).isRequired,
 }
 
 export default DataEntryBox

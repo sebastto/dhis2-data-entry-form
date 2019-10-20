@@ -47,7 +47,12 @@ const FormOverviewLayout = () => {
                 <FacilityTabs />
             </div>
             <section className="form-overview-form-section">
-                <SortingButtons labelOne="Form title" labelTwo="Due date" onClick={() => {}} />
+                <SortingButtons
+                    labelOne="Form title"
+                    labelTwo="Due date"
+                    defaultCaret={2}
+                    onClick={() => {}}
+                />
                 <Forms displayedForms={displayedForms} />
             </section>
         </>

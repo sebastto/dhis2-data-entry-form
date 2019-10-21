@@ -4,26 +4,26 @@ import SearchBar from '../../ui/SearchBar'
 import { TabBar, Tab } from '@dhis2/ui-core'
 
 import './index.css'
-import DataEntryBox from '../../ui/DataEntryBox'
+import DataEntryBox, { Warning } from '../../ui/DataEntryBox'
 import SortingButtons from '../../ui/SortingButtons'
 
 const testForms = [
     {
         title: 'Child health',
         date: '20.10',
-        color: '#891515',
+        color: Warning.EXPIRED,
         key: 0,
     },
     {
         title: 'Clinical Monitoring Checklist',
         date: '21.10',
-        color: '#FFC324',
+        color: Warning.DUE,
         key: 1,
     },
     {
         title: 'Life-saving commodities',
         date: '05.11',
-        color: '#212934',
+        color: Warning.LOCKED,
         key: 2,
     },
 ]

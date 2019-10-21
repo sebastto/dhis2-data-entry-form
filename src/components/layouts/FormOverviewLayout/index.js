@@ -38,16 +38,17 @@ const FormOverviewLayout = () => {
 
     return (
         <>
-            <AppHeader
-                title="Form Overview"
-                subtitle={selectedFacility}
-            ></AppHeader>
+            <AppHeader title="Form Overview" subtitle={selectedFacility} />
             <div className="form-overview-light-container">
                 <SearchBar placeholder="Search form" onChange={() => {}} />
                 <FacilityTabs />
             </div>
             <section className="form-overview-form-section">
-                <SortingButtons labelOne="Form title" labelTwo="Due date" onClick={() => {}} />
+                <SortingButtons
+                    labelOne="Form title"
+                    labelTwo="Due date"
+                    onClick={() => {}}
+                />
                 <Forms displayedForms={displayedForms} />
             </section>
         </>
@@ -76,7 +77,7 @@ const Forms = ({ displayedForms }) => {
                     clickprop={() =>
                         console.log('forward to Data Entry with form_id')
                     }
-                ></DataEntryBox>
+                />
             )
         })
     }

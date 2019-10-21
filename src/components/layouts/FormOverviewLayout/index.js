@@ -47,6 +47,7 @@ const FormOverviewLayout = () => {
                 <SortingButtons
                     labelOne="Form title"
                     labelTwo="Due date"
+                    defaultCaret={2}
                     onClick={() => {}}
                 />
                 <Forms displayedForms={displayedForms} />

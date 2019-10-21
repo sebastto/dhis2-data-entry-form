@@ -19,6 +19,17 @@
     cursor: pointer;
 }
 
+.first-option.null > svg,
+.second-option.null > svg {
+    opacity: 0;
+}
+
+/* Add some kind of shadow/color gradient effect? */
+.first-option.null:hover > svg,
+.second-option.null:hover > svg {
+    opacity: 0.25;
+}
+
 .first-option:focus,
 .second-option:focus {
     outline: 0;

@@ -4,7 +4,7 @@
 }
 
 .form-overview-form-section {
-    max-width: 25rem;
+    max-width: 40rem;
     margin: 1rem auto;
 }
 
@@ -16,4 +16,10 @@
 
 .tab {
     border: none !important;
+}
+
+.form-overview-container {
+    width: 100%;
+    height: calc(100vh - 48px);
+    display: inline-block;
 }

@@ -12,7 +12,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-right: 0.5rem;
     background: inherit;
     outline: 0;
 }
@@ -24,11 +23,13 @@
 }
 
 .facility-card-title {
+    font-size: medium;
     margin: 0 4rem 0 2rem;
 }
 
 .facility-card-deadlines {
     margin-right: 0.3rem;
+    width: 6rem;
 }
 
 .chip-expired {

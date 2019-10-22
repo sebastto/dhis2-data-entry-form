@@ -11,14 +11,10 @@ const MyApp = () => {
     )
 
     return (
-        <>
-            <AppHeader
-                title="Form Overview"
-                subtitle={selectedFacility}
-            ></AppHeader>
+        <div className="app-container">
             <FacilityOverviewLayout />
             <FormOverviewLayout />
-        </>
+        </div>
     )
 }
 

@@ -1,11 +1,10 @@
 .facility-overview-container {
-    background-color: #D7EAFD;
+    background-color: #d7eafd;
     display: inline-block;
     width: 30rem;
     min-height: 100%;
     align-self: stretch;
 }
-
 
 .facility-overview-title {
     margin: 1rem 2rem;

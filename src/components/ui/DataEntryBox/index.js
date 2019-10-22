@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import './index.css'
 import PropTypes from 'prop-types'
 import { Card } from '@dhis2/ui-core'
-import { WARNING } from 'jest-validate/build/utils'
 
 const DataEntryBox = props => {
     const [title, setTitle] = useState(['ERROR'])

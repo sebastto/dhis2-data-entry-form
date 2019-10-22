@@ -10,20 +10,26 @@ import SortingButtons from '../../ui/SortingButtons'
 const testForms = [
     {
         title: 'Child health',
-        date: '20.10',
-        color: Warning.EXPIRED,
+        periodType: 'Quarterly',
+        completed: false,
+        overdue: false,
+        expired: false,
         key: 0,
     },
     {
         title: 'Clinical Monitoring Checklist',
-        date: '21.10',
-        color: Warning.DUE,
+        periodType: 'Monthly',
+        completed: false,
+        overdue: false,
+        expired: false,
         key: 1,
     },
     {
         title: 'Life-saving commodities',
-        date: '05.11',
-        color: Warning.LOCKED,
+        periodType: 'WeeklyWednesday',
+        completed: true,
+        overdue: false,
+        expired: false,
         key: 2,
     },
 ]
@@ -72,8 +78,10 @@ const Forms = ({ displayedForms }) => {
             return (
                 <DataEntryBox
                     title={form.title}
-                    date={form.date}
-                    color={form.color}
+                    periodType={form.periodType}
+                    completed={form.completed}
+                    overdue={form.overdue}
+                    expired={form.expired}
                     key={form.key}
                     clickprop={() =>
                         console.log('forward to Data Entry with form_id')

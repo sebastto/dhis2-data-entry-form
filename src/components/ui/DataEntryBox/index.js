@@ -10,16 +10,16 @@ const DataEntryBox = props => {
 
     useEffect(() => {
         setTitle(props.title)
-        if (props.completed) {
+        if (props.formState == FormState.COMPLETED) {
             setDate('')
             setColor(Warning.COMPLETED)
         } else {
             const dateCalc = calculateDate(props.periodType)
-            if (props.overdue) {
+            if (props.formState == FormState.OVERDUE) {
                 //Form is overdue. Due-date is now date when timelyDays expires
                 //dateCalc = new Date(dateCalc.getDate() + props.timelyDays);
                 setColor(Warning.OVERDUE)
-            } else if (props.expired) {
+            } else if (props.formState == FormState.EXPIRED) {
                 //Form is expired. Due-date is now date when expiryDays expires
                 //dateCalc = new Date(dateCalc.getDate() + props.timelyDays + props.expiryDays);
                 setColor(Warning.EXPIRED)

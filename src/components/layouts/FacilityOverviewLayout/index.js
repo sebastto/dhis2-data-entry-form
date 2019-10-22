@@ -7,7 +7,7 @@ import SearchBar from '../../ui/SearchBar'
 const FacilityOverviewLayout = () => {
     return (
         <div className="facility-overview-container">
-            <h1>Facilities</h1>
+            <h2 className="facility-overview-title">Facilities</h2>
             <SearchBar placeholder="Search facility" onChange={() => {}} />
             <SortingButtons
                 labelOne="Facility title"

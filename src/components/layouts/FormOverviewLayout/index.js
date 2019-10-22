@@ -37,7 +37,7 @@ const FormOverviewLayout = () => {
     console.log(displayedForms)
 
     return (
-        <>
+        <div className="form-overview-container">
             <AppHeader title="Form Overview" subtitle={selectedFacility} />
             <div className="form-overview-light-container">
                 <SearchBar placeholder="Search form" onChange={() => {}} />
@@ -52,7 +52,7 @@ const FormOverviewLayout = () => {
                 />
                 <Forms displayedForms={displayedForms} />
             </section>
-        </>
+        </div>
     )
 }
 

@@ -1,6 +1,7 @@
 .sortingbuttons-container {
     padding: 0 1rem;
     outline: 0;
+    margin: 0.5rem auto;
 }
 
 .first-option {

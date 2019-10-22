@@ -12,12 +12,23 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-right: 0.5rem;
+    background: inherit;
+    outline: 0;
 }
 
 .facility-card:hover {
     background-color: #1ea7fd;
     color: #ffffff;
     cursor: pointer;
+}
+
+.facility-card-title {
+    margin: 0 4rem 0 2rem;
+}
+
+.facility-card-deadlines {
+    margin-right: 0.3rem;
 }
 
 .chip-expired {

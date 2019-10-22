@@ -14,20 +14,20 @@ const DataEntryBox = props => {
             setDate('')
             setColor(Warning.COMPLETED)
         } else {
-            const date_calc = calculate_date(props.periodType)
+            const dateCalc = calculateDate(props.periodType)
             if (props.overdue) {
                 //Form is overdue. Due-date is now date when timelyDays expires
-                //date_calc = new Date(date_calc.getDate() + props.timelyDays);
+                //dateCalc = new Date(dateCalc.getDate() + props.timelyDays);
                 setColor(Warning.OVERDUE)
             } else if (props.expired) {
                 //Form is expired. Due-date is now date when expiryDays expires
-                //date_calc = new Date(date_calc.getDate() + props.timelyDays + props.expiryDays);
+                //dateCalc = new Date(dateCalc.getDate() + props.timelyDays + props.expiryDays);
                 setColor(Warning.EXPIRED)
             } else {
-                setColor(calculate_color(date_calc, props.periodType))
+                setColor(calculateColor(dateCalc, props.periodType))
             }
-            const day = ('00' + date_calc.getDate()).substr(-2, 2)
-            const month = ('00' + (date_calc.getMonth() + 1)).substr(-2, 2)
+            const day = ('00' + dateCalc.getDate()).substr(-2, 2)
+            const month = ('00' + (dateCalc.getMonth() + 1)).substr(-2, 2)
             setDate(day + '.' + month)
         }
     }, [props])
@@ -52,17 +52,22 @@ export const Warning = {
     //LOCKED: '#212934',    // black
 }
 
+export const FormState = {
+    ACTIVE: 0,
+    COMPLETED: 1,
+    OVERDUE: 2,
+    EXPIRED: 3,
+}
+
 DataEntryBox.propTypes = {
     title: PropTypes.string.isRequired,
     periodType: PropTypes.string.isRequired,
-    completed: PropTypes.bool.isRequired,
-    overdue: PropTypes.bool.isRequired,
-    expired: PropTypes.bool.isRequired,
+    formState: PropTypes.oneOf(Object.values(FormState)).isRequired,
     //timelyDays: PropTypes.number.isRequired,
     //expiryDays: PropTypes.number.isRequired,
 }
 
-const calculate_date = periodType => {
+const calculateDate = periodType => {
     /*
         Calculates the due-date using periodType.
     */
@@ -72,9 +77,9 @@ const calculate_date = periodType => {
     const month = date.getMonth()
 
     //Early Variable declaration (compiler work-around)
-    let days_to_end = -1
+    let daysToEnd = -1
     let quarter = -1
-    let quartermonth = -1
+    let quarterMonth = -1
 
     switch (periodType) {
         /*
@@ -83,9 +88,9 @@ const calculate_date = periodType => {
         */
         case 'Weekly':
             //Set date to sunday this week
-            days_to_end = -day
-            if (days_to_end < 0) days_to_end += 7
-            date.setDate(date.getDate() + days_to_end)
+            daysToEnd = -day
+            if (daysToEnd < 0) daysToEnd += 7
+            date.setDate(date.getDate() + daysToEnd)
             break
         case 'Monthly':
             //Set date to last day of month
@@ -93,16 +98,16 @@ const calculate_date = periodType => {
             break
         case 'WeeklyWednesday':
             //Set date to tuesday this week
-            days_to_end = 2 - day
-            if (days_to_end < 0) days_to_end += 7
-            //day += days_to_end;
-            date.setDate(date.getDate() + days_to_end)
+            daysToEnd = 2 - day
+            if (daysToEnd < 0) daysToEnd += 7
+            //day += daysToEnd;
+            date.setDate(date.getDate() + daysToEnd)
             break
         case 'Quarterly':
             //Set date to last date in quarter
             quarter = Math.floor(month / 3) + 1
-            quartermonth = month - (quarter - 1) * 3
-            date = new Date(date.getFullYear(), month + 3 - quartermonth, 0)
+            quarterMonth = month - (quarter - 1) * 3
+            date = new Date(date.getFullYear(), month + 3 - quarterMonth, 0)
             break
         case 'Yearly':
             //Set date to the last day of the year
@@ -111,17 +116,13 @@ const calculate_date = periodType => {
         case 'SixMonthly':
             //Set the day to the last day in the current half-year
             quarter = Math.floor(month / 3) + 1
-            quartermonth = month - (quarter - 1) * 3
-            let months_to_halfyear = 0
+            quarterMonth = month - (quarter - 1) * 3
+            let monthsToHalfYear = 0
             if (quarter == 1 || quarter == 3) {
-                months_to_halfyear += 3
+                monthsToHalfYear += 3
             }
-            months_to_halfyear += 2 - quartermonth
-            date = new Date(
-                date.getFullYear(),
-                month + months_to_halfyear + 1,
-                0
-            )
+            monthsToHalfYear += 2 - quarterMonth
+            date = new Date(date.getFullYear(), month + monthsToHalfYear + 1, 0)
             break
 
         default:
@@ -135,7 +136,7 @@ const calculate_date = periodType => {
     return date
 }
 
-const calculate_color = (date, periodType) => {
+const calculateColor = (date, periodType) => {
     /*
    Calculates an appropriate color using date and periodType.
    Output is either Warning.DUECLOSE or Warning.DUENOTCLOSE.
@@ -150,35 +151,34 @@ const calculate_color = (date, periodType) => {
 */
 
     const today = new Date()
-    const days_to_deadline = (date - today) / (1000 * 3600 * 24)
-    let full_days_to_deadline = -1
+    const daysToDeadLine = (date - today) / (1000 * 3600 * 24)
+    let fullDaysToDeadLine = -1
     switch (periodType) {
         case 'Weekly':
-            full_days_to_deadline = 7
+            fullDaysToDeadLine = 7
             break
         case 'Monthly':
-            full_days_to_deadline = 30
+            fullDaysToDeadLine = 30
             break
         case 'WeeklyWednesday':
-            full_days_to_deadline = 7
+            fullDaysToDeadLine = 7
             break
         case 'Quarterly':
-            full_days_to_deadline = 365 / 4
+            fullDaysToDeadLine = 365 / 4
             break
         case 'Yearly':
-            full_days_to_deadline = 365
+            fullDaysToDeadLine = 365
             break
         case 'SixMontly':
-            full_days_to_deadline = 365 / 2
+            fullDaysToDeadLine = 365 / 2
             break
         default:
-            full_days_to_deadline = 30
+            fullDaysToDeadLine = 30
     }
 
     if (
-        (days_to_deadline / full_days_to_deadline < 0.2 &&
-            days_to_deadline < 20) ||
-        days_to_deadline <= 1
+        (daysToDeadLine / fullDaysToDeadLine < 0.2 && daysToDeadLine < 20) ||
+        daysToDeadLine <= 1
     ) {
         return Warning.CLOSEDUE
     } else {

@@ -4,32 +4,26 @@ import SearchBar from '../../ui/SearchBar'
 import { TabBar, Tab } from '@dhis2/ui-core'
 
 import './index.css'
-import DataEntryBox, { Warning } from '../../ui/DataEntryBox'
+import DataEntryBox, { Warning, FormState } from '../../ui/DataEntryBox'
 import SortingButtons from '../../ui/SortingButtons'
 
 const testForms = [
     {
         title: 'Child health',
         periodType: 'Quarterly',
-        completed: false,
-        overdue: false,
-        expired: false,
+        formState: FormState.ACTIVE,
         key: 0,
     },
     {
         title: 'Clinical Monitoring Checklist',
         periodType: 'Monthly',
-        completed: false,
-        overdue: false,
-        expired: false,
+        formState: FormState.ACTIVE,
         key: 1,
     },
     {
         title: 'Life-saving commodities',
         periodType: 'WeeklyWednesday',
-        completed: true,
-        overdue: false,
-        expired: false,
+        formState: FormState.COMPLETED,
         key: 2,
     },
 ]
@@ -79,9 +73,7 @@ const Forms = ({ displayedForms }) => {
                 <DataEntryBox
                     title={form.title}
                     periodType={form.periodType}
-                    completed={form.completed}
-                    overdue={form.overdue}
-                    expired={form.expired}
+                    formState={form.formState}
                     key={form.key}
                     clickprop={() =>
                         console.log('forward to Data Entry with form_id')

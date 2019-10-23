@@ -12,17 +12,17 @@ const DataEntryBox = React.forwardRef((props, setDateInParent) => {
         setTitle(props.title)
         if (props.formState === FormState.COMPLETED) {
             setDate('')
-            setColor(Warning.COMPLETED)
+            setColor(Status.COMPLETED)
         } else {
             const dateCalc = calculateDate(props.periodType)
             if (props.formState === FormState.OVERDUE) {
                 //Form is overdue. Due-date is now date when timelyDays expires
                 //dateCalc = new Date(dateCalc.getDate() + props.timelyDays);
-                setColor(Warning.OVERDUE)
+                setColor(Status.OVERDUE)
             } else if (props.formState === FormState.EXPIRED) {
                 //Form is expired. Due-date is now date when expiryDays expires
                 //dateCalc = new Date(dateCalc.getDate() + props.timelyDays + props.expiryDays);
-                setColor(Warning.EXPIRED)
+                setColor(Status.EXPIRED)
             } else {
                 setColor(calculateColor(dateCalc, props.periodType))
             }
@@ -51,7 +51,7 @@ const DataEntryBox = React.forwardRef((props, setDateInParent) => {
     )
 })
 
-export const Warning = {
+export const Status = {
     OVERDUE: '#891515', // red
     CLOSEDUE: '#FFC324', // yellow
     NOTCLOSEDUE: 'blue', // blue
@@ -148,14 +148,14 @@ const calculateDate = periodType => {
 const calculateColor = (date, periodType) => {
     /*
    Calculates an appropriate color using date and periodType.
-   Output is either Warning.DUECLOSE or Warning.DUENOTCLOSE.
+   Output is either Status.DUECLOSE or Status.DUENOTCLOSE.
 
    If less than 20% of days is remaining and less than 20 days
-   is remaining the output is Warning.DUECLOSE.
+   is remaining the output is Status.DUECLOSE.
 
-   If 1 or less days are remaining output is also Warning.DUECLOSE.
+   If 1 or less days are remaining output is also Status.DUECLOSE.
 
-   Else the output is Warning.DUENOTCLOSE.
+   Else the output is Status.DUENOTCLOSE.
 
 */
 
@@ -189,9 +189,9 @@ const calculateColor = (date, periodType) => {
         (daysToDeadLine / fullDaysToDeadLine < 0.2 && daysToDeadLine < 20) ||
         daysToDeadLine <= 1
     ) {
-        return Warning.CLOSEDUE
+        return Status.CLOSEDUE
     } else {
-        return Warning.NOTCLOSEDUE
+        return Status.NOTCLOSEDUE
     }
 }
 

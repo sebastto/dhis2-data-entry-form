@@ -4,7 +4,7 @@ import SearchBar from '../../ui/SearchBar'
 import { TabBar, Tab } from '@dhis2/ui-core'
 
 import './index.css'
-import DataEntryBox, { Warning, FormState } from '../../ui/DataEntryBox'
+import DataEntryBox, { FormState } from '../../ui/DataEntryBox'
 import SortingButtons from '../../ui/SortingButtons'
 
 const testForms = [

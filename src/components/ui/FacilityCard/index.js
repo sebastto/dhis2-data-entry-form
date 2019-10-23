@@ -2,8 +2,11 @@ import React from 'react'
 import { Chip } from '@dhis2/ui-core'
 
 import './index.css'
+import PropTypes from 'prop-types'
 
-const FacilityCard = ({ title, deadlines, onClick }) => {
+const FacilityCard = props => {
+    const { title, deadlines, onClick } = props
+
     return (
         <button className="facility-card" onClick={onClick}>
             <span className="facility-card-title">{title}</span>
@@ -25,6 +28,12 @@ const FacilityCard = ({ title, deadlines, onClick }) => {
             </span>
         </button>
     )
+}
+
+FacilityCard.propTypes = {
+    title: PropTypes.string.isRequired,
+    deadlines: PropTypes.object.isRequired,
+    onClick: PropTypes.func.isRequired,
 }
 
 export default FacilityCard

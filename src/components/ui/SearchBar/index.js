@@ -17,7 +17,7 @@ const SearchBar = props => {
                 dense
                 label={placeholder}
                 name="Search"
-                onChange={onChange}
+                onChange={e => onChange(e)}
                 type="text"
                 className="search-input"
             />

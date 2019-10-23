@@ -6,6 +6,10 @@
     align-self: stretch;
 }
 
+.facility-overview-container-max-width {
+    width: 100% !important;
+}
+
 
 .facility-overview-title {
     margin: 1rem 2rem;

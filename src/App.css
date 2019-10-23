@@ -12,4 +12,13 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    height: calc(100vh - 48px);
+}
+
+.app-container-tab-view {
+    height: calc(100vh - 48px - 47px);
+}
+
+.hidden {
+    display: none !important;
 }

@@ -13,14 +13,18 @@ const FacilityCard = props => {
             <span className="facility-card-deadlines">
                 {deadlines.expired > 0 ? (
                     <Chip className="chip-expired">
-                        {deadlines.expired.toLocaleString()}
+                        {deadlines.expired > 99
+                            ? '99+'
+                            : deadlines.expired.toLocaleString()}
                     </Chip>
                 ) : (
                     ''
                 )}
                 {deadlines.due > 0 ? (
                     <Chip className="chip-due">
-                        {deadlines.due.toLocaleString()}
+                        {deadlines.due > 99
+                            ? '99+'
+                            : deadlines.expired.toLocaleString()}
                     </Chip>
                 ) : (
                     ''

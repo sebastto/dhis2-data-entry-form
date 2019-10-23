@@ -12,19 +12,16 @@ const testForms = [
         title: 'Child health',
         periodType: 'Quarterly',
         formState: FormState.ACTIVE,
-        key: 0,
     },
     {
         title: 'Clinical Monitoring Checklist',
         periodType: 'Monthly',
         formState: FormState.ACTIVE,
-        key: 1,
     },
     {
         title: 'Life-saving commodities',
         periodType: 'WeeklyWednesday',
         formState: FormState.COMPLETED,
-        key: 2,
     },
 ]
 
@@ -51,9 +48,12 @@ const FormOverviewLayout = ({ hidden }) => {
             </div>
             <section className="form-overview-form-section">
                 <SortingButtons
-                    labelOne="Form title"
-                    labelTwo="Due date"
-                    defaultCaret={2}
+                    firstOption={{ key: 'title', title: 'Form title' }}
+                    secondOption={{
+                        key: 'due',
+                        title: 'Due date',
+                        default: true,
+                    }}
                     onClick={() => {}}
                 />
                 <Forms displayedForms={displayedForms} />
@@ -73,14 +73,14 @@ const FacilityTabs = () => (
 
 const Forms = ({ displayedForms }) => {
     const renderForms = displayedForms => {
-        return displayedForms.map(form => {
+        return displayedForms.map((form, index) => {
             console.log(form)
             return (
                 <DataEntryBox
                     title={form.title}
                     periodType={form.periodType}
                     formState={form.formState}
-                    key={form.key}
+                    key={index}
                     clickprop={() =>
                         console.log('forward to Data Entry with form_id')
                     }

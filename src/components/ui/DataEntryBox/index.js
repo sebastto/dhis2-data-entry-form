@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import { Card } from '@dhis2/ui-core'
 
 const DataEntryBox = props => {
-    const [title, setTitle] = useState(['ERROR'])
-    const [date, setDate] = useState(['ERROR'])
-    const [color, setColor] = useState(['red'])
+    const [title, setTitle] = useState('ERROR')
+    const [date, setDate] = useState(null)
+    const [color, setColor] = useState('red')
 
     useEffect(() => {
         setTitle(props.title)
@@ -34,10 +34,19 @@ const DataEntryBox = props => {
 
     return (
         <Card className="datacard">
-            <div className="dataentrybox box-shadow" onClick={props.clickprop}>
+            <div className="dataentrybox box-shadow" onClick={props.onClick}>
                 <div className="colormark" style={{ background: color }} />
                 <p className="titlebox">{title}</p>
-                <p className="datebox">{date}</p>
+                <p className="datebox">
+                    {date &&
+                        date
+                            .toLocaleDateString('en-GB', {
+                                month: '2-digit',
+                                day: '2-digit',
+                                /* To replace date separator (/) with (.) Mby not necessary*/
+                            })
+                            .replace(/\//g, '.')}
+                </p>
             </div>
         </Card>
     )

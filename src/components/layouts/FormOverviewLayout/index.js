@@ -30,6 +30,7 @@ const FormOverviewLayout = ({ hidden }) => {
         'Undefined facility'
     )
     const [displayedForms, setdisplayedForms] = useState(testForms)
+    const [searchInput, setSearchInput] = useState('')
 
     console.log(displayedForms)
 
@@ -37,13 +38,60 @@ const FormOverviewLayout = ({ hidden }) => {
 
     if (hidden) {
         containerClassName += ' hidden'
+    const searchOnChange = e => {
+        setSearchInput(e.target.value)
+    }
+
+    const sortOnChange = sortingChoices => {
+        const { order, key } = sortingChoices
+        switch (key) {
+            case 'due':
+                if (order === 'asc') {
+                    setdisplayedForms(
+                        [...displayedForms].sort((a, b) => {
+                            return a.date - b.date
+                        })
+                    )
+                } else if (order === 'desc') {
+                    setdisplayedForms(
+                        [...displayedForms].sort((a, b) => {
+                            return b.date - a.date
+                        })
+                    )
+                }
+                break
+            case 'title':
+                if (order === 'asc') {
+                    setdisplayedForms(
+                        [...displayedForms].sort((a, b) => {
+                            return a.title.toLocaleLowerCase() >
+                                b.title.toLocaleLowerCase()
+                                ? 1
+                                : -1
+                        })
+                    )
+                } else if (order === 'desc') {
+                    setdisplayedForms(
+                        [...displayedForms].sort((a, b) => {
+                            return a.title.toLocaleLowerCase() >
+                                b.title.toLocaleLowerCase()
+                                ? -1
+                                : 1
+                        })
+                    )
+                }
+                break
+        }
     }
 
     return (
         <div className={containerClassName}>
             <AppHeader title="Form Overview" subtitle={selectedFacility} />
             <div className="form-overview-light-container">
-                <SearchBar placeholder="Search form" onChange={() => {}} />
+                <SearchBar
+                    placeholder="Search form"
+                    onChange={searchOnChange}
+                />
                 <FacilityTabs />
             </div>
             <section className="form-overview-form-section">
@@ -54,9 +102,28 @@ const FormOverviewLayout = ({ hidden }) => {
                         title: 'Due date',
                         default: true,
                     }}
-                    onClick={() => {}}
+                    onClick={sortOnChange}
                 />
-                <Forms displayedForms={displayedForms} />
+                {displayedForms.map((form, index) => {
+                    if (
+                        form.title
+                            .toLocaleLowerCase()
+                            .startsWith(searchInput.toLocaleLowerCase())
+                    )
+                        return (
+                            <DataEntryBox
+                                title={form.title}
+                                date={form.date}
+                                color={form.color}
+                                key={index}
+                                onClick={() =>
+                                    console.log(
+                                        'forward to Data Entry with form_id'
+                                    )
+                                }
+                            />
+                        )
+                })}
             </section>
         </div>
     )

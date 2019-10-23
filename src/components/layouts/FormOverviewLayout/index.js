@@ -9,13 +9,13 @@ import SortingButtons from '../../ui/SortingButtons'
 
 const testForms = [
     {
-        title: 'Child health',
-        periodType: 'Quarterly',
+        title: 'Clinical Monitoring Checklist',
+        periodType: 'Monthly',
         formState: FormState.ACTIVE,
     },
     {
-        title: 'Clinical Monitoring Checklist',
-        periodType: 'Monthly',
+        title: 'Child health',
+        periodType: 'Quarterly',
         formState: FormState.ACTIVE,
     },
     {
@@ -29,7 +29,7 @@ const FormOverviewLayout = ({ hidden }) => {
     const [selectedFacility, setSelectedFacility] = useState(
         'Undefined facility'
     )
-    const [displayedForms, setdisplayedForms] = useState(testForms)
+    const [displayedForms, setDisplayedForms] = useState(testForms)
     const [searchInput, setSearchInput] = useState('')
 
     console.log(displayedForms)
@@ -38,31 +38,42 @@ const FormOverviewLayout = ({ hidden }) => {
 
     if (hidden) {
         containerClassName += ' hidden'
+    }
     const searchOnChange = e => {
         setSearchInput(e.target.value)
     }
 
+    const setChildDate = childDate => {
+        if (!displayedForms[childDate.id].due) {
+            const tmpForms = displayedForms
+            if (childDate.date === '') tmpForms[childDate.id].due = new Date(0)
+            else tmpForms[childDate.id].due = childDate.date
+            setDisplayedForms(tmpForms)
+        }
+    }
+
     const sortOnChange = sortingChoices => {
+        console.log(sortingChoices)
         const { order, key } = sortingChoices
         switch (key) {
             case 'due':
                 if (order === 'asc') {
-                    setdisplayedForms(
+                    setDisplayedForms(
                         [...displayedForms].sort((a, b) => {
-                            return a.date - b.date
+                            return a.due - b.due
                         })
                     )
                 } else if (order === 'desc') {
-                    setdisplayedForms(
+                    setDisplayedForms(
                         [...displayedForms].sort((a, b) => {
-                            return b.date - a.date
+                            return b.due - a.due
                         })
                     )
                 }
                 break
             case 'title':
                 if (order === 'asc') {
-                    setdisplayedForms(
+                    setDisplayedForms(
                         [...displayedForms].sort((a, b) => {
                             return a.title.toLocaleLowerCase() >
                                 b.title.toLocaleLowerCase()
@@ -71,7 +82,7 @@ const FormOverviewLayout = ({ hidden }) => {
                         })
                     )
                 } else if (order === 'desc') {
-                    setdisplayedForms(
+                    setDisplayedForms(
                         [...displayedForms].sort((a, b) => {
                             return a.title.toLocaleLowerCase() >
                                 b.title.toLocaleLowerCase()
@@ -109,20 +120,23 @@ const FormOverviewLayout = ({ hidden }) => {
                         form.title
                             .toLocaleLowerCase()
                             .startsWith(searchInput.toLocaleLowerCase())
-                    )
+                    ) {
                         return (
                             <DataEntryBox
+                                ref={setChildDate}
                                 title={form.title}
-                                date={form.date}
-                                color={form.color}
+                                periodType={form.periodType}
+                                formState={form.formState}
+                                formId={index}
                                 key={index}
-                                onClick={() =>
+                                clickprop={() =>
                                     console.log(
                                         'forward to Data Entry with form_id'
                                     )
                                 }
                             />
                         )
+                    }
                 })}
             </section>
         </div>
@@ -137,26 +151,5 @@ const FacilityTabs = () => (
         <Tab>Expired</Tab>
     </TabBar>
 )
-
-const Forms = ({ displayedForms }) => {
-    const renderForms = displayedForms => {
-        return displayedForms.map((form, index) => {
-            console.log(form)
-            return (
-                <DataEntryBox
-                    title={form.title}
-                    periodType={form.periodType}
-                    formState={form.formState}
-                    key={index}
-                    clickprop={() =>
-                        console.log('forward to Data Entry with form_id')
-                    }
-                />
-            )
-        })
-    }
-
-    return <>{renderForms(displayedForms)}</>
-}
 
 export default FormOverviewLayout

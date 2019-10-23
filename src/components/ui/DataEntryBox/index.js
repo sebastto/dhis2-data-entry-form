@@ -3,33 +3,33 @@ import './index.css'
 import PropTypes from 'prop-types'
 import { Card } from '@dhis2/ui-core'
 
-const DataEntryBox = props => {
+const DataEntryBox = React.forwardRef((props, setDateInParent) => {
     const [title, setTitle] = useState('ERROR')
     const [date, setDate] = useState(null)
     const [color, setColor] = useState('red')
 
     useEffect(() => {
         setTitle(props.title)
-        if (props.formState == FormState.COMPLETED) {
+        if (props.formState === FormState.COMPLETED) {
             setDate('')
             setColor(Warning.COMPLETED)
         } else {
             const dateCalc = calculateDate(props.periodType)
-            if (props.formState == FormState.OVERDUE) {
+            if (props.formState === FormState.OVERDUE) {
                 //Form is overdue. Due-date is now date when timelyDays expires
                 //dateCalc = new Date(dateCalc.getDate() + props.timelyDays);
                 setColor(Warning.OVERDUE)
-            } else if (props.formState == FormState.EXPIRED) {
+            } else if (props.formState === FormState.EXPIRED) {
                 //Form is expired. Due-date is now date when expiryDays expires
                 //dateCalc = new Date(dateCalc.getDate() + props.timelyDays + props.expiryDays);
                 setColor(Warning.EXPIRED)
             } else {
                 setColor(calculateColor(dateCalc, props.periodType))
             }
-            const day = ('00' + dateCalc.getDate()).substr(-2, 2)
-            const month = ('00' + (dateCalc.getMonth() + 1)).substr(-2, 2)
-            setDate(day + '.' + month)
+            setDate(dateCalc)
         }
+
+        setDateInParent({ date: date, id: props.formId })
     }, [props])
 
     return (
@@ -43,14 +43,13 @@ const DataEntryBox = props => {
                             .toLocaleDateString('en-GB', {
                                 month: '2-digit',
                                 day: '2-digit',
-                                /* To replace date separator (/) with (.) Mby not necessary*/
                             })
                             .replace(/\//g, '.')}
                 </p>
             </div>
         </Card>
     )
-}
+})
 
 export const Warning = {
     OVERDUE: '#891515', // red
@@ -72,6 +71,7 @@ DataEntryBox.propTypes = {
     title: PropTypes.string.isRequired,
     periodType: PropTypes.string.isRequired,
     formState: PropTypes.oneOf(Object.values(FormState)).isRequired,
+    formId: PropTypes.number.isRequired,
     //timelyDays: PropTypes.number.isRequired,
     //expiryDays: PropTypes.number.isRequired,
 }

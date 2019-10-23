@@ -28,7 +28,7 @@ const testForms = [
     },
 ]
 
-const FormOverviewLayout = () => {
+const FormOverviewLayout = ({ hidden }) => {
     const [selectedFacility, setSelectedFacility] = useState(
         'Undefined facility'
     )
@@ -36,8 +36,14 @@ const FormOverviewLayout = () => {
 
     console.log(displayedForms)
 
+    let containerClassName = 'form-overview-container'
+
+    if (hidden) {
+        containerClassName += ' hidden'
+    }
+
     return (
-        <div className="form-overview-container">
+        <div className={containerClassName}>
             <AppHeader title="Form Overview" subtitle={selectedFacility} />
             <div className="form-overview-light-container">
                 <SearchBar placeholder="Search form" onChange={() => {}} />

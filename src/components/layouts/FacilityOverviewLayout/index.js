@@ -4,9 +4,19 @@ import FacilityCard from '../../ui/FacilityCard'
 import SortingButtons from '../../ui/SortingButtons'
 import SearchBar from '../../ui/SearchBar'
 
-const FacilityOverviewLayout = () => {
+const FacilityOverviewLayout = ({ hidden, mobileView }) => {
+    let containerClassName = 'facility-overview-container'
+
+    if (hidden) {
+        containerClassName += ' hidden'
+    }
+
+    if (mobileView) {
+        containerClassName += ' facility-overview-container-max-width'
+    }
+
     return (
-        <div className="facility-overview-container">
+        <div className={containerClassName}>
             <h2 className="facility-overview-title">Facilities</h2>
             <SearchBar placeholder="Search facility" onChange={() => {}} />
             <SortingButtons

@@ -44,7 +44,9 @@
 }
 
 .datebox {
-    padding: 0 1.5rem;
+    /*padding: 0 1.5rem;*/
+    width: 67px;
+    text-align: center;
 }
 
 .data-card-button-strip {

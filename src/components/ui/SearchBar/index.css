@@ -1,25 +1,20 @@
 .search-container {
-    border-radius: 1rem;
     width: 80%;
     min-width: fit-content;
     max-width: 25rem;
     margin: 1rem auto;
-    background-color: white;
     white-space: nowrap;
 }
 
 .search-icon {
-    color: #a9adb0;
-    margin: 0.25rem 0.5rem -0.25rem;
+    position: absolute;
+    margin: 0.7rem 0.3rem;
 }
 
 .search-input {
-    border: 0;
-    padding: 0.5rem 0.5rem 0.5rem 0;
-    font-size: 0.8rem;
-    line-height: 0.1rem;
-    background-color: white;
-    outline: none;
-    width: inherit;
-    border-radius: 1rem;
+    padding-left: 2rem;
+}
+
+.search-input > label {
+    padding-left: 2rem;
 }

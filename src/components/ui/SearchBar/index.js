@@ -1,20 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FaSearch } from 'react-icons/fa'
+import { InputField } from '@dhis2/ui-core'
+
+import SearchIcon from '../../icons/SearchIcon'
 
 import './index.css'
 
 const SearchBar = props => {
-    const { placeholder, onChange } = props
+    const { placeholder, onChange, value } = props
 
     return (
         <div className="search-container">
-            <FaSearch className="search-icon" />
-            <input
-                className="search-input"
+            <SearchIcon className="search-icon" />
+            <InputField
+                filled
+                dense
+                label={placeholder}
+                value={value}
+                name="Search"
+                onChange={e => onChange(e)}
                 type="text"
-                placeholder={placeholder}
-                onChange={onChange}
+                className="search-input"
             />
         </div>
     )
@@ -23,6 +29,7 @@ const SearchBar = props => {
 SearchBar.propTypes = {
     placeholder: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
+    value: PropTypes.string.isRequired,
 }
 
 export default SearchBar

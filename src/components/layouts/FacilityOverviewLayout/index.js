@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './index.css'
-import FacilityCard from '../../ui/FacilityCard'
 import SortingButtons from '../../ui/SortingButtons'
 import SearchBar from '../../ui/SearchBar'
+import FacilityCard from '../../ui/FacilityCard'
 
 const FacilityOverviewLayout = ({ hidden, mobileView }) => {
     let containerClassName = 'facility-overview-container'
@@ -15,40 +15,106 @@ const FacilityOverviewLayout = ({ hidden, mobileView }) => {
         containerClassName += ' facility-overview-container-max-width'
     }
 
+    const defaultFacilityCards = [
+        {
+            title: 'Amsterdam',
+            deadlines: { expired: 3, due: 6 },
+            onClick: () => {},
+        },
+        {
+            title: 'Istanbul',
+            deadlines: { expired: 1, due: 6 },
+            onClick: () => {},
+        },
+        {
+            title: 'Budapest',
+            deadlines: { expired: 6, due: 6 },
+            onClick: () => {},
+        },
+        {
+            title: 'Paris',
+            deadlines: { expired: 2, due: 6 },
+            onClick: () => {},
+        },
+        {
+            title: 'Ligma',
+            deadlines: { expired: 99, due: 101 },
+            onClick: () => {},
+        },
+    ]
+
+    const [searchInput, setSearchInput] = useState('')
+    const [facilityCards, setFacilityCards] = useState(defaultFacilityCards)
+
+    const sortOnChange = sortingChoices => {
+        const { order, key } = sortingChoices
+        switch (key) {
+            case 'deadlines.expired':
+                if (order === 'asc') {
+                    setFacilityCards(
+                        [...facilityCards].sort((a, b) => {
+                            return a.deadlines.expired - b.deadlines.expired
+                        })
+                    )
+                } else if (order === 'desc') {
+                    setFacilityCards(
+                        [...facilityCards].sort((a, b) => {
+                            return b.deadlines.expired - a.deadlines.expired
+                        })
+                    )
+                }
+                break
+            case 'title':
+                if (order === 'asc') {
+                    setFacilityCards(
+                        [...facilityCards].sort((a, b) => {
+                            return a.title.toLocaleLowerCase() >
+                                b.title.toLocaleLowerCase()
+                                ? 1
+                                : -1
+                        })
+                    )
+                } else if (order === 'desc') {
+                    setFacilityCards(
+                        [...facilityCards].sort((a, b) => {
+                            return a.title.toLocaleLowerCase() >
+                                b.title.toLocaleLowerCase()
+                                ? -1
+                                : 1
+                        })
+                    )
+                }
+                break
+        }
+    }
+
     return (
-        <div className={containerClassName}>
+        <div className="facility-overview-container">
             <h2 className="facility-overview-title">Facilities</h2>
-            <SearchBar placeholder="Search facility" onChange={() => {}} />
+            <SearchBar
+                value={searchInput}
+                placeholder="Search facility"
+                onChange={event => setSearchInput(event.target.value)}
+            />
             <SortingButtons
-                labelOne="Facility title"
-                labelTwo="Forms"
-                onClick={() => {}}
+                firstOption={{
+                    key: 'title',
+                    title: 'Facility Title',
+                }}
+                secondOption={{
+                    key: 'deadlines.expired',
+                    title: 'Forms',
+                }}
+                onClick={sortOnChange}
             />
-            <FacilityCard
-                title={'Amsterdam'}
-                deadlines={{ expired: 5, due: 2 }}
-                onClick={() => {}}
-            />
-            <FacilityCard
-                title={'Istanbul'}
-                deadlines={{ expired: 5, due: 2 }}
-                onClick={() => {}}
-            />
-            <FacilityCard
-                title={'Budapest'}
-                deadlines={{ expired: 5, due: 2 }}
-                onClick={() => {}}
-            />
-            <FacilityCard
-                title={'Paris'}
-                deadlines={{ expired: 5, due: 2 }}
-                onClick={() => {}}
-            />
-            <FacilityCard
-                title={'Ligma'}
-                deadlines={{ expired: 5, due: 2 }}
-                onClick={() => {}}
-            />
+            {facilityCards.map((facilityCard, index) => {
+                if (
+                    facilityCard.title
+                        .toLocaleLowerCase()
+                        .startsWith(searchInput.toLocaleLowerCase())
+                )
+                    return <FacilityCard key={index} {...facilityCard} />
+            })}
         </div>
     )
 }

@@ -7,7 +7,7 @@ import SearchIcon from '../../icons/SearchIcon'
 import './index.css'
 
 const SearchBar = props => {
-    const { placeholder, onChange } = props
+    const { placeholder, onChange, value } = props
 
     return (
         <div className="search-container">
@@ -16,8 +16,9 @@ const SearchBar = props => {
                 filled
                 dense
                 label={placeholder}
+                value={value}
                 name="Search"
-                onChange={onChange}
+                onChange={e => onChange(e)}
                 type="text"
                 className="search-input"
             />
@@ -28,6 +29,7 @@ const SearchBar = props => {
 SearchBar.propTypes = {
     placeholder: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
+    value: PropTypes.string.isRequired,
 }
 
 export default SearchBar

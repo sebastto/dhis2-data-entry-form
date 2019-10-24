@@ -3,47 +3,55 @@ import './index.css'
 import PropTypes from 'prop-types'
 import { Card } from '@dhis2/ui-core'
 
-const DataEntryBox = props => {
-    const [title, setTitle] = useState(['ERROR'])
-    const [date, setDate] = useState(['ERROR'])
-    const [color, setColor] = useState(['red'])
+const DataEntryBox = React.forwardRef((props, setDateInParent) => {
+    const [title, setTitle] = useState('ERROR')
+    const [date, setDate] = useState(null)
+    const [color, setColor] = useState('red')
 
     useEffect(() => {
         setTitle(props.title)
-        if (props.formState == FormState.COMPLETED) {
+        if (props.formState === FormState.COMPLETED) {
             setDate('')
-            setColor(Warning.COMPLETED)
+            setColor(Status.COMPLETED)
         } else {
             const dateCalc = calculateDate(props.periodType)
-            if (props.formState == FormState.OVERDUE) {
+            if (props.formState === FormState.OVERDUE) {
                 //Form is overdue. Due-date is now date when timelyDays expires
                 //dateCalc = new Date(dateCalc.getDate() + props.timelyDays);
-                setColor(Warning.OVERDUE)
-            } else if (props.formState == FormState.EXPIRED) {
+                setColor(Status.OVERDUE)
+            } else if (props.formState === FormState.EXPIRED) {
                 //Form is expired. Due-date is now date when expiryDays expires
                 //dateCalc = new Date(dateCalc.getDate() + props.timelyDays + props.expiryDays);
-                setColor(Warning.EXPIRED)
+                setColor(Status.EXPIRED)
             } else {
                 setColor(calculateColor(dateCalc, props.periodType))
             }
-            const day = ('00' + dateCalc.getDate()).substr(-2, 2)
-            const month = ('00' + (dateCalc.getMonth() + 1)).substr(-2, 2)
-            setDate(day + '.' + month)
+            setDate(dateCalc)
         }
+
+        setDateInParent({ date: date, id: props.formId })
     }, [props])
 
     return (
         <Card className="datacard">
-            <div className="dataentrybox box-shadow" onClick={props.clickprop}>
+            <div className="dataentrybox box-shadow" onClick={props.onClick}>
                 <div className="colormark" style={{ background: color }} />
                 <p className="titlebox">{title}</p>
-                <p className="datebox">{date}</p>
+                <p className="datebox">
+                    {date &&
+                        date
+                            .toLocaleDateString('en-GB', {
+                                month: '2-digit',
+                                day: '2-digit',
+                            })
+                            .replace(/\//g, '.')}
+                </p>
             </div>
         </Card>
     )
-}
+})
 
-export const Warning = {
+export const Status = {
     OVERDUE: '#891515', // red
     CLOSEDUE: '#FFC324', // yellow
     NOTCLOSEDUE: 'blue', // blue
@@ -63,6 +71,7 @@ DataEntryBox.propTypes = {
     title: PropTypes.string.isRequired,
     periodType: PropTypes.string.isRequired,
     formState: PropTypes.oneOf(Object.values(FormState)).isRequired,
+    formId: PropTypes.number.isRequired,
     //timelyDays: PropTypes.number.isRequired,
     //expiryDays: PropTypes.number.isRequired,
 }
@@ -139,14 +148,14 @@ const calculateDate = periodType => {
 const calculateColor = (date, periodType) => {
     /*
    Calculates an appropriate color using date and periodType.
-   Output is either Warning.DUECLOSE or Warning.DUENOTCLOSE.
+   Output is either Status.DUECLOSE or Status.DUENOTCLOSE.
 
    If less than 20% of days is remaining and less than 20 days
-   is remaining the output is Warning.DUECLOSE.
+   is remaining the output is Status.DUECLOSE.
 
-   If 1 or less days are remaining output is also Warning.DUECLOSE.
+   If 1 or less days are remaining output is also Status.DUECLOSE.
 
-   Else the output is Warning.DUENOTCLOSE.
+   Else the output is Status.DUENOTCLOSE.
 
 */
 
@@ -180,9 +189,9 @@ const calculateColor = (date, periodType) => {
         (daysToDeadLine / fullDaysToDeadLine < 0.2 && daysToDeadLine < 20) ||
         daysToDeadLine <= 1
     ) {
-        return Warning.CLOSEDUE
+        return Status.CLOSEDUE
     } else {
-        return Warning.NOTCLOSEDUE
+        return Status.NOTCLOSEDUE
     }
 }
 

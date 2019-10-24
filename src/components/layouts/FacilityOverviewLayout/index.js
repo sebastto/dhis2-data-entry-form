@@ -89,7 +89,7 @@ const FacilityOverviewLayout = ({ hidden, mobileView }) => {
     }
 
     return (
-        <div className="facility-overview-container">
+        <div className={containerClassName}>
             <h2 className="facility-overview-title">Facilities</h2>
             <SearchBar
                 value={searchInput}

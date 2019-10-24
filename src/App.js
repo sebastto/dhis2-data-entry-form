@@ -43,7 +43,7 @@ const MyApp = () => {
                             selected={mobileActiveTab === 'forms'}
                             onClick={() => setMobileActiveTab('forms')}
                         >
-                            Facilites
+                            Forms
                         </Tab>
                     </TabBar>
                 )}

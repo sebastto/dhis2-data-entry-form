@@ -47,22 +47,8 @@
     padding: 0 1.5rem;
 }
 
-.data-card-action-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.datacard-icon-group {
-    background: #2c6693;
-    color: white;
-    border-radius: 4px;
-    padding: 0.5rem 1rem;
-    margin: 1rem;
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-around;
-    align-items: center;
+.data-card-button-strip {
+    margin: 0.5rem 0; 
 }
 
 .datacard-icon-group-text {

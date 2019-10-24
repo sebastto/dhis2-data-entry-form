@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './index.css'
 import PropTypes from 'prop-types'
-import { Card } from '@dhis2/ui-core'
+import { Card, ButtonStrip, Button } from '@dhis2/ui-core'
 import Collapse from '@material-ui/core/Collapse'
 import ViewIcon from '../../icons/ViewIcon'
 import EditIcon from '../../icons/EditIcon'
@@ -31,17 +31,22 @@ const DataEntryBox = props => {
                 </div>
 
                 <Collapse in={collapsed}>
-                    <div className="data-card-action-container">
-                        <div className="datacard-icon-group">
+                    <ButtonStrip middle className="data-card-button-strip">
+                        <Button
+                            type="button"
+                            onClick={() => window.open(props.viewUrl)}
+                        >
                             <ViewIcon />
                             <p className="datacard-icon-group-text">View</p>
-                        </div>
-
-                        <div className="datacard-icon-group">
+                        </Button>
+                        <Button
+                            type="button"
+                            onClick={() => window.open(props.editUrl)}
+                        >
                             <EditIcon />
                             <p className="datacard-icon-group-text">Edit</p>
-                        </div>
-                    </div>
+                        </Button>
+                    </ButtonStrip>
                 </Collapse>
             </div>
         </Card>
@@ -58,6 +63,13 @@ DataEntryBox.propTypes = {
     title: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
     color: PropTypes.oneOf(Object.values(Warning)).isRequired,
+    viewUrl: PropTypes.string,
+    editUrl: PropTypes.string,
+}
+
+DataEntryBox.defaultProps = {
+    viewUrl: '#',
+    editUrl: '#',
 }
 
 export default DataEntryBox

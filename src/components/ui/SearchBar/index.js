@@ -29,6 +29,7 @@ const SearchBar = props => {
 SearchBar.propTypes = {
     placeholder: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
+    value: PropTypes.string.isRequired,
 }
 
 export default SearchBar

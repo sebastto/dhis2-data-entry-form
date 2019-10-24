@@ -39,9 +39,6 @@ const FormOverviewLayout = ({ hidden }) => {
     if (hidden) {
         containerClassName += ' hidden'
     }
-    const searchOnChange = e => {
-        setSearchInput(e.target.value)
-    }
 
     const setChildDate = childDate => {
         if (!displayedForms[childDate.id].due) {
@@ -101,7 +98,8 @@ const FormOverviewLayout = ({ hidden }) => {
             <div className="form-overview-light-container">
                 <SearchBar
                     placeholder="Search form"
-                    onChange={searchOnChange}
+                    value={searchInput}
+                    onChange={event => setSearchInput(event.target.value)}
                 />
                 <FacilityTabs />
             </div>

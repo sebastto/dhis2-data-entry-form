@@ -46,10 +46,6 @@ const FacilityOverviewLayout = ({ hidden, mobileView }) => {
     const [searchInput, setSearchInput] = useState('')
     const [facilityCards, setFacilityCards] = useState(defaultFacilityCards)
 
-    const searchOnChange = e => {
-        setSearchInput(e.target.value)
-    }
-
     const sortOnChange = sortingChoices => {
         const { order, key } = sortingChoices
         switch (key) {
@@ -96,8 +92,9 @@ const FacilityOverviewLayout = ({ hidden, mobileView }) => {
         <div className="facility-overview-container">
             <h2 className="facility-overview-title">Facilities</h2>
             <SearchBar
+                value={searchInput}
                 placeholder="Search facility"
-                onChange={searchOnChange}
+                onChange={event => setSearchInput(event.target.value)}
             />
             <SortingButtons
                 firstOption={{

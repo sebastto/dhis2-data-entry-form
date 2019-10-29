@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { FaCaretUp, FaCaretDown } from 'react-icons/fa'
 
-import './index.css'
+import './SortingButtons.css'
 
 const SortingButtons = props => {
     const { firstOption, secondOption, onClick } = props

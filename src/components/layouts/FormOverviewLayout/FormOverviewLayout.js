@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import AppHeader from '../../ui/AppHeader'
-import SearchBar from '../../ui/SearchBar'
 import { TabBar, Tab } from '@dhis2/ui-core'
+import AppHeader from '../../ui/AppHeader/AppHeader'
+import SearchBar from '../../ui/SearchBar/SearchBar'
+import DataEntryBox, { FormState } from '../../ui/DataEntryBox/DataEntryBox'
+import SortingButtons from '../../ui/SortingButtons/SortingButtons'
 
-import './index.css'
-import DataEntryBox, { FormState } from '../../ui/DataEntryBox'
-import SortingButtons from '../../ui/SortingButtons'
+import './FormOverviewLayout.css'
 
 const testForms = [
     {

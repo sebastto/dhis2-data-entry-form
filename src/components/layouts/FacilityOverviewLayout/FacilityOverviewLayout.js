@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import './index.css'
-import SortingButtons from '../../ui/SortingButtons'
-import SearchBar from '../../ui/SearchBar'
-import FacilityCard from '../../ui/FacilityCard'
+import SortingButtons from '../../ui/SortingButtons/SortingButtons'
+import SearchBar from '../../ui/SearchBar/SearchBar'
+import FacilityCard from '../../ui/FacilityCard/FacilityCard'
+
+import './FacilityOverviewLayout.css'
 
 const FacilityOverviewLayout = ({ hidden, mobileView }) => {
     let containerClassName = 'facility-overview-container'

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import './index.css'
 import PropTypes from 'prop-types'
 import { Card, ButtonStrip, Button } from '@dhis2/ui-core'
 import Collapse from '@material-ui/core/Collapse'
-import ViewIcon from '../../icons/ViewIcon'
-import EditIcon from '../../icons/EditIcon'
+import ViewIcon from '../../icons/ViewIcon/ViewIcon'
+import EditIcon from '../../icons/EditIcon/EditIcon'
+
+import './DataEntryBox.css'
 
 const DataEntryBox = React.forwardRef((props, setDateInParent) => {
     const [title, setTitle] = useState('ERROR')
@@ -97,8 +98,6 @@ export const FormState = {
 
 DataEntryBox.propTypes = {
     title: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
-    color: PropTypes.oneOf(Object.values(Status)).isRequired,
     viewUrl: PropTypes.string,
     editUrl: PropTypes.string,
     periodType: PropTypes.string.isRequired,

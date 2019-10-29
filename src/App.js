@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
+import FormOverviewLayout from './components/layouts/FormOverviewLayout/FormOverviewLayout'
+import FacilityOverviewLayout from './components/layouts/FacilityOverviewLayout/FacilityOverviewLayout'
+import { TabBar, Tab } from '@dhis2/ui-core'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import './App.css'
-import FormOverviewLayout from './components/layouts/FormOverviewLayout'
-import FacilityOverviewLayout from './components/layouts/FacilityOverviewLayout'
-import { TabBar, Tab } from '@dhis2/ui-core'
-
-import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 const MyApp = () => {
     const [selectedFacility, setSelectedFacility] = useState(

@@ -1,25 +1,25 @@
 import { useDataQuery } from '@dhis2/app-runtime'
 
-const ouId = {
+const organisationIds = {
     myData: {
         resource: 'me',
         id: '?fields=organisationUnits',
     },
 }
-const vouId = {
+const viewOrganisationIds = {
     myData: {
         resource: 'me',
         id: '?fields=dataViewOrganisationUnits',
     },
 }
-const orgUnits = {
+const organisationUnits = {
     myData: {
         resource: 'organisationUnits',
         id: ({ organisationId }) =>
             `${organisationId}?fields=dataSets,displayName,displayShortName`,
     },
 }
-const dataSet = {
+const dataSets = {
     myData: {
         resource: 'dataSets',
         id: ({ dataSetId }) =>
@@ -36,7 +36,7 @@ const completeForms = {
 
 //Get all organisations the user has RW acces to
 export const getOrganisationIds = () => {
-    const { error, data } = useDataQuery(ouId)
+    const { error, data } = useDataQuery(organisationIds)
     {
         error && `ERROR: ${error.message}`
     }
@@ -46,7 +46,7 @@ export const getOrganisationIds = () => {
 }
 //Get all organisations the user has only R acces to
 export const getViewOrganisationIds = () => {
-    const { error, data } = useDataQuery(vouId)
+    const { error, data } = useDataQuery(viewOrganisationIds)
     {
         error && `ERROR: ${error.message}`
     }
@@ -56,7 +56,7 @@ export const getViewOrganisationIds = () => {
 }
 //Get all relevant data from a organisation by their id, contains dataSets, displayName and shortDisplayName
 export const getOrganisationUnits = organisationId => {
-    const { error, data } = useDataQuery(orgUnits, {
+    const { error, data } = useDataQuery(organisationUnits, {
         variables: {
             organisationId,
         },
@@ -71,7 +71,7 @@ export const getOrganisationUnits = organisationId => {
 }
 //Get all relevant data from a dataSet by their id, contains displayName, shortDisplayName, periodType, openFuturePeriods
 export const getDataSet = dataSetId => {
-    const { error, data } = useDataQuery(dataSet, {
+    const { error, data } = useDataQuery(dataSets, {
         variables: {
             dataSetId,
         },

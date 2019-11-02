@@ -1,8 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Chip } from '@dhis2/ui-core'
 
-import './index.css'
-import PropTypes from 'prop-types'
+import './FacilityCard.css'
 
 const FacilityCard = props => {
     const { title, deadlines, onClick } = props

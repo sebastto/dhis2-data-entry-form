@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { InputField } from '@dhis2/ui-core'
 
-import SearchIcon from '../../icons/SearchIcon'
+import SearchIcon from '../../icons/SearchIcon/SearchIcon'
 
-import './index.css'
+import './SearchBar.css'
 
 const SearchBar = props => {
     const { placeholder, onChange, value } = props

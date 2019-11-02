@@ -1,6 +1,6 @@
-import React from 'React'
+import React from 'react'
 
-import './index.css'
+import './AppHeader.css'
 
 const AppHeader = ({ title, subtitle }) => (
     <div className="app-header">

@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-
-import './App.css'
-import FormOverviewLayout from './components/layouts/FormOverviewLayout'
-import FacilityOverviewLayout from './components/layouts/FacilityOverviewLayout'
+import FormOverviewLayout from './components/layouts/FormOverviewLayout/FormOverviewLayout'
+import FacilityOverviewLayout from './components/layouts/FacilityOverviewLayout/FacilityOverviewLayout'
 import { TabBar, Tab } from '@dhis2/ui-core'
 import {
     getOrganisationIds,
@@ -13,6 +11,8 @@ import {
 } from './api'
 
 import useMediaQuery from '@material-ui/core/useMediaQuery'
+
+import './App.css'
 
 const MyApp = () => {
     const [selectedFacility, setSelectedFacility] = useState(

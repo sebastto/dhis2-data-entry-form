@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SortingButtons from '../../ui/SortingButtons/SortingButtons'
 import SearchBar from '../../ui/SearchBar/SearchBar'
 import FacilityCard from '../../ui/FacilityCard/FacilityCard'
 
 import './FacilityOverviewLayout.css'
 
-const FacilityOverviewLayout = ({ hidden, mobileView }) => {
+const FacilityOverviewLayout = ({ hidden, mobileView, facilities }) => {
     let containerClassName = 'facility-overview-container'
 
     if (hidden) {
@@ -46,6 +46,12 @@ const FacilityOverviewLayout = ({ hidden, mobileView }) => {
 
     const [searchInput, setSearchInput] = useState('')
     const [facilityCards, setFacilityCards] = useState(defaultFacilityCards)
+
+    useEffect(() => {
+        if (facilities) {
+            setFacilityCards(facilities)
+        }
+    }, [facilities])
 
     const sortOnChange = sortingChoices => {
         const { order, key } = sortingChoices

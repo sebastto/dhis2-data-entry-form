@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TabBar, Tab } from '@dhis2/ui-core'
 import AppHeader from '../../ui/AppHeader/AppHeader'
 import SearchBar from '../../ui/SearchBar/SearchBar'
 import DataEntryBox, { FormState } from '../../ui/DataEntryBox/DataEntryBox'
 import SortingButtons from '../../ui/SortingButtons/SortingButtons'
+import { getDataSets } from '../../../api'
 
 import './FormOverviewLayout.css'
 
@@ -25,14 +26,20 @@ const testForms = [
     },
 ]
 
-const FormOverviewLayout = ({ hidden }) => {
-    const [selectedFacility, setSelectedFacility] = useState(
-        'Undefined facility'
-    )
+const FormOverviewLayout = ({ hidden, selectedFacility }) => {
     const [displayedForms, setDisplayedForms] = useState(testForms)
     const [searchInput, setSearchInput] = useState('')
+    const [dataSets, setDataSets] = useState(null)
 
-    console.log(displayedForms)
+    getDataSets(datasets => {
+        setDataSets(datasets)
+    })
+
+    useEffect(() => {
+        if (dataSets && selectedFacility.displayName !== 'Undefined facility') {
+            setDisplayedForms(dataSets[selectedFacility.displayName])
+        }
+    }, [selectedFacility, dataSets])
 
     let containerClassName = 'form-overview-container'
 
@@ -94,7 +101,10 @@ const FormOverviewLayout = ({ hidden }) => {
 
     return (
         <div className={containerClassName}>
-            <AppHeader title="Form Overview" subtitle={selectedFacility} />
+            <AppHeader
+                title="Form Overview"
+                subtitle={selectedFacility.displayName}
+            />
             <div className="form-overview-light-container">
                 <SearchBar
                     placeholder="Search form"

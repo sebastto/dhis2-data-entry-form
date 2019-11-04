@@ -9,11 +9,18 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import './App.css'
 
 const MyApp = () => {
-    const [selectedFacility, setSelectedFacility] = useState({
-        displayName: 'Undefined facility',
-        id: 0,
-    })
+    const [selectedFacility, setSelectedFacility] = useState(null)
     const [facilities, setFacilities] = useState(undefined)
+
+    useEffect(() => {
+        /* Defaults to first facility in list */
+        if (facilities) {
+            setSelectedFacility({
+                displayName: facilities[0].title,
+                id: facilities[0].id,
+            })
+        }
+    }, [facilities])
 
     getOrganisation(organisations => {
         setFacilities(
@@ -24,6 +31,7 @@ const MyApp = () => {
                         expired: 1,
                         due: 6,
                     },
+                    id: organisation.id,
                     onClick: () => {
                         setSelectedFacility({
                             displayName: organisation.displayName,
@@ -52,10 +60,12 @@ const MyApp = () => {
                     mobileView={!desktopView}
                     facilities={facilities}
                 />
-                <FormOverviewLayout
-                    hidden={!desktopView && mobileActiveTab !== 'forms'}
-                    selectedFacility={selectedFacility}
-                />
+                {selectedFacility && (
+                    <FormOverviewLayout
+                        hidden={!desktopView && mobileActiveTab !== 'forms'}
+                        selectedFacility={selectedFacility}
+                    />
+                )}
                 {!desktopView && (
                     <TabBar fixed>
                         <Tab

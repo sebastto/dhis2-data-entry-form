@@ -16,36 +16,8 @@ const FacilityOverviewLayout = ({ hidden, mobileView, facilities }) => {
         containerClassName += ' facility-overview-container-max-width'
     }
 
-    const defaultFacilityCards = [
-        {
-            title: 'Amsterdam',
-            deadlines: { expired: 3, due: 6 },
-            onClick: () => {},
-        },
-        {
-            title: 'Istanbul',
-            deadlines: { expired: 1, due: 6 },
-            onClick: () => {},
-        },
-        {
-            title: 'Budapest',
-            deadlines: { expired: 6, due: 6 },
-            onClick: () => {},
-        },
-        {
-            title: 'Paris',
-            deadlines: { expired: 2, due: 6 },
-            onClick: () => {},
-        },
-        {
-            title: 'Ligma',
-            deadlines: { expired: 99, due: 101 },
-            onClick: () => {},
-        },
-    ]
-
     const [searchInput, setSearchInput] = useState('')
-    const [facilityCards, setFacilityCards] = useState(defaultFacilityCards)
+    const [facilityCards, setFacilityCards] = useState(null)
 
     useEffect(() => {
         if (facilities) {
@@ -114,14 +86,15 @@ const FacilityOverviewLayout = ({ hidden, mobileView, facilities }) => {
                 }}
                 onClick={sortOnChange}
             />
-            {facilityCards.map((facilityCard, index) => {
-                if (
-                    facilityCard.title
-                        .toLocaleLowerCase()
-                        .startsWith(searchInput.toLocaleLowerCase())
-                )
-                    return <FacilityCard key={index} {...facilityCard} />
-            })}
+            {facilityCards &&
+                facilityCards.map((facilityCard, index) => {
+                    if (
+                        facilityCard.title
+                            .toLocaleLowerCase()
+                            .startsWith(searchInput.toLocaleLowerCase())
+                    )
+                        return <FacilityCard key={index} {...facilityCard} />
+                })}
         </div>
     )
 }

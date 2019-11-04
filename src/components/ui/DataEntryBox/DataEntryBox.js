@@ -20,6 +20,7 @@ const DataEntryBox = React.forwardRef((props, setDateInParent) => {
             setColor(Status.COMPLETED)
         } else {
             const dateCalc = calculateDate(props.periodType)
+            setDate(dateCalc)
             if (props.formState === FormState.OVERDUE) {
                 //Form is overdue. Due-date is now date when timelyDays expires
                 //dateCalc = new Date(dateCalc.getDate() + props.timelyDays);
@@ -31,11 +32,12 @@ const DataEntryBox = React.forwardRef((props, setDateInParent) => {
             } else {
                 setColor(calculateColor(dateCalc, props.periodType))
             }
-            setDate(dateCalc)
         }
-
-        setDateInParent({ date: date, id: props.formId })
     }, [props])
+
+    useEffect(() => {
+        setDateInParent({ date: date, id: props.formId })
+    }, [date])
 
     return (
         <Card className="datacard box-shadow">
@@ -101,7 +103,8 @@ DataEntryBox.propTypes = {
     viewUrl: PropTypes.string,
     editUrl: PropTypes.string,
     periodType: PropTypes.string.isRequired,
-    formState: PropTypes.oneOf(Object.values(FormState)).isRequired,
+    /* Where do we get formState? */
+    formState: PropTypes.oneOf(Object.values(FormState)),
     formId: PropTypes.number.isRequired,
     //timelyDays: PropTypes.number.isRequired,
     //expiryDays: PropTypes.number.isRequired,

@@ -17,7 +17,7 @@ const dataSets = {
     myData: {
         resource: 'me',
         id:
-            '?fields=organisationUnits[id,displayName,dataSets[displayName,periodType,openFuturePeriods]]',
+            '?fields=organisationUnits[id,displayName,dataSets[id,displayName,periodType,openFuturePeriods]]',
     },
 }
 const completeForms = {
@@ -61,6 +61,7 @@ export const getDataSets = callback => {
             data.myData.organisationUnits.forEach(unit => {
                 const datasets = unit.dataSets.map(dataset => {
                     return {
+                        id: dataset.id,
                         title: dataset.displayName,
                         periodType: dataset.periodType,
                         openFuturePeriods: dataset.openFuturePeriods,

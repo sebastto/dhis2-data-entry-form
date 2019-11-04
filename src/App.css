@@ -12,7 +12,6 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    height: calc(100vh - 48px);
 }
 
 .app-container-tab-view {

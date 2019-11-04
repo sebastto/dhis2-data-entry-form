@@ -2,7 +2,7 @@
     background-color: #d7eafd;
     display: inline-block;
     width: 30rem;
-    min-height: 100%;
+    min-height: calc(100vh - 48px);
     align-self: stretch;
     min-width: 20rem;
 }

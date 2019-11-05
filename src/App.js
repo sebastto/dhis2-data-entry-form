@@ -37,6 +37,7 @@ const MyApp = () => {
                             displayName: organisation.displayName,
                             id: organisation.id,
                         })
+                        setMobileActiveTab('forms')
                     },
                 }
             })

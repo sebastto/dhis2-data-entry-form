@@ -67,20 +67,22 @@ const MyApp = () => {
                     />
                 )}
                 {!desktopView && (
-                    <TabBar fixed>
-                        <Tab
-                            selected={mobileActiveTab === 'facilities'}
-                            onClick={() => setMobileActiveTab('facilities')}
-                        >
-                            Facilites
-                        </Tab>
-                        <Tab
-                            selected={mobileActiveTab === 'forms'}
-                            onClick={() => setMobileActiveTab('forms')}
-                        >
-                            Forms
-                        </Tab>
-                    </TabBar>
+                    <nav className="mobile-nav">
+                        <TabBar fixed>
+                            <Tab
+                                selected={mobileActiveTab === 'facilities'}
+                                onClick={() => setMobileActiveTab('facilities')}
+                            >
+                                Facilites
+                            </Tab>
+                            <Tab
+                                selected={mobileActiveTab === 'forms'}
+                                onClick={() => setMobileActiveTab('forms')}
+                            >
+                                Forms
+                            </Tab>
+                        </TabBar>
+                    </nav>
                 )}
             </div>
         </>

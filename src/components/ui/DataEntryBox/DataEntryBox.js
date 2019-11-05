@@ -9,35 +9,119 @@ import './DataEntryBox.css'
 
 const DataEntryBox = React.forwardRef((props, setDateInParent) => {
     const [title, setTitle] = useState('ERROR')
-    const [date, setDate] = useState(null)
+    const [dateDue, setDateDue] = useState(null)
+    const [dateExpiration, setDateExpiration] = useState(null)
     const [color, setColor] = useState('red')
+    const [formState, setFormState] = useState(FormState.NOTSET) // for sorting in tabs
     const [collapsed, setCollapsed] = useState(false)
 
     useEffect(() => {
         setTitle(props.title)
-        if (props.formState === FormState.COMPLETED) {
-            setDate('')
-            setColor(Status.COMPLETED)
+        const dateArray = getPeriodStartAndEnd(props.periodType)
+        /*console.log("datar 0 ==" + dateArray[0].toLocaleDateString('en-GB', {
+            month: '2-digit',
+            day: '2-digit',
+        })
+            .replace(/\//g, '.'))
+
+        console.log("datar 1 ==" + dateArray[1].toLocaleDateString('en-GB', {
+            month: '2-digit',
+            day: '2-digit',
+        })
+            .replace(/\//g, '.'))
+
+        console.log("timelyDays =="+props.timelyDays)
+        console.log("expiryDays ==" +props.expiryDays)
+        console.log("periodType=="+props.periodType)
+        */
+        dateArray[0].setDate(dateArray[0].getDate() + props.timelyDays)
+        dateArray[1].setDate(
+            dateArray[1].getDate() + props.timelyDays + props.expiryDays
+        )
+
+        setDateDue(dateArray[0])
+        if (props.expiryDays == 0) {
+            //form will never expire.
+            setDateExpiration('Never')
         } else {
-            const dateCalc = calculateDate(props.periodType)
-            setDate(dateCalc)
-            if (props.formState === FormState.OVERDUE) {
-                //Form is overdue. Due-date is now date when timelyDays expires
-                //dateCalc = new Date(dateCalc.getDate() + props.timelyDays);
-                setColor(Status.OVERDUE)
-            } else if (props.formState === FormState.EXPIRED) {
-                //Form is expired. Due-date is now date when expiryDays expires
-                //dateCalc = new Date(dateCalc.getDate() + props.timelyDays + props.expiryDays);
-                setColor(Status.EXPIRED)
+            setDateExpiration(dateArray[1])
+        }
+        /*console.log("deadline ==" + dateArray[0].toLocaleDateString('en-GB', {
+            month: '2-digit',
+            day: '2-digit',
+        })
+            .replace(/\//g, '.'))
+
+        console.log("expiration ==" + dateArray[1].toLocaleDateString('en-GB', {
+            month: '2-digit',
+            day: '2-digit',
+        })
+            .replace(/\//g, '.'))
+        */
+
+        const today = new Date()
+        if (props.formState === FormState.COMPLETED) {
+            setFormState(FormState.COMPLETED)
+            setColor(Status.COMPLETED)
+        } else if (dateArray[1] < today) {
+            setFormState(FormState.EXPIRED)
+            setColor(Status.EXPIRED)
+        } else if (dateArray[0] < today) {
+            setFormState(FormState.OVERDUE)
+            setColor(Status.OVERDUE)
+        } else {
+            //Form is "active": Either DUENOTCLOSE or DUECLOSE
+            const cc = calculateColor(dateArray[0], props.periodType)
+            setColor(cc)
+            if (cc === Status.NOTCLOSEDUE) {
+                setFormState(FormState.NOTCLOSEDUE)
+            } else if (cc === Status.CLOSEDUE) {
+                setFormState(FormState.CLOSEDUE)
             } else {
-                setColor(calculateColor(dateCalc, props.periodType))
+                console.warn(
+                    'Critical logic error in DataEntryBox. calculateColor bad return'
+                )
             }
         }
+        /*
+        console.log(props.title + " has dateDue==" + dateArray[0].toLocaleDateString('en-GB', {
+            month: '2-digit',
+            day: '2-digit',
+        })
+            .replace(/\//g, '.') + ". Periodtype was "+props.periodType)
+        */
     }, [props])
 
     useEffect(() => {
-        setDateInParent({ date: date, id: props.formId })
-    }, [date])
+        setDateInParent({ dateDue: dateDue, id: props.formId })
+    }, [dateDue])
+
+    let dueString = dateDue
+    let expirationString = dateExpiration
+    if (
+        dateDue != null &&
+        (typeof dateDue != 'string' || !dateDue instanceof String)
+    ) {
+        dueString = dateDue
+            .toLocaleDateString('en-GB', {
+                year: '2-digit',
+                month: '2-digit',
+                day: '2-digit',
+            })
+            .replace(/\//g, '.')
+    }
+    if (
+        dateExpiration != null &&
+        (typeof dateExpiration != 'string' || !dateExpiration instanceof String)
+    ) {
+        expirationString = dateExpiration
+            .toLocaleDateString('en-GB', {
+                year: '2-digit',
+                month: '2-digit',
+                day: '2-digit',
+            })
+            .replace(/\//g, '.')
+    }
 
     return (
         <Card className="datacard box-shadow">
@@ -48,14 +132,9 @@ const DataEntryBox = React.forwardRef((props, setDateInParent) => {
             >
                 <div className="datacard-content-info">
                     <p className="titlebox">{title}</p>
-                    <p className="datebox">
-                        {date &&
-                            date
-                                .toLocaleDateString('en-GB', {
-                                    month: '2-digit',
-                                    day: '2-digit',
-                                })
-                                .replace(/\//g, '.')}
+                    <p className="datebox-due">{dueString && dueString}</p>
+                    <p className="datebox-expiration">
+                        {expirationString && expirationString}
                     </p>
                 </div>
 
@@ -92,10 +171,13 @@ export const Status = {
 }
 
 export const FormState = {
-    ACTIVE: 0,
-    COMPLETED: 1,
+    //ACTIVE: 0,
+    NOTSET: -1,
+    NOTCLOSEDUE: 0,
+    CLOSEDUE: 1,
     OVERDUE: 2,
-    EXPIRED: 3,
+    COMPLETED: 3,
+    EXPIRED: 4,
 }
 
 DataEntryBox.propTypes = {
@@ -103,11 +185,10 @@ DataEntryBox.propTypes = {
     viewUrl: PropTypes.string,
     editUrl: PropTypes.string,
     periodType: PropTypes.string.isRequired,
-    /* Where do we get formState? */
     formState: PropTypes.oneOf(Object.values(FormState)),
     formId: PropTypes.number.isRequired,
-    //timelyDays: PropTypes.number.isRequired,
-    //expiryDays: PropTypes.number.isRequired,
+    timelyDays: PropTypes.number.isRequired,
+    expiryDays: PropTypes.number.isRequired,
 }
 
 DataEntryBox.defaultProps = {
@@ -115,14 +196,11 @@ DataEntryBox.defaultProps = {
     editUrl: '#',
 }
 
-const calculateDate = periodType => {
-    /*
-        Calculates the due-date using periodType.
-    */
-
-    let date = new Date()
-    const day = date.getDay()
-    const month = date.getMonth()
+const getPeriodStartAndEnd = periodType => {
+    let dateEnd = new Date() // set to today temporary
+    let dateStart = new Date() // set to today temporary
+    const day = dateEnd.getDay()
+    const month = dateEnd.getMonth()
 
     //Early Variable declaration (compiler work-around)
     let daysToEnd = -1
@@ -135,34 +213,43 @@ const calculateDate = periodType => {
         https://github.com/dhis2/dhis2-core/tree/master/dhis-2/dhis-api/src/main/java/org/hisp/dhis/period
         */
         case 'Weekly':
-            //Set date to sunday this week
+            //Sets dateEnd to sunday this week. Sets dateStart to monday this week.
             daysToEnd = -day
             if (daysToEnd < 0) daysToEnd += 7
-            date.setDate(date.getDate() + daysToEnd)
+            dateEnd.setDate(dateEnd.getDate() + daysToEnd)
+            dateStart.setDate(dateEnd.getDate() - 6)
             break
         case 'Monthly':
-            //Set date to last day of month
-            date = new Date(date.getFullYear(), month + 1, 0)
+            //Sets dateEnd to last day of month. Sets dateStart to first day of month
+            dateEnd = new Date(dateEnd.getFullYear(), month + 1, 0)
+            dateStart = new Date(dateEnd.getFullYear(), month, 1)
             break
         case 'WeeklyWednesday':
-            //Set date to tuesday this week
+            //Set dateEnd to tuesday this week. Sets dateStart to wednesday this week
             daysToEnd = 2 - day
             if (daysToEnd < 0) daysToEnd += 7
             //day += daysToEnd;
-            date.setDate(date.getDate() + daysToEnd)
+            dateEnd.setDate(dateEnd.getDate() + daysToEnd)
+            dateStart.setDate(dateEnd.getDate() - 6)
             break
         case 'Quarterly':
-            //Set date to last date in quarter
+            //Set dateEnd to last date in quarter. Sets dateStart to first date in quarter.
             quarter = Math.floor(month / 3) + 1
             quarterMonth = month - (quarter - 1) * 3
-            date = new Date(date.getFullYear(), month + 3 - quarterMonth, 0)
+            dateEnd = new Date(
+                dateEnd.getFullYear(),
+                month + 3 - quarterMonth,
+                0
+            )
+            dateStart = new Date(dateEnd.getFullYear(), month - quarterMonth, 1)
             break
         case 'Yearly':
-            //Set date to the last day of the year
-            date = new Date(date.getFullYear(), 11, 31)
+            //Set dateEnd to the last day of the year. Sets dateStart to the first day of the year
+            dateEnd = new Date(dateEnd.getFullYear(), 11, 31)
+            dateStart = new Date(dateEnd.getFullYear(), 0, 1)
             break
         case 'SixMonthly':
-            //Set the day to the last day in the current half-year
+            //Sets dateEnd to the last day in the current half-year. Sets dateStart to first.
             quarter = Math.floor(month / 3) + 1
             quarterMonth = month - (quarter - 1) * 3
             let monthsToHalfYear = 0
@@ -170,7 +257,16 @@ const calculateDate = periodType => {
                 monthsToHalfYear += 3
             }
             monthsToHalfYear += 2 - quarterMonth
-            date = new Date(date.getFullYear(), month + monthsToHalfYear + 1, 0)
+            dateEnd = new Date(
+                dateEnd.getFullYear(),
+                month + monthsToHalfYear + 1,
+                0
+            )
+            dateStart = new Date(
+                dateEnd.getFullYear(),
+                dateEnd.getMonth() - 6,
+                1
+            )
             break
 
         default:
@@ -179,9 +275,10 @@ const calculateDate = periodType => {
                     periodType +
                     '. Due date was simply set one week ahead'
             )
-            date.setDate(date.getDate() + 7)
+            dateEnd.setDate(dateEnd.getDate() + 7)
+            dateStart.setDate(dateEnd.getDate() + -7)
     }
-    return date
+    return [dateStart, dateEnd]
 }
 
 const calculateColor = (date, periodType) => {

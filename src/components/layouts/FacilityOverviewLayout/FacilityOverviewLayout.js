@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SortingButtons from '../../ui/SortingButtons/SortingButtons'
 import SearchBar from '../../ui/SearchBar/SearchBar'
 import FacilityCard from '../../ui/FacilityCard/FacilityCard'
 
 import './FacilityOverviewLayout.css'
 
-const FacilityOverviewLayout = ({ hidden, mobileView }) => {
+const FacilityOverviewLayout = ({ hidden, mobileView, facilities }) => {
     let containerClassName = 'facility-overview-container'
 
     if (hidden) {
@@ -16,36 +16,14 @@ const FacilityOverviewLayout = ({ hidden, mobileView }) => {
         containerClassName += ' facility-overview-container-max-width'
     }
 
-    const defaultFacilityCards = [
-        {
-            title: 'Amsterdam',
-            deadlines: { expired: 3, due: 6 },
-            onClick: () => {},
-        },
-        {
-            title: 'Istanbul',
-            deadlines: { expired: 1, due: 6 },
-            onClick: () => {},
-        },
-        {
-            title: 'Budapest',
-            deadlines: { expired: 6, due: 6 },
-            onClick: () => {},
-        },
-        {
-            title: 'Paris',
-            deadlines: { expired: 2, due: 6 },
-            onClick: () => {},
-        },
-        {
-            title: 'Ligma',
-            deadlines: { expired: 99, due: 101 },
-            onClick: () => {},
-        },
-    ]
-
     const [searchInput, setSearchInput] = useState('')
-    const [facilityCards, setFacilityCards] = useState(defaultFacilityCards)
+    const [facilityCards, setFacilityCards] = useState(null)
+
+    useEffect(() => {
+        if (facilities) {
+            setFacilityCards(facilities)
+        }
+    }, [facilities])
 
     const sortOnChange = sortingChoices => {
         const { order, key } = sortingChoices
@@ -108,14 +86,15 @@ const FacilityOverviewLayout = ({ hidden, mobileView }) => {
                 }}
                 onClick={sortOnChange}
             />
-            {facilityCards.map((facilityCard, index) => {
-                if (
-                    facilityCard.title
-                        .toLocaleLowerCase()
-                        .startsWith(searchInput.toLocaleLowerCase())
-                )
-                    return <FacilityCard key={index} {...facilityCard} />
-            })}
+            {facilityCards &&
+                facilityCards.map((facilityCard, index) => {
+                    if (
+                        facilityCard.title
+                            .toLocaleLowerCase()
+                            .startsWith(searchInput.toLocaleLowerCase())
+                    )
+                        return <FacilityCard key={index} {...facilityCard} />
+                })}
         </div>
     )
 }

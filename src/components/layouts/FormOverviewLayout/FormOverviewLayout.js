@@ -1,38 +1,34 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TabBar, Tab } from '@dhis2/ui-core'
 import AppHeader from '../../ui/AppHeader/AppHeader'
 import SearchBar from '../../ui/SearchBar/SearchBar'
-import DataEntryBox, { FormState } from '../../ui/DataEntryBox/DataEntryBox'
+import DataEntryBox from '../../ui/DataEntryBox/DataEntryBox'
 import SortingButtons from '../../ui/SortingButtons/SortingButtons'
+import { getDataSets } from '../../../api'
 
 import './FormOverviewLayout.css'
 
-const testForms = [
-    {
-        title: 'Clinical Monitoring Checklist',
-        periodType: 'Monthly',
-        formState: FormState.ACTIVE,
-    },
-    {
-        title: 'Child health',
-        periodType: 'Quarterly',
-        formState: FormState.ACTIVE,
-    },
-    {
-        title: 'Life-saving commodities',
-        periodType: 'WeeklyWednesday',
-        formState: FormState.COMPLETED,
-    },
-]
-
-const FormOverviewLayout = ({ hidden }) => {
-    const [selectedFacility, setSelectedFacility] = useState(
-        'Undefined facility'
-    )
-    const [displayedForms, setDisplayedForms] = useState(testForms)
+const FormOverviewLayout = ({ hidden, selectedFacility }) => {
     const [searchInput, setSearchInput] = useState('')
+    const [dataSets, setDataSets] = useState(null)
+    const [displayedForms, setDisplayedForms] = useState(null)
+    const [allDatesSet, setAllDatesSet] = useState(false)
+    const [facilityName, setFacilityName] = useState(null)
 
-    console.log(displayedForms)
+    getDataSets(datasets => {
+        setDataSets(datasets)
+    })
+
+    useEffect(() => {
+        if (
+            dataSets &&
+            selectedFacility &&
+            selectedFacility.displayName !== facilityName
+        ) {
+            setDisplayedForms(dataSets[selectedFacility.displayName])
+            setFacilityName(selectedFacility.displayName)
+        }
+    }, [selectedFacility, dataSets])
 
     let containerClassName = 'form-overview-container'
 
@@ -41,60 +37,59 @@ const FormOverviewLayout = ({ hidden }) => {
     }
 
     const setChildDate = childDate => {
-        if (!displayedForms[childDate.id].due) {
-            const tmpForms = displayedForms
-            if (childDate.date === '') tmpForms[childDate.id].due = new Date(0)
-            else tmpForms[childDate.id].due = childDate.date
-            setDisplayedForms(tmpForms)
-        }
+        const tmpForms = displayedForms
+        if (childDate.date === '') tmpForms[childDate.id].due = new Date(0)
+        else tmpForms[childDate.id].due = childDate.date
+        setDisplayedForms(tmpForms)
+        setAllDatesSet(tmpForms.every(forms => forms.due))
     }
 
     const sortOnChange = sortingChoices => {
-        console.log(sortingChoices)
         const { order, key } = sortingChoices
-        switch (key) {
-            case 'due':
-                if (order === 'asc') {
-                    setDisplayedForms(
-                        [...displayedForms].sort((a, b) => {
-                            return a.due - b.due
-                        })
-                    )
-                } else if (order === 'desc') {
-                    setDisplayedForms(
-                        [...displayedForms].sort((a, b) => {
-                            return b.due - a.due
-                        })
-                    )
-                }
-                break
-            case 'title':
-                if (order === 'asc') {
-                    setDisplayedForms(
-                        [...displayedForms].sort((a, b) => {
-                            return a.title.toLocaleLowerCase() >
+        if (displayedForms) {
+            switch (key) {
+                case 'due':
+                    if (order === 'asc') {
+                        setDisplayedForms(
+                            [...displayedForms].sort((a, b) => a.due - b.due)
+                        )
+                    } else if (order === 'desc') {
+                        setDisplayedForms(
+                            [...displayedForms].sort((a, b) => b.due - a.due)
+                        )
+                    }
+                    break
+                case 'title':
+                    if (order === 'asc') {
+                        setDisplayedForms(
+                            [...displayedForms].sort((a, b) =>
+                                a.title.toLocaleLowerCase() >
                                 b.title.toLocaleLowerCase()
-                                ? 1
-                                : -1
-                        })
-                    )
-                } else if (order === 'desc') {
-                    setDisplayedForms(
-                        [...displayedForms].sort((a, b) => {
-                            return a.title.toLocaleLowerCase() >
+                                    ? 1
+                                    : -1
+                            )
+                        )
+                    } else if (order === 'desc') {
+                        setDisplayedForms(
+                            [...displayedForms].sort((a, b) =>
+                                a.title.toLocaleLowerCase() >
                                 b.title.toLocaleLowerCase()
-                                ? -1
-                                : 1
-                        })
-                    )
-                }
-                break
+                                    ? -1
+                                    : 1
+                            )
+                        )
+                    }
+                    break
+            }
         }
     }
 
     return (
         <div className={containerClassName}>
-            <AppHeader title="Form Overview" subtitle={selectedFacility} />
+            <AppHeader
+                title="Form Overview"
+                subtitle={selectedFacility.displayName}
+            />
             <div className="form-overview-light-container">
                 <SearchBar
                     placeholder="Search form"
@@ -104,38 +99,47 @@ const FormOverviewLayout = ({ hidden }) => {
                 <FacilityTabs />
             </div>
             <section className="form-overview-form-section">
-                <SortingButtons
-                    firstOption={{ key: 'title', title: 'Form title' }}
-                    secondOption={{
-                        key: 'due',
-                        title: 'Due date',
-                        default: true,
-                    }}
-                    onClick={sortOnChange}
-                />
-                {displayedForms.map((form, index) => {
-                    if (
-                        form.title
-                            .toLocaleLowerCase()
-                            .startsWith(searchInput.toLocaleLowerCase())
-                    ) {
-                        return (
-                            <DataEntryBox
-                                ref={setChildDate}
-                                title={form.title}
-                                periodType={form.periodType}
-                                formState={form.formState}
-                                formId={index}
-                                key={index}
-                                clickprop={() =>
-                                    console.log(
-                                        'forward to Data Entry with form_id'
-                                    )
-                                }
+                {displayedForms && (
+                    <>
+                        {allDatesSet && (
+                            <SortingButtons
+                                firstOption={{
+                                    key: 'title',
+                                    title: 'Form title',
+                                }}
+                                secondOption={{
+                                    key: 'due',
+                                    title: 'Due date',
+                                    default: true,
+                                }}
+                                onClick={sortOnChange}
                             />
-                        )
-                    }
-                })}
+                        )}
+
+                        {displayedForms.map((form, index) => {
+                            if (
+                                form.title
+                                    .toLocaleLowerCase()
+                                    .startsWith(searchInput.toLocaleLowerCase())
+                            ) {
+                                return (
+                                    <DataEntryBox
+                                        facilityName={
+                                            selectedFacility.displayName
+                                        }
+                                        ref={setChildDate}
+                                        title={form.title}
+                                        periodType={form.periodType}
+                                        formState={form.formState}
+                                        formId={index}
+                                        /* form.id is not uniqe, assume form.id + faciliyname is */
+                                        key={form.id + facilityName}
+                                    />
+                                )
+                            }
+                        })}
+                    </>
+                )}
             </section>
         </div>
     )

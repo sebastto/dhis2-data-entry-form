@@ -1,9 +1,10 @@
 import { useDataQuery } from '@dhis2/app-runtime'
+import { useCallback } from 'react'
 
-const organisationIds = {
+const organisationUnits = {
     myData: {
         resource: 'me',
-        id: '?fields=organisationUnits',
+        id: '?fields=organisationUnits[displayName,id]',
     },
 }
 const viewOrganisationIds = {
@@ -12,18 +13,11 @@ const viewOrganisationIds = {
         id: '?fields=dataViewOrganisationUnits',
     },
 }
-const organisationUnits = {
-    myData: {
-        resource: 'organisationUnits',
-        id: ({ organisationId }) =>
-            `${organisationId}?fields=dataSets,displayName,displayShortName`,
-    },
-}
 const dataSets = {
     myData: {
-        resource: 'dataSets',
-        id: ({ dataSetId }) =>
-            `${dataSetId}?fields=displayName,displayShortName,periodType,openFuturePeriods`,
+        resource: 'me',
+        id:
+            '?fields=organisationUnits[id,displayName,dataSets[id,displayName,periodType,openFuturePeriods]]',
     },
 }
 const completeForms = {
@@ -35,8 +29,12 @@ const completeForms = {
 }
 
 //Get all organisations the user has RW acces to
-export const getOrganisationIds = () => {
-    const { error, data } = useDataQuery(organisationIds)
+export const getOrganisation = callback => {
+    const { error, data } = useDataQuery(organisationUnits, {
+        onComplete: useCallback(data => {
+            callback(data.myData.organisationUnits)
+        }, []),
+    })
     {
         error && `ERROR: ${error.message}`
     }
@@ -54,27 +52,25 @@ export const getViewOrganisationIds = () => {
         return data.myData.dataViewOrganisationUnits.map(ou => ou.id)
     }
 }
-//Get all relevant data from a organisation by their id, contains dataSets, displayName and shortDisplayName
-export const getOrganisationUnits = organisationId => {
-    const { error, data } = useDataQuery(organisationUnits, {
-        variables: {
-            organisationId,
-        },
-    })
 
-    {
-        error && `ERROR: ${error.message}`
-    }
-    if (data && data.myData) {
-        return data.myData
-    }
-}
 //Get all relevant data from a dataSet by their id, contains displayName, shortDisplayName, periodType, openFuturePeriods
-export const getDataSet = dataSetId => {
+export const getDataSets = callback => {
     const { error, data } = useDataQuery(dataSets, {
-        variables: {
-            dataSetId,
-        },
+        onComplete: useCallback(data => {
+            const organiations = {}
+            data.myData.organisationUnits.forEach(unit => {
+                const datasets = unit.dataSets.map(dataset => {
+                    return {
+                        id: dataset.id,
+                        title: dataset.displayName,
+                        periodType: dataset.periodType,
+                        openFuturePeriods: dataset.openFuturePeriods,
+                    }
+                })
+                organiations[unit.displayName] = datasets
+            })
+            callback(organiations)
+        }, []),
     })
 
     {

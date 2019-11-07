@@ -24,7 +24,7 @@ const FacilityCard = props => {
                     <Chip className="chip-due">
                         {deadlines.due > 99
                             ? '99+'
-                            : deadlines.expired.toLocaleString()}
+                            : deadlines.due.toLocaleString()}
                     </Chip>
                 ) : (
                     ''

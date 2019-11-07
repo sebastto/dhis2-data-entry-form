@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Card, ButtonStrip, Button } from '@dhis2/ui-core'
+import { DataQuery } from '@dhis2/app-runtime'
 import Collapse from '@material-ui/core/Collapse'
 import ViewIcon from '../../icons/ViewIcon/ViewIcon'
 import EditIcon from '../../icons/EditIcon/EditIcon'
 
 import './DataEntryBox.css'
+
+const query = {
+    report: {
+        resource: 'dataSetReport',
+        params: ({ formId, date, facilityId }) => ({
+            ds: formId,
+            pe: date.getFullYear() + date.getMonth(),
+            ou: facilityId,
+        }),
+    },
+}
 
 const DataEntryBox = React.forwardRef((props, setDateInParent) => {
     const [title, setTitle] = useState('ERROR')
@@ -76,6 +88,24 @@ const DataEntryBox = React.forwardRef((props, setDateInParent) => {
                             <p className="datacard-icon-group-text">Edit</p>
                         </Button>
                     </ButtonStrip>
+
+                    <DataQuery
+                        query={query}
+                        variables={{
+                            formId: props.formId,
+                            date: date,
+                            facilityId: props.facilityId,
+                        }}
+                    >
+                        {({ loading, error, data, refetch }) => {
+                            {
+                                loading && <span>LOADING</span>
+                            }
+                            {
+                                data && <div>Success</div>
+                            }
+                        }}
+                    </DataQuery>
                 </Collapse>
             </div>
         </Card>
@@ -106,6 +136,7 @@ DataEntryBox.propTypes = {
     /* Where do we get formState? */
     formState: PropTypes.oneOf(Object.values(FormState)),
     formId: PropTypes.number.isRequired,
+    facilityId: PropTypes.number.isRequired,
     //timelyDays: PropTypes.number.isRequired,
     //expiryDays: PropTypes.number.isRequired,
 }

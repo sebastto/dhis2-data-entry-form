@@ -40,14 +40,13 @@
 .titlebox {
     border-right: 1px solid;
     padding: 0 1rem;
-    width: 60%;
+    width: 80%;
 }
 
 .datebox-due {
     /*padding: 0 1.5rem;*/
     width: 67px;
     text-align: center;
-    border-right: 1px solid;
 }
 
 .datebox-expiration {

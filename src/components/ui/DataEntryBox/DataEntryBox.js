@@ -10,7 +10,7 @@ import './DataEntryBox.css'
 const DataEntryBox = React.forwardRef((props, setDateInParent) => {
     const [title, setTitle] = useState('ERROR')
     const [dateDue, setDateDue] = useState(null)
-    const [dateExpiration, setDateExpiration] = useState(null)
+    const [dateExpiration, setDateExpiration] = useState(null) // currently not in use
     const [color, setColor] = useState('red')
     const [formState, setFormState] = useState(FormState.NOTSET) // for sorting in tabs
     const [collapsed, setCollapsed] = useState(false)
@@ -133,9 +133,6 @@ const DataEntryBox = React.forwardRef((props, setDateInParent) => {
                 <div className="datacard-content-info">
                     <p className="titlebox">{title}</p>
                     <p className="datebox-due">{dueString && dueString}</p>
-                    <p className="datebox-expiration">
-                        {expirationString && expirationString}
-                    </p>
                 </div>
 
                 <Collapse in={collapsed}>

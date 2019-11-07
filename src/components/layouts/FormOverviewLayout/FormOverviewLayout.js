@@ -27,6 +27,7 @@ const FormOverviewLayout = ({ hidden, selectedFacility }) => {
         ) {
             setDisplayedForms(dataSets[selectedFacility.displayName])
             setFacilityName(selectedFacility.displayName)
+            setAllDatesSet(false)
         }
     }, [selectedFacility, dataSets])
 

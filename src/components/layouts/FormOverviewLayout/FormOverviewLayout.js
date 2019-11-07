@@ -39,8 +39,8 @@ const FormOverviewLayout = ({ hidden, selectedFacility }) => {
 
     const setChildDate = childDate => {
         const tmpForms = displayedForms
-        if (childDate.date === '') tmpForms[childDate.id].due = new Date(0)
-        else tmpForms[childDate.id].due = childDate.date
+        if (childDate.dateDue === '') tmpForms[childDate.id].due = new Date(0)
+        else tmpForms[childDate.id].due = childDate.dateDue
         setDisplayedForms(tmpForms)
         setAllDatesSet(tmpForms.every(forms => forms.due))
     }
@@ -132,6 +132,8 @@ const FormOverviewLayout = ({ hidden, selectedFacility }) => {
                                         title={form.title}
                                         periodType={form.periodType}
                                         formState={form.formState}
+                                        timelyDays={form.timelyDays}
+                                        expiryDays={form.expiryDays}
                                         formId={index}
                                         /* form.id is not uniqe, assume form.id + faciliyname is */
                                         key={form.id + facilityName}
@@ -150,8 +152,9 @@ const FacilityTabs = () => (
     <TabBar>
         <Tab>All</Tab>
         <Tab selected>Due soon</Tab>
-        <Tab>Completed</Tab>
+        <Tab>Overdue</Tab>
         <Tab>Expired</Tab>
+        <Tab>Completed</Tab>
     </TabBar>
 )
 

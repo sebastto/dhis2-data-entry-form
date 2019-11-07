@@ -24,13 +24,14 @@
     min-height: 100%;
     display: inline-block;
 }
+
 .max-width {
     width: 100% !important;
     overflow-x: hidden; /* this gives us the scrolling function -wtf ?!?! */
     height: 100vh;
     padding-bottom: 2rem;
     position: fixed;
-    transition: right 1s;
+    transition: right 0.75s;
     right: 0;
 }
 

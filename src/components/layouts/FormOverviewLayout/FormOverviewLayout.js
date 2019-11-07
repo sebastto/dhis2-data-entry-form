@@ -4,7 +4,7 @@ import AppHeader from '../../ui/AppHeader/AppHeader'
 import SearchBar from '../../ui/SearchBar/SearchBar'
 import DataEntryBox from '../../ui/DataEntryBox/DataEntryBox'
 import SortingButtons from '../../ui/SortingButtons/SortingButtons'
-import { getDataSets } from '../../../api'
+import { getDataSets } from '../../../api/Api'
 
 import './FormOverviewLayout.css'
 

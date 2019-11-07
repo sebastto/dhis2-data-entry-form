@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import FormOverviewLayout from './components/layouts/FormOverviewLayout/FormOverviewLayout'
 import FacilityOverviewLayout from './components/layouts/FacilityOverviewLayout/FacilityOverviewLayout'
 import { TabBar, Tab } from '@dhis2/ui-core'
-import { getOrganisation } from './api'
+import { getOrganisation } from './api/Api'
 
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 

@@ -1,24 +1,17 @@
 import { useDataQuery } from '@dhis2/app-runtime'
-import { useCallback } from 'react'
 import { FormState } from '../components/ui/DataEntryBox/DataEntryBox'
 
-const organisationUnits = {
-    myData: {
+const organisations = {
+    userData: {
         resource: 'me',
         id: '?fields=organisationUnits[displayName,id]',
     },
 }
-const viewOrganisationIds = {
-    myData: {
-        resource: 'me',
-        id: '?fields=dataViewOrganisationUnits',
-    },
-}
-const dataSets = {
-    myData: {
-        resource: 'me',
-        id:
-            '?fields=organisationUnits[id,displayName,dataSets[id,displayName,periodType,openFuturePeriods,timelyDays,expiryDays]]',
+const allChildOrganisationUnits = {
+    childOrganisations: {
+        resource: 'organisationUnits',
+        id: ({ orgID }) =>
+            `?fields=displayName,id,dataSets[id,displayName,periodType,openFuturePeriods,timelyDays,expiryDays]&paging=false&filter=path:like:${orgID}`,
     },
 }
 const completeForms = {
@@ -29,61 +22,38 @@ const completeForms = {
     },
 }
 
-//Get all organisations the user has RW acces to
-export const getOrganisation = callback => {
-    const { error, data } = useDataQuery(organisationUnits, {
-        onComplete: useCallback(data => {
-            callback(data.myData.organisationUnits)
-        }, []),
-    })
-    {
-        error && `ERROR: ${error.message}`
-    }
-    if (data && data.myData) {
-        return data.myData.organisationUnits.map(ou => ou.id)
-    }
-}
-//Get all organisations the user has only R acces to
-export const getViewOrganisationIds = () => {
-    const { error, data } = useDataQuery(viewOrganisationIds)
-    {
-        error && `ERROR: ${error.message}`
-    }
-    if (data && data.myData) {
-        return data.myData.dataViewOrganisationUnits.map(ou => ou.id)
-    }
-}
-
-//Get all relevant data from a dataSet by their id, contains displayName, shortDisplayName, periodType, openFuturePeriods
-export const getDataSets = callback => {
-    const { error, data } = useDataQuery(dataSets, {
-        onComplete: useCallback(data => {
-            const organiations = {}
-            data.myData.organisationUnits.forEach(unit => {
-                const datasets = unit.dataSets.map(dataset => {
-                    return {
-                        id: dataset.id,
-                        title: dataset.displayName,
-                        periodType: dataset.periodType,
-                        openFuturePeriods: dataset.openFuturePeriods,
-                        timelyDays: dataset.timelyDays,
-                        expiryDays: dataset.expiryDays,
-                        formState: FormState.NOTSET, //default. Overriden later by completed-check
-                    }
-                })
-                organiations[unit.displayName] = datasets
+// Gets all organisations that this user belong to
+export const getAllOrganisationData = async engine => {
+    const orgList = []
+    const dataSets = {}
+    const { userData } = await engine.query(organisations)
+    for (const unit of userData.organisationUnits) {
+        const { childOrganisations } = await engine.query(
+            allChildOrganisationUnits,
+            {
+                variables: {
+                    orgID: unit.id,
+                },
+            }
+        )
+        childOrganisations.organisationUnits.forEach(unit => {
+            dataSets[unit.displayName] = unit.dataSets.map(dataset => {
+                return {
+                    id: dataset.id,
+                    title: dataset.displayName,
+                    periodType: dataset.periodType,
+                    openFuturePeriods: dataset.openFuturePeriods,
+                    timelyDays: dataset.timelyDays,
+                    expiryDays: dataset.expiryDays,
+                    formState: FormState.NOTSET, //default. Overriden later by completed-check
+                }
             })
-            callback(organiations)
-        }, []),
-    })
-
-    {
-        error && `ERROR: ${error.message}`
+            orgList.push(unit)
+        })
     }
-    if (data && data.myData) {
-        return data.myData
-    }
+    return { organisations: orgList, dataSets }
 }
+
 //Get a list of completed dataSets in a given ogranisation in selected period
 /**
  * period can be defined as follows:

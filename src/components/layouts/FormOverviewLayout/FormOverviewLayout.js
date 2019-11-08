@@ -8,16 +8,11 @@ import { getDataSets } from '../../../api/Api'
 
 import './FormOverviewLayout.css'
 
-const FormOverviewLayout = ({ hidden, selectedFacility }) => {
+const FormOverviewLayout = ({ hidden, selectedFacility, dataSets }) => {
     const [searchInput, setSearchInput] = useState('')
-    const [dataSets, setDataSets] = useState(null)
     const [displayedForms, setDisplayedForms] = useState(null)
     const [allDatesSet, setAllDatesSet] = useState(false)
     const [facilityName, setFacilityName] = useState(null)
-
-    getDataSets(datasets => {
-        setDataSets(datasets)
-    })
 
     useEffect(() => {
         if (

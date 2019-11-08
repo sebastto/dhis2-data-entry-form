@@ -2,15 +2,18 @@ import React, { useState, useEffect } from 'react'
 import FormOverviewLayout from './components/layouts/FormOverviewLayout/FormOverviewLayout'
 import FacilityOverviewLayout from './components/layouts/FacilityOverviewLayout/FacilityOverviewLayout'
 import { TabBar, Tab } from '@dhis2/ui-core'
-import { getOrganisation } from './api/Api'
+import { useDataEngine } from '@dhis2/app-runtime'
+import { getAllOrganisationData } from './api/Api'
 
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import './App.css'
 
 const MyApp = () => {
+    const engine = useDataEngine()
     const [selectedFacility, setSelectedFacility] = useState(null)
     const [facilities, setFacilities] = useState(undefined)
+    const [dataSets, setDataSets] = useState(null)
 
     useEffect(() => {
         /* Defaults to first facility in list */
@@ -22,27 +25,31 @@ const MyApp = () => {
         }
     }, [facilities])
 
-    getOrganisation(organisations => {
-        setFacilities(
-            organisations.map(organisation => {
-                return {
-                    title: organisation.displayName,
-                    deadlines: {
-                        expired: 1,
-                        due: 6,
-                    },
-                    id: organisation.id,
-                    onClick: () => {
-                        setSelectedFacility({
-                            displayName: organisation.displayName,
-                            id: organisation.id,
-                        })
-                        setMobileActiveTab('forms')
-                    },
-                }
-            })
-        )
-    })
+    useEffect(() => {
+        getAllOrganisationData(engine).then(({ organisations, dataSets }) => {
+            setDataSets(dataSets)
+            setFacilities(
+                organisations.map(organisation => {
+                    return {
+                        title: organisation.displayName,
+                        deadlines: {
+                            expired: 1,
+                            due: 6,
+                        },
+                        id: organisation.id,
+                        onClick: () => {
+                            setSelectedFacility({
+                                displayName: organisation.displayName,
+                                id: organisation.id,
+                            })
+                            setMobileActiveTab('forms')
+                            window.scrollTo(0, 0)
+                        },
+                    }
+                })
+            )
+        })
+    }, [])
 
     const desktopView = useMediaQuery('(min-width:600px)')
     const [mobileActiveTab, setMobileActiveTab] = useState('facilities')
@@ -65,6 +72,7 @@ const MyApp = () => {
                     <FormOverviewLayout
                         hidden={!desktopView && mobileActiveTab !== 'forms'}
                         selectedFacility={selectedFacility}
+                        dataSets={dataSets}
                     />
                 )}
                 {!desktopView && (

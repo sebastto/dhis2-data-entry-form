@@ -24,3 +24,8 @@
     min-height: 100%;
     display: inline-block;
 }
+
+.facility-card-section {
+    height: calc(100vh - 48px - 47px);
+    overflow: scroll;
+}

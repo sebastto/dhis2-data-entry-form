@@ -31,7 +31,7 @@
     height: 100vh;
     padding-bottom: 2rem;
     position: fixed;
-    transition: right 0.75s;
+    transition: right 0.3s;
     right: 0;
 }
 

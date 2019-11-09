@@ -8,12 +8,12 @@ import './FacilityOverviewLayout.css'
 const FacilityOverviewLayout = ({ hidden, mobileView, facilities }) => {
     let containerClassName = 'facility-overview-container'
 
-    if (hidden) {
-        containerClassName += ' hidden'
+    if (mobileView) {
+        containerClassName += ' max-width'
     }
 
-    if (mobileView) {
-        containerClassName += ' facility-overview-container-max-width'
+    if (hidden) {
+        containerClassName += ' hidden-facility'
     }
 
     const [searchInput, setSearchInput] = useState('')

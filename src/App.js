@@ -64,6 +64,7 @@ const MyApp = () => {
                 {selectedFacility && (
                     <FormOverviewLayout
                         hidden={!desktopView && mobileActiveTab !== 'forms'}
+                        mobileView={!desktopView}
                         selectedFacility={selectedFacility}
                     />
                 )}

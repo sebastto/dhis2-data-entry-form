@@ -8,7 +8,8 @@ import { getDataSets } from '../../../api/Api'
 
 import './FormOverviewLayout.css'
 
-const FormOverviewLayout = ({ hidden, selectedFacility, dataSets }) => {
+
+const FormOverviewLayout = ({ hidden, mobileView, selectedFacility, dataSets }) => {
     const [searchInput, setSearchInput] = useState('')
     const [displayedForms, setDisplayedForms] = useState(null)
     const [allDatesSet, setAllDatesSet] = useState(false)
@@ -28,8 +29,12 @@ const FormOverviewLayout = ({ hidden, selectedFacility, dataSets }) => {
 
     let containerClassName = 'form-overview-container'
 
+    if (mobileView) {
+        containerClassName += ' max-width'
+    }
+
     if (hidden) {
-        containerClassName += ' hidden'
+        containerClassName += ' hidden-form'
     }
 
     const setChildDate = childDate => {

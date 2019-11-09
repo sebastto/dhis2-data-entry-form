@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import classNames from 'classNames'
 import { TabBar, Tab } from '@dhis2/ui-core'
 import AppHeader from '../../ui/AppHeader/AppHeader'
 import SearchBar from '../../ui/SearchBar/SearchBar'
@@ -30,16 +31,6 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
             setAllDatesSet(false)
         }
     }, [selectedFacility, dataSets])
-
-    let containerClassName = 'form-overview-container'
-
-    if (mobileView) {
-        containerClassName += ' max-width'
-    }
-
-    if (hidden) {
-        containerClassName += ' hidden-form'
-    }
 
     const setChildDate = childDate => {
         const tmpForms = displayedForms
@@ -90,7 +81,13 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
     }
 
     return (
-        <div className={containerClassName}>
+        <div
+            className={classNames(
+                'form-overview-container',
+                hidden,
+                mobileView
+            )}
+        >
             <AppHeader
                 title="Form Overview"
                 subtitle={selectedFacility.displayName}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import classNames from 'classNames'
 import SortingButtons from '../../ui/SortingButtons/SortingButtons'
 import SearchBar from '../../ui/SearchBar/SearchBar'
 import FacilityCard from '../../ui/FacilityCard/FacilityCard'
@@ -6,15 +7,6 @@ import FacilityCard from '../../ui/FacilityCard/FacilityCard'
 import './FacilityOverviewLayout.css'
 
 const FacilityOverviewLayout = ({ hidden, mobileView, facilities }) => {
-    let containerClassName = 'facility-overview-container'
-
-    if (mobileView) {
-        containerClassName += ' max-width'
-    }
-
-    if (hidden) {
-        containerClassName += ' hidden-facility'
-    }
 
     const [searchInput, setSearchInput] = useState('')
     const [facilityCards, setFacilityCards] = useState(null)
@@ -68,7 +60,13 @@ const FacilityOverviewLayout = ({ hidden, mobileView, facilities }) => {
     }
 
     return (
-        <div className={containerClassName}>
+        <div
+            className={classNames(
+                'facility-overview-container',
+                hidden,
+                mobileView
+            )}
+        >
             <h2 className="facility-overview-title">Facilities</h2>
             <SearchBar
                 value={searchInput}

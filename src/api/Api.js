@@ -1,5 +1,6 @@
 import { useDataQuery } from '@dhis2/app-runtime'
 import { useCallback } from 'react'
+import { FormState } from '../components/ui/DataEntryBox/DataEntryBox'
 
 const organisationUnits = {
     myData: {
@@ -17,7 +18,7 @@ const dataSets = {
     myData: {
         resource: 'me',
         id:
-            '?fields=organisationUnits[id,displayName,dataSets[id,displayName,periodType,openFuturePeriods]]',
+            '?fields=organisationUnits[id,displayName,dataSets[id,displayName,periodType,openFuturePeriods,timelyDays,expiryDays]]',
     },
 }
 const completeForms = {
@@ -65,6 +66,9 @@ export const getDataSets = callback => {
                         title: dataset.displayName,
                         periodType: dataset.periodType,
                         openFuturePeriods: dataset.openFuturePeriods,
+                        timelyDays: dataset.timelyDays,
+                        expiryDays: dataset.expiryDays,
+                        formState: FormState.NOTSET, //default. Overriden later by completed-check
                     }
                 })
                 organiations[unit.displayName] = datasets

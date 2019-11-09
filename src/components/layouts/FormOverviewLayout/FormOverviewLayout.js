@@ -8,6 +8,7 @@ import SortingButtons from '../../ui/SortingButtons/SortingButtons'
 import { getDataSets } from '../../../api/Api'
 
 import './FormOverviewLayout.css'
+import Sorting from '../../../utils/Sorting'
 
 const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
     const [searchInput, setSearchInput] = useState('')
@@ -38,46 +39,6 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
         else tmpForms[childDate.id].due = childDate.dateDue
         setDisplayedForms(tmpForms)
         setAllDatesSet(tmpForms.every(forms => forms.due))
-    }
-
-    const sortOnChange = sortingChoices => {
-        const { order, key } = sortingChoices
-        if (displayedForms) {
-            switch (key) {
-                case 'due':
-                    if (order === 'asc') {
-                        setDisplayedForms(
-                            [...displayedForms].sort((a, b) => a.due - b.due)
-                        )
-                    } else if (order === 'desc') {
-                        setDisplayedForms(
-                            [...displayedForms].sort((a, b) => b.due - a.due)
-                        )
-                    }
-                    break
-                case 'title':
-                    if (order === 'asc') {
-                        setDisplayedForms(
-                            [...displayedForms].sort((a, b) =>
-                                a.title.toLocaleLowerCase() >
-                                b.title.toLocaleLowerCase()
-                                    ? 1
-                                    : -1
-                            )
-                        )
-                    } else if (order === 'desc') {
-                        setDisplayedForms(
-                            [...displayedForms].sort((a, b) =>
-                                a.title.toLocaleLowerCase() >
-                                b.title.toLocaleLowerCase()
-                                    ? -1
-                                    : 1
-                            )
-                        )
-                    }
-                    break
-            }
-        }
     }
 
     return (
@@ -114,7 +75,10 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                                     title: 'Due date',
                                     default: true,
                                 }}
-                                onClick={sortOnChange}
+                                onClick={Sorting}
+                                objectToSet={setDisplayedForms}
+                                prevObject={displayedForms}
+                                sortingFunc={object => object.due}
                             />
                         )}
 

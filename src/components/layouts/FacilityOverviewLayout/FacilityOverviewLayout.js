@@ -4,6 +4,7 @@ import SearchBar from '../../ui/SearchBar/SearchBar'
 import FacilityCard from '../../ui/FacilityCard/FacilityCard'
 
 import './FacilityOverviewLayout.css'
+import Sorting from '../../../utils/Sorting'
 
 const FacilityOverviewLayout = ({ hidden, mobileView, facilities }) => {
     let containerClassName = 'facility-overview-container'
@@ -25,48 +26,6 @@ const FacilityOverviewLayout = ({ hidden, mobileView, facilities }) => {
         }
     }, [facilities])
 
-    const sortOnChange = sortingChoices => {
-        const { order, key } = sortingChoices
-        switch (key) {
-            case 'deadlines.expired':
-                if (order === 'asc') {
-                    setFacilityCards(
-                        [...facilityCards].sort((a, b) => {
-                            return a.deadlines.expired - b.deadlines.expired
-                        })
-                    )
-                } else if (order === 'desc') {
-                    setFacilityCards(
-                        [...facilityCards].sort((a, b) => {
-                            return b.deadlines.expired - a.deadlines.expired
-                        })
-                    )
-                }
-                break
-            case 'title':
-                if (order === 'asc') {
-                    setFacilityCards(
-                        [...facilityCards].sort((a, b) => {
-                            return a.title.toLocaleLowerCase() >
-                                b.title.toLocaleLowerCase()
-                                ? 1
-                                : -1
-                        })
-                    )
-                } else if (order === 'desc') {
-                    setFacilityCards(
-                        [...facilityCards].sort((a, b) => {
-                            return a.title.toLocaleLowerCase() >
-                                b.title.toLocaleLowerCase()
-                                ? -1
-                                : 1
-                        })
-                    )
-                }
-                break
-        }
-    }
-
     return (
         <div className={containerClassName}>
             <h2 className="facility-overview-title">Facilities</h2>
@@ -84,7 +43,10 @@ const FacilityOverviewLayout = ({ hidden, mobileView, facilities }) => {
                     key: 'deadlines.expired',
                     title: 'Forms',
                 }}
-                onClick={sortOnChange}
+                onClick={Sorting}
+                objectToSet={setFacilityCards}
+                prevObject={facilityCards}
+                sortingFunc={form => form.deadlines.expired}
             />
             {facilityCards &&
                 facilityCards.map((facilityCard, index) => {

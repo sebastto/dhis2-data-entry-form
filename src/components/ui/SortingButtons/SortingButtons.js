@@ -3,16 +3,17 @@ import PropTypes from 'prop-types'
 import { FaCaretUp, FaCaretDown } from 'react-icons/fa'
 
 import './SortingButtons.css'
+import Sorting from '../../../utils/Sorting'
 
 const SortingButtons = props => {
-    const { firstOption, secondOption, onClick } = props
+    const { firstOption, secondOption } = props
 
-    /* Carets by default are with pointy  side down (i.e., sorting chronologically) */
+    /* Carets by default are with pointy  side down for names, opposite for dates*/
     const [firstCaretUp, setFirstCaret] = useState(
         firstOption.default ? false : null
     )
     const [secondCaretUp, setSecondCaret] = useState(
-        secondOption.default ? false : null
+        secondOption.default ? true : null
     )
 
     const handleFirstOption = () => {
@@ -26,17 +27,28 @@ const SortingButtons = props => {
     }
 
     useEffect(() => {
+        const { onClick, objectToSet, prevObject, sortingFunc } = props
         /* Runs on componentDidMount aswell, to handle default caret cases */
-        if (firstCaretUp !== null) {
-            onClick({
-                order: firstCaretUp ? 'asc' : 'desc',
-                key: firstOption.key,
-            })
-        } else if (secondCaretUp !== null) {
-            onClick({
-                order: secondCaretUp ? 'asc' : 'desc',
-                key: secondOption.key,
-            })
+        if (onClick && objectToSet && prevObject && sortingFunc) {
+            if (firstCaretUp !== null) {
+                onClick(
+                    {
+                        order: firstCaretUp ? 'asc' : 'desc',
+                        key: firstOption.key,
+                    },
+                    { objectToSet, prevObject },
+                    sortingFunc
+                )
+            } else if (secondCaretUp !== null) {
+                onClick(
+                    {
+                        order: secondCaretUp ? 'asc' : 'desc',
+                        key: secondOption.key,
+                    },
+                    { objectToSet, prevObject },
+                    sortingFunc
+                )
+            }
         }
     }, [firstCaretUp, secondCaretUp])
 
@@ -71,6 +83,9 @@ SortingButtons.propTypes = {
     firstOption: PropTypes.shape(optionShape).isRequired,
     secondOption: PropTypes.shape(optionShape).isRequired,
     onClick: PropTypes.func.isRequired,
+    objectToSet: PropTypes.func.isRequired,
+    prevObject: PropTypes.array,
+    sortingFunc: PropTypes.func.isRequired,
 }
 
 SortingButtons.defaultProps = {
@@ -80,6 +95,7 @@ SortingButtons.defaultProps = {
     secondOption: PropTypes.shape({
         default: false,
     }),
+    prevObject: null,
 }
 
 export default SortingButtons

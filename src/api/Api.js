@@ -4,7 +4,8 @@ import { FormState } from '../components/ui/DataEntryBox/DataEntryBox'
 const organisations = {
     userData: {
         resource: 'me',
-        id: '?fields=organisationUnits[displayName,id]',
+        id:
+            '?fields=organisationUnits[displayName,id],dataViewOrganisationUnits[name~rename(displayName),id]',
     },
 }
 const allChildOrganisationUnits = {
@@ -25,6 +26,7 @@ const completeForms = {
 // Gets all organisations that this user belong to
 export const getAllOrganisationData = async engine => {
     const orgList = []
+    const viewOrgList = []
     const dataSets = {}
     const { userData } = await engine.query(organisations)
     for (const unit of userData.organisationUnits) {
@@ -46,12 +48,39 @@ export const getAllOrganisationData = async engine => {
                     timelyDays: dataset.timelyDays,
                     expiryDays: dataset.expiryDays,
                     formState: FormState.NOTSET, //default. Overriden later by completed-check
+                    viewOnly: false,
                 }
             })
             orgList.push(unit)
         })
     }
-    return { organisations: orgList, dataSets }
+
+    for (const viewUnit of userData.dataViewOrganisationUnits) {
+        const { childOrganisations } = await engine.query(
+            allChildOrganisationUnits,
+            {
+                variables: {
+                    orgID: viewUnit.id,
+                },
+            }
+        )
+        childOrganisations.organisationUnits.forEach(unit => {
+            dataSets[unit.displayName] = unit.dataSets.map(dataset => {
+                return {
+                    id: dataset.id,
+                    title: dataset.displayName,
+                    periodType: dataset.periodType,
+                    openFuturePeriods: dataset.openFuturePeriods,
+                    timelyDays: dataset.timelyDays,
+                    expiryDays: dataset.expiryDays,
+                    formState: FormState.NOTSET, //default. Overriden later by completed-check
+                    viewOnly: true,
+                }
+            })
+            viewOrgList.push(unit)
+        })
+    }
+    return { organisations: orgList, viewOrganisations: viewOrgList, dataSets }
 }
 
 //Get a list of completed dataSets in a given ogranisation in selected period

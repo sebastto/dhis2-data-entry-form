@@ -26,29 +26,33 @@ const MyApp = () => {
     }, [facilities])
 
     useEffect(() => {
-        getAllOrganisationData(engine).then(({ organisations, dataSets }) => {
-            setDataSets(dataSets)
-            setFacilities(
-                organisations.map(organisation => {
-                    return {
-                        title: organisation.displayName,
-                        deadlines: {
-                            expired: 1,
-                            due: 6,
-                        },
-                        id: organisation.id,
-                        onClick: () => {
-                            setSelectedFacility({
-                                displayName: organisation.displayName,
+        getAllOrganisationData(engine).then(
+            ({ organisations, viewOrganisations, dataSets }) => {
+                setDataSets(dataSets)
+                setFacilities(
+                    organisations
+                        .concat(viewOrganisations)
+                        .map(organisation => {
+                            return {
+                                title: organisation.displayName,
+                                deadlines: {
+                                    expired: 1,
+                                    due: 6,
+                                },
                                 id: organisation.id,
-                            })
-                            setMobileActiveTab('forms')
-                            window.scrollTo(0, 0)
-                        },
-                    }
-                })
-            )
-        })
+                                onClick: () => {
+                                    setSelectedFacility({
+                                        displayName: organisation.displayName,
+                                        id: organisation.id,
+                                    })
+                                    setMobileActiveTab('forms')
+                                    window.scrollTo(0, 0)
+                                },
+                            }
+                        })
+                )
+            }
+        )
     }, [])
 
     const desktopView = useMediaQuery('(min-width:600px)')

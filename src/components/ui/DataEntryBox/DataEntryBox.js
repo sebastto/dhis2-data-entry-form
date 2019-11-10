@@ -227,16 +227,11 @@ const getPeriodStartAndEnd = periodType => {
         case 'BiWeekly':
             //Finds the current week number
             let januaryFirst = new Date(dateEnd.getFullYear(), 0, 1);
-            week = Math.ceil( (((dateEnd - januaryFirst) / 86400000) + januaryFirst.getDay() -1) / 7 );
-            console.log(week)
-            console.log(dateEnd)
+            let week = Math.ceil( (((dateEnd - januaryFirst) / 86400000) + januaryFirst.getDay() -1) / 7 );
             if(week % 2){
-              console.log("day:" + day)
               daysToEnd = -day + 14
-              console.log(daysToEnd+"div1")
             } else {
               daysToEnd = -day + 7
-              console.log(daysToEnd+"div2")
             }
             if(day == 0) daysToEnd -= 7
             dateEnd.setDate(dateEnd.getDate() + daysToEnd)

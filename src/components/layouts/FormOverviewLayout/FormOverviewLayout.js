@@ -10,16 +10,12 @@ import { getDataSets } from '../../../api/Api'
 import './FormOverviewLayout.css'
 import Sorting from '../../../utils/Sorting'
 
-const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
+
+const FormOverviewLayout = ({ hidden, mobileView, selectedFacility, dataSets }) => {
     const [searchInput, setSearchInput] = useState('')
-    const [dataSets, setDataSets] = useState(null)
     const [displayedForms, setDisplayedForms] = useState(null)
     const [allDatesSet, setAllDatesSet] = useState(false)
     const [facilityName, setFacilityName] = useState(null)
-
-    getDataSets(datasets => {
-        setDataSets(datasets)
-    })
 
     useEffect(() => {
         if (

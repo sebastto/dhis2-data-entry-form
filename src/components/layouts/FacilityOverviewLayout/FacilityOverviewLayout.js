@@ -46,15 +46,19 @@ const FacilityOverviewLayout = ({ hidden, mobileView, facilities }) => {
                 prevObject={facilityCards}
                 sortingFunc={form => form.deadlines.expired}
             />
-            {facilityCards &&
-                facilityCards.map((facilityCard, index) => {
-                    if (
-                        facilityCard.title
-                            .toLocaleLowerCase()
-                            .startsWith(searchInput.toLocaleLowerCase())
-                    )
-                        return <FacilityCard key={index} {...facilityCard} />
-                })}
+            <section className="facility-card-section">
+                {facilityCards &&
+                    facilityCards.map((facilityCard, index) => {
+                        if (
+                            facilityCard.title
+                                .toLocaleLowerCase()
+                                .startsWith(searchInput.toLocaleLowerCase())
+                        )
+                            return (
+                                <FacilityCard key={index} {...facilityCard} />
+                            )
+                    })}
+            </section>
         </div>
     )
 }

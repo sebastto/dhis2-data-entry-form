@@ -203,31 +203,59 @@ const getPeriodStartAndEnd = periodType => {
     let daysToEnd = -1
     let quarter = -1
     let quarterMonth = -1
-
+    let shift = -1
+    
     switch (periodType) {
         /*
         Implemented to match these specs:
-        https://github.com/dhis2/dhis2-core/tree/master/dhis-2/dhis-api/src/main/java/org/hisp/dhis/period
-        */
+        https://github.com/dhis2/dhis2-core/blob/master/dhis-2/dhis-api/src/main/java/org/hisp/dhis/period/PeriodType.java        */
         case 'Weekly':
-            //Sets dateEnd to sunday this week. Sets dateStart to monday this week.
-            daysToEnd = -day
+            if(shift == -1) shift = 0
+        case 'WeeklyWednesday':
+            if(shift == -1) shift = 2
+        case 'WeeklyThursday':
+            if(shift == -1) shift = 3
+        case 'WeeklySaturday':
+            if(shift == -1) shift = 5
+        case 'WeeklySunday':
+            if(shift == -1) shift = 6
+            daysToEnd = shift - day
             if (daysToEnd < 0) daysToEnd += 7
             dateEnd.setDate(dateEnd.getDate() + daysToEnd)
-            dateStart.setDate(dateEnd.getDate() - 6)
+            dateStart = new Date(dateEnd.getTime() - 6 * 24 * 60 * 60 * 1000 )         
+            break
+        case 'BiWeekly':
+            //Finds the current week number
+            let januaryFirst = new Date(dateEnd.getFullYear(), 0, 1);
+            week = Math.ceil( (((dateEnd - januaryFirst) / 86400000) + januaryFirst.getDay() -1) / 7 );
+            console.log(week)
+            console.log(dateEnd)
+            if(week % 2){
+              console.log("day:" + day)
+              daysToEnd = -day + 14
+              console.log(daysToEnd+"div1")
+            } else {
+              daysToEnd = -day + 7
+              console.log(daysToEnd+"div2")
+            }
+            if(day == 0) daysToEnd -= 7
+            dateEnd.setDate(dateEnd.getDate() + daysToEnd)
+            dateStart = (new Date(dateEnd.getTime() - 6.5 * 24 * 60 * 60 * 1000 * 2))
             break
         case 'Monthly':
             //Sets dateEnd to last day of month. Sets dateStart to first day of month
             dateEnd = new Date(dateEnd.getFullYear(), month + 1, 0)
             dateStart = new Date(dateEnd.getFullYear(), month, 1)
             break
-        case 'WeeklyWednesday':
-            //Set dateEnd to tuesday this week. Sets dateStart to wednesday this week
-            daysToEnd = 2 - day
-            if (daysToEnd < 0) daysToEnd += 7
-            //day += daysToEnd;
-            dateEnd.setDate(dateEnd.getDate() + daysToEnd)
-            dateStart.setDate(dateEnd.getDate() - 6)
+        case 'BiMonthly':
+            //Sets dateEnd to last day of every even month. Sets dateStart to first day of month
+            if(month % 2){
+              shift = 1
+            } else {
+              shift = 2
+            }
+            dateStart = new Date(dateEnd.getFullYear(), month + shift - 2, 1)
+            dateEnd = new Date(dateStart.getFullYear(), month + shift, 0)
             break
         case 'Quarterly':
             //Set dateEnd to last date in quarter. Sets dateStart to first date in quarter.
@@ -240,32 +268,32 @@ const getPeriodStartAndEnd = periodType => {
             )
             dateStart = new Date(dateEnd.getFullYear(), month - quarterMonth, 1)
             break
-        case 'Yearly':
-            //Set dateEnd to the last day of the year. Sets dateStart to the first day of the year
-            dateEnd = new Date(dateEnd.getFullYear(), 11, 31)
-            dateStart = new Date(dateEnd.getFullYear(), 0, 1)
-            break
         case 'SixMonthly':
-            //Sets dateEnd to the last day in the current half-year. Sets dateStart to first.
-            quarter = Math.floor(month / 3) + 1
-            quarterMonth = month - (quarter - 1) * 3
-            let monthsToHalfYear = 0
-            if (quarter == 1 || quarter == 3) {
-                monthsToHalfYear += 3
-            }
-            monthsToHalfYear += 2 - quarterMonth
-            dateEnd = new Date(
-                dateEnd.getFullYear(),
-                month + monthsToHalfYear + 1,
-                0
-            )
-            dateStart = new Date(
-                dateEnd.getFullYear(),
-                dateEnd.getMonth() - 6,
-                1
-            )
+            if(shift == -1) shift = 1
+        case 'SixMonthlyApril':
+            if(shift == -1) shift = 4
+        case 'SixMonthlyNovember':
+            if(shift == -1) shift = 11
+            //Set dateEnd to last date in quarter. Sets dateStart to first date in quarter.
+            half = 0
+            if(shift - month < -4 || shift - month > 1 && shift - month < 8) half = 1
+            dateEnd = new Date(dateEnd.getFullYear(), shift + ((half + 1) * 6) - 1, 0)
+            dateStart = new Date(dateStart.getFullYear(), shift + ((half) * 6) - 1, 1)
             break
-
+        case 'Yearly':
+            if(shift == -1) shift = 0
+        case 'FinancialApril':
+            if(shift == -1) shift = 3
+        case 'FinancialJuly':
+            if(shift == -1) shift = 6
+        case 'FinancialOctober':
+            if(shift == -1) shift = 9
+        case 'FinancialNovember':
+            if(shift == -1) shift = 10
+            //Set dateEnd to the last day of the year. Sets dateStart to the first day of the year
+            dateEnd = new Date(dateEnd.getFullYear(), shift + 12, 0)
+            dateStart = new Date(dateStart.getFullYear(), shift, 1)
+            break
         default:
             console.warn(
                 'Unhandled periodType: ' +
@@ -275,6 +303,8 @@ const getPeriodStartAndEnd = periodType => {
             dateEnd.setDate(dateEnd.getDate() + 7)
             dateStart.setDate(dateEnd.getDate() + -7)
     }
+    dateStart.setHours(0,0,0,0)
+    dateEnd.setHours(23,59,59,999)
     return [dateStart, dateEnd]
 }
 

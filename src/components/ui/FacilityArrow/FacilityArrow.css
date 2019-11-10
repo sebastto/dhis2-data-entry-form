@@ -1,0 +1,13 @@
+.facility-arrow-container {
+    margin: 10rem auto;
+}
+
+.arrow {
+    width: 21rem;
+    height: 12rem;
+}
+
+.arrow-text {
+    text-align: center;
+    font-weight: bold;
+}

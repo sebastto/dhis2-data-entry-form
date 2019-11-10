@@ -47,7 +47,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility, dataSets }) 
         >
             <AppHeader
                 title="Form Overview"
-                subtitle={selectedFacility.displayName}
+                subtitle={selectedFacility && selectedFacility.displayName}
             />
             <div className="form-overview-light-container">
                 <SearchBar

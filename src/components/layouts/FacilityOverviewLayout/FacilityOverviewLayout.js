@@ -8,7 +8,6 @@ import './FacilityOverviewLayout.css'
 import Sorting from '../../../utils/Sorting'
 
 const FacilityOverviewLayout = ({ hidden, mobileView, facilities }) => {
-
     const [searchInput, setSearchInput] = useState('')
     const [facilityCards, setFacilityCards] = useState(null)
 

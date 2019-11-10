@@ -275,7 +275,7 @@ const getPeriodStartAndEnd = periodType => {
         case 'SixMonthlyNovember':
             if(shift == -1) shift = 11
             //Set dateEnd to last date in quarter. Sets dateStart to first date in quarter.
-            half = 0
+            let half = 0
             if(shift - month < -4 || shift - month > 1 && shift - month < 8) half = 1
             dateEnd = new Date(dateEnd.getFullYear(), shift + ((half + 1) * 6) - 1, 0)
             dateStart = new Date(dateStart.getFullYear(), shift + ((half) * 6) - 1, 1)

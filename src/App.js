@@ -67,15 +67,17 @@ const MyApp = () => {
     return (
         <>
             <div className={appContainerClassName}>
-                <FacilityOverviewLayout
-                    hidden={
+                {facilities && facilities.length > 1 && (
+                    <FacilityOverviewLayout
+                      hidden={
                         !desktopView && mobileActiveTab !== 'facilities'
                             ? 'hidden-facility'
                             : ''
-                    }
-                    mobileView={!desktopView ? 'max-width' : ''}
-                    facilities={facilities}
-                />
+                        }
+                        mobileView={!desktopView ? 'max-width' : ''}
+                        facilities={facilities}
+                    />
+                )}
                 {selectedFacility && (
                     <FormOverviewLayout
                         hidden={

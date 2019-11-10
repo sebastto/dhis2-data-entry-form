@@ -4,7 +4,8 @@ import FacilityOverviewLayout from './components/layouts/FacilityOverviewLayout/
 import { TabBar, Tab } from '@dhis2/ui-core'
 import { useDataEngine } from '@dhis2/app-runtime'
 import { getAllOrganisationData } from './api/Api'
-
+import FacilityArrow from './components/ui/FacilityArrow/FacilityArrow'
+import classNames from 'classNames'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import './App.css'
@@ -14,16 +15,6 @@ const MyApp = () => {
     const [selectedFacility, setSelectedFacility] = useState(null)
     const [facilities, setFacilities] = useState(undefined)
     const [dataSets, setDataSets] = useState(null)
-
-    useEffect(() => {
-        /* Defaults to first facility in list */
-        if (facilities) {
-            setSelectedFacility({
-                displayName: facilities[0].title,
-                id: facilities[0].id,
-            })
-        }
-    }, [facilities])
 
     useEffect(() => {
         getAllOrganisationData(engine).then(
@@ -58,27 +49,35 @@ const MyApp = () => {
     const desktopView = useMediaQuery('(min-width:600px)')
     const [mobileActiveTab, setMobileActiveTab] = useState('facilities')
 
-    let appContainerClassName = 'app-container'
-
-    if (!desktopView) {
-        appContainerClassName = 'app-container-tab-view'
-    }
-
     return (
         <>
-            <div className={appContainerClassName}>
-                {facilities && facilities.length > 1 && (
-                    <FacilityOverviewLayout
-                      hidden={
+            <div
+                className={classNames(
+                    'app-container',
+                    { 'desktop-view': desktopView },
+                    { 'tab-view': !desktopView }
+                )}
+            >
+                <FacilityOverviewLayout
+                    hidden={
                         !desktopView && mobileActiveTab !== 'facilities'
                             ? 'hidden-facility'
                             : ''
+                    }
+                    mobileView={!desktopView ? 'max-width' : ''}
+                    facilities={facilities}
+                />
+                {!desktopView ? (
+                    <FormOverviewLayout
+                        hidden={
+                            !desktopView && mobileActiveTab !== 'forms'
+                                ? 'hidden-form'
+                                : ''
                         }
                         mobileView={!desktopView ? 'max-width' : ''}
-                        facilities={facilities}
+                        selectedFacility={selectedFacility}
                     />
-                )}
-                {selectedFacility && (
+                ) : selectedFacility ? (
                     <FormOverviewLayout
                         hidden={
                             !desktopView && mobileActiveTab !== 'forms'
@@ -89,6 +88,8 @@ const MyApp = () => {
                         selectedFacility={selectedFacility}
                         dataSets={dataSets}
                     />
+                ) : (
+                    <FacilityArrow />
                 )}
                 {!desktopView && (
                     <nav className="mobile-nav">
@@ -97,9 +98,10 @@ const MyApp = () => {
                                 selected={mobileActiveTab === 'facilities'}
                                 onClick={() => setMobileActiveTab('facilities')}
                             >
-                                Facilites
+                                Facilities
                             </Tab>
                             <Tab
+                                disabled={!selectedFacility}
                                 selected={mobileActiveTab === 'forms'}
                                 onClick={() => setMobileActiveTab('forms')}
                             >

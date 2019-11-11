@@ -1,12 +1,14 @@
 .form-overview-light-container {
     padding-top: 0.5rem;
     background-color: #e8f3ff;
+    width: 100%;
 }
 
 .form-overview-form-section {
+    width: 100%;
     max-width: 40rem;
-    margin: 1rem auto;
-    padding-bottom: 47px;
+    margin: 1rem auto 0;
+    height: 100vh;
 }
 
 .tab-bar {
@@ -21,24 +23,19 @@
 
 .form-overview-container {
     width: 100%;
-    min-height: 100%;
-    display: inline-block;
-}
-
-
-.facility-card-section {
-    height: calc(100vh - 48px - 47px);
-    overflow: scroll;
+    max-height: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .max-width {
     width: 100% !important;
-    overflow-x: hidden; /* this gives us the scrolling function -wtf ?!?! */
-    height: 100vh;
-    padding-bottom: 2rem;
     position: fixed;
     transition: right 0.3s;
     right: 0;
+    max-height: calc(100vh - 48px - 47px) !important;
+    min-height: 0;
 }
 
 .hidden-form {

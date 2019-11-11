@@ -3,6 +3,8 @@ import classNames from 'classNames'
 import SortingButtons from '../../ui/SortingButtons/SortingButtons'
 import SearchBar from '../../ui/SearchBar/SearchBar'
 import FacilityCard from '../../ui/FacilityCard/FacilityCard'
+import SimpleBar from 'simplebar-react'
+import 'simplebar/dist/simplebar.min.css'
 
 import './FacilityOverviewLayout.css'
 import Sorting from '../../../utils/Sorting'
@@ -32,6 +34,7 @@ const FacilityOverviewLayout = ({ hidden, mobileView, facilities }) => {
                 onChange={event => setSearchInput(event.target.value)}
             />
             <SortingButtons
+                className={'facility-sorting-buttons'}
                 firstOption={{
                     key: 'title',
                     title: 'Facility Title',
@@ -45,18 +48,24 @@ const FacilityOverviewLayout = ({ hidden, mobileView, facilities }) => {
                 prevObject={facilityCards}
                 sortingFunc={form => form.deadlines.expired}
             />
+
             <section className="facility-card-section">
-                {facilityCards &&
-                    facilityCards.map((facilityCard, index) => {
-                        if (
-                            facilityCard.title
-                                .toLocaleLowerCase()
-                                .startsWith(searchInput.toLocaleLowerCase())
-                        )
-                            return (
-                                <FacilityCard key={index} {...facilityCard} />
+                <SimpleBar style={{ height: '100%' }}>
+                    {facilityCards &&
+                        facilityCards.map((facilityCard, index) => {
+                            if (
+                                facilityCard.title
+                                    .toLocaleLowerCase()
+                                    .startsWith(searchInput.toLocaleLowerCase())
                             )
-                    })}
+                                return (
+                                    <FacilityCard
+                                        key={index}
+                                        {...facilityCard}
+                                    />
+                                )
+                        })}
+                </SimpleBar>
             </section>
         </div>
     )

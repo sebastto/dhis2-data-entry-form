@@ -5,13 +5,17 @@ import AppHeader from '../../ui/AppHeader/AppHeader'
 import SearchBar from '../../ui/SearchBar/SearchBar'
 import DataEntryBox from '../../ui/DataEntryBox/DataEntryBox'
 import SortingButtons from '../../ui/SortingButtons/SortingButtons'
-import { getDataSets } from '../../../api/Api'
+import SimpleBar from 'simplebar-react'
 
 import './FormOverviewLayout.css'
 import Sorting from '../../../utils/Sorting'
 
-
-const FormOverviewLayout = ({ hidden, mobileView, selectedFacility, dataSets }) => {
+const FormOverviewLayout = ({
+    hidden,
+    mobileView,
+    selectedFacility,
+    dataSets,
+}) => {
     const [searchInput, setSearchInput] = useState('')
     const [displayedForms, setDisplayedForms] = useState(null)
     const [allDatesSet, setAllDatesSet] = useState(false)
@@ -57,51 +61,54 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility, dataSets }) 
                 />
                 <FacilityTabs />
             </div>
+            {allDatesSet && (
+                <SortingButtons
+                    firstOption={{
+                        key: 'title',
+                        title: 'Form title',
+                    }}
+                    secondOption={{
+                        key: 'due',
+                        title: 'Due date',
+                        default: true,
+                    }}
+                    onClick={Sorting}
+                    objectToSet={setDisplayedForms}
+                    prevObject={displayedForms}
+                    sortingFunc={object => object.due}
+                />
+            )}
             <section className="form-overview-form-section">
                 {displayedForms && (
                     <>
-                        {allDatesSet && (
-                            <SortingButtons
-                                firstOption={{
-                                    key: 'title',
-                                    title: 'Form title',
-                                }}
-                                secondOption={{
-                                    key: 'due',
-                                    title: 'Due date',
-                                    default: true,
-                                }}
-                                onClick={Sorting}
-                                objectToSet={setDisplayedForms}
-                                prevObject={displayedForms}
-                                sortingFunc={object => object.due}
-                            />
-                        )}
-
-                        {displayedForms.map((form, index) => {
-                            if (
-                                form.title
-                                    .toLocaleLowerCase()
-                                    .startsWith(searchInput.toLocaleLowerCase())
-                            ) {
-                                return (
-                                    <DataEntryBox
-                                        facilityName={
-                                            selectedFacility.displayName
-                                        }
-                                        ref={setChildDate}
-                                        title={form.title}
-                                        periodType={form.periodType}
-                                        formState={form.formState}
-                                        timelyDays={form.timelyDays}
-                                        expiryDays={form.expiryDays}
-                                        formId={index}
-                                        /* form.id is not uniqe, assume form.id + faciliyname is */
-                                        key={form.id + facilityName}
-                                    />
-                                )
-                            }
-                        })}
+                        <SimpleBar style={{ height: '100%' }}>
+                            {displayedForms.map((form, index) => {
+                                if (
+                                    form.title
+                                        .toLocaleLowerCase()
+                                        .startsWith(
+                                            searchInput.toLocaleLowerCase()
+                                        )
+                                ) {
+                                    return (
+                                        <DataEntryBox
+                                            facilityName={
+                                                selectedFacility.displayName
+                                            }
+                                            ref={setChildDate}
+                                            title={form.title}
+                                            periodType={form.periodType}
+                                            formState={form.formState}
+                                            timelyDays={form.timelyDays}
+                                            expiryDays={form.expiryDays}
+                                            formId={index}
+                                            /* form.id is not uniqe, assume form.id + faciliyname is */
+                                            key={form.id + facilityName}
+                                        />
+                                    )
+                                }
+                            })}
+                        </SimpleBar>
                     </>
                 )}
             </section>

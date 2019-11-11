@@ -6,6 +6,7 @@ import { useDataEngine } from '@dhis2/app-runtime'
 import { getAllOrganisationData } from './api/Api'
 import FacilityArrow from './components/ui/FacilityArrow/FacilityArrow'
 import classNames from 'classNames'
+
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import './App.css'
@@ -52,11 +53,9 @@ const MyApp = () => {
     return (
         <>
             <div
-                className={classNames(
-                    'app-container',
-                    { 'desktop-view': desktopView },
-                    { 'tab-view': !desktopView }
-                )}
+                className={classNames('app-container', {
+                    'tab-view': !desktopView,
+                })}
             >
                 <FacilityOverviewLayout
                     hidden={
@@ -76,6 +75,7 @@ const MyApp = () => {
                         }
                         mobileView={!desktopView ? 'max-width' : ''}
                         selectedFacility={selectedFacility}
+                        dataSets={dataSets}
                     />
                 ) : selectedFacility ? (
                     <FormOverviewLayout

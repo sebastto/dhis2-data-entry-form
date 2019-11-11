@@ -189,8 +189,12 @@ DataEntryBox.propTypes = {
 }
 
 DataEntryBox.defaultProps = {
-    viewUrl: '#',
-    editUrl: '#',
+    viewUrl:
+        process.env.REACT_APP_DHIS2_BASE_URL +
+        process.env.REACT_APP_DHIS2_FORM_VIEW_URL,
+    editUrl:
+        process.env.REACT_APP_DHIS2_BASE_URL +
+        process.env.REACT_APP_DHIS2_FORM_EDIT_URL,
 }
 
 const getPeriodStartAndEnd = periodType => {

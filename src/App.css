@@ -14,8 +14,13 @@ body {
     align-items: flex-start;
 }
 
-.app-container-tab-view {
+.tab-view {
     height: calc(100vh - 48px - 47px);
+}
+
+.desktop-view {
+    min-height: -webkit-fill-available;
+    min-height: -moz-available;
 }
 
 .mobile-nav {
@@ -23,8 +28,4 @@ body {
     bottom: 0;
     left: 0;
     width: 100vw;
-}
-
-.hidden {
-    display: none !important;
 }

@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from 'react'
+import classNames from 'classNames'
 import { TabBar, Tab } from '@dhis2/ui-core'
 import AppHeader from '../../ui/AppHeader/AppHeader'
 import SearchBar from '../../ui/SearchBar/SearchBar'
 import DataEntryBox from '../../ui/DataEntryBox/DataEntryBox'
 import SortingButtons from '../../ui/SortingButtons/SortingButtons'
-import { getDataSets } from '../../../api'
+import { getDataSets } from '../../../api/Api'
 
 import './FormOverviewLayout.css'
+import Sorting from '../../../utils/Sorting'
 
-const FormOverviewLayout = ({ hidden, selectedFacility }) => {
+
+const FormOverviewLayout = ({ hidden, mobileView, selectedFacility, dataSets }) => {
     const [searchInput, setSearchInput] = useState('')
-    const [dataSets, setDataSets] = useState(null)
     const [displayedForms, setDisplayedForms] = useState(null)
     const [allDatesSet, setAllDatesSet] = useState(false)
     const [facilityName, setFacilityName] = useState(null)
-
-    getDataSets(datasets => {
-        setDataSets(datasets)
-    })
 
     useEffect(() => {
         if (
@@ -27,68 +25,29 @@ const FormOverviewLayout = ({ hidden, selectedFacility }) => {
         ) {
             setDisplayedForms(dataSets[selectedFacility.displayName])
             setFacilityName(selectedFacility.displayName)
+            setAllDatesSet(false)
         }
     }, [selectedFacility, dataSets])
 
-    let containerClassName = 'form-overview-container'
-
-    if (hidden) {
-        containerClassName += ' hidden'
-    }
-
     const setChildDate = childDate => {
         const tmpForms = displayedForms
-        if (childDate.date === '') tmpForms[childDate.id].due = new Date(0)
-        else tmpForms[childDate.id].due = childDate.date
+        if (childDate.dateDue === '') tmpForms[childDate.id].due = new Date(0)
+        else tmpForms[childDate.id].due = childDate.dateDue
         setDisplayedForms(tmpForms)
         setAllDatesSet(tmpForms.every(forms => forms.due))
     }
 
-    const sortOnChange = sortingChoices => {
-        const { order, key } = sortingChoices
-        if (displayedForms) {
-            switch (key) {
-                case 'due':
-                    if (order === 'asc') {
-                        setDisplayedForms(
-                            [...displayedForms].sort((a, b) => a.due - b.due)
-                        )
-                    } else if (order === 'desc') {
-                        setDisplayedForms(
-                            [...displayedForms].sort((a, b) => b.due - a.due)
-                        )
-                    }
-                    break
-                case 'title':
-                    if (order === 'asc') {
-                        setDisplayedForms(
-                            [...displayedForms].sort((a, b) =>
-                                a.title.toLocaleLowerCase() >
-                                b.title.toLocaleLowerCase()
-                                    ? 1
-                                    : -1
-                            )
-                        )
-                    } else if (order === 'desc') {
-                        setDisplayedForms(
-                            [...displayedForms].sort((a, b) =>
-                                a.title.toLocaleLowerCase() >
-                                b.title.toLocaleLowerCase()
-                                    ? -1
-                                    : 1
-                            )
-                        )
-                    }
-                    break
-            }
-        }
-    }
-
     return (
-        <div className={containerClassName}>
+        <div
+            className={classNames(
+                'form-overview-container',
+                hidden,
+                mobileView
+            )}
+        >
             <AppHeader
                 title="Form Overview"
-                subtitle={selectedFacility.displayName}
+                subtitle={selectedFacility && selectedFacility.displayName}
             />
             <div className="form-overview-light-container">
                 <SearchBar
@@ -112,7 +71,10 @@ const FormOverviewLayout = ({ hidden, selectedFacility }) => {
                                     title: 'Due date',
                                     default: true,
                                 }}
-                                onClick={sortOnChange}
+                                onClick={Sorting}
+                                objectToSet={setDisplayedForms}
+                                prevObject={displayedForms}
+                                sortingFunc={object => object.due}
                             />
                         )}
 
@@ -131,6 +93,8 @@ const FormOverviewLayout = ({ hidden, selectedFacility }) => {
                                         title={form.title}
                                         periodType={form.periodType}
                                         formState={form.formState}
+                                        timelyDays={form.timelyDays}
+                                        expiryDays={form.expiryDays}
                                         formId={index}
                                         facilityId={selectedFacility.id}
                                         /* form.id is not uniqe, assume form.id + faciliyname is */
@@ -150,8 +114,9 @@ const FacilityTabs = () => (
     <TabBar>
         <Tab>All</Tab>
         <Tab selected>Due soon</Tab>
-        <Tab>Completed</Tab>
+        <Tab>Overdue</Tab>
         <Tab>Expired</Tab>
+        <Tab>Completed</Tab>
     </TabBar>
 )
 

@@ -7,12 +7,12 @@
     min-width: 20rem;
 }
 
-.facility-overview-container-max-width {
-    width: 100% !important;
-}
-
 .facility-overview-title {
     margin: 1rem 2rem;
     font-weight: lighter;
     font-size: 1.5rem;
+}
+
+.hidden-facility {
+    right: 100%;
 }

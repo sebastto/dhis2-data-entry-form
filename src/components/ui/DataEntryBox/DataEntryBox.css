@@ -43,7 +43,13 @@
     width: 80%;
 }
 
-.datebox {
+.datebox-due {
+    /*padding: 0 1.5rem;*/
+    width: 67px;
+    text-align: center;
+}
+
+.datebox-expiration {
     /*padding: 0 1.5rem;*/
     width: 67px;
     text-align: center;

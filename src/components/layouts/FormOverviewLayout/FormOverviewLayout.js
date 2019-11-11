@@ -10,8 +10,12 @@ import { getDataSets } from '../../../api/Api'
 import './FormOverviewLayout.css'
 import Sorting from '../../../utils/Sorting'
 
-
-const FormOverviewLayout = ({ hidden, mobileView, selectedFacility, dataSets }) => {
+const FormOverviewLayout = ({
+    hidden,
+    mobileView,
+    selectedFacility,
+    dataSets,
+}) => {
     const [searchInput, setSearchInput] = useState('')
     const [displayedForms, setDisplayedForms] = useState(null)
     const [allDatesSet, setAllDatesSet] = useState(false)
@@ -96,7 +100,6 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility, dataSets }) 
                                         timelyDays={form.timelyDays}
                                         expiryDays={form.expiryDays}
                                         formId={index}
-                                        facilityId={selectedFacility.id}
                                         /* form.id is not uniqe, assume form.id + faciliyname is */
                                         key={form.id + facilityName}
                                     />

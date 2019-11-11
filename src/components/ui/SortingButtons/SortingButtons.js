@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { FaCaretUp, FaCaretDown } from 'react-icons/fa'
 
 import './SortingButtons.css'
-import Sorting from '../../../utils/Sorting'
 
 const SortingButtons = props => {
     const { firstOption, secondOption } = props
@@ -53,7 +52,7 @@ const SortingButtons = props => {
     }, [firstCaretUp, secondCaretUp])
 
     return (
-        <div className="sortingbuttons-container">
+        <div className={props.className}>
             <button
                 className={'first-option ' + firstCaretUp}
                 onClick={handleFirstOption}
@@ -80,6 +79,7 @@ const optionShape = {
 }
 
 SortingButtons.propTypes = {
+    className: PropTypes.string,
     firstOption: PropTypes.shape(optionShape).isRequired,
     secondOption: PropTypes.shape(optionShape).isRequired,
     onClick: PropTypes.func.isRequired,
@@ -89,6 +89,7 @@ SortingButtons.propTypes = {
 }
 
 SortingButtons.defaultProps = {
+    className: 'sortingbuttons-container',
     firstOption: PropTypes.shape({
         default: false,
     }),

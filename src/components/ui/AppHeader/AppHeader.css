@@ -1,6 +1,7 @@
 .app-header {
     background-color: #c3e1ff;
     padding: 10px 20px;
+    width: 100%;
 }
 
 .app-header-title {

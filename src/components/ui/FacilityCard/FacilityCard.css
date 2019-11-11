@@ -25,10 +25,12 @@
 .facility-card-title {
     font-size: medium;
     margin: 0 4rem 0 2rem;
+    text-align: left;
+    width: 60%;
 }
 
 .facility-card-deadlines {
-    margin-right: 1rem;
+    width: 40%;
 }
 
 .chip-expired {

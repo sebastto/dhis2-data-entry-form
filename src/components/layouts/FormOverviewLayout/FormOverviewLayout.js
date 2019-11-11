@@ -135,12 +135,6 @@ const FormOverviewLayout = ({ hidden, selectedFacility }) => {
                                         facilityId={selectedFacility.id}
                                         /* form.id is not uniqe, assume form.id + faciliyname is */
                                         key={form.id + facilityName}
-                                        editUrl={
-                                            process.env
-                                                .REACT_APP_DHIS2_BASE_URL +
-                                            process.env
-                                                .REACT_APP_DHIS2_FORM_EDIT_URL
-                                        }
                                     />
                                 )
                             }

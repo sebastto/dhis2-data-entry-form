@@ -10,7 +10,12 @@ import FacilityPlaceholder from '../../ui/Placeholders/FacilityPlaceholder'
 import './FacilityOverviewLayout.css'
 import Sorting from '../../../utils/Sorting'
 
-const FacilityOverviewLayout = ({ hidden, mobileView, facilities }) => {
+const FacilityOverviewLayout = ({
+    hidden,
+    mobileView,
+    facilities,
+    setSelectedFacility,
+}) => {
     const [searchInput, setSearchInput] = useState('')
     const [facilityCards, setFacilityCards] = useState(null)
 
@@ -54,14 +59,19 @@ const FacilityOverviewLayout = ({ hidden, mobileView, facilities }) => {
                     <SimpleBar style={{ height: '100%' }}>
                         {facilityCards.map((facilityCard, index) => {
                             if (
-                                facilityCard.title
+                                facilityCard.displayName
                                     .toLocaleLowerCase()
                                     .startsWith(searchInput.toLocaleLowerCase())
                             )
                                 return (
                                     <FacilityCard
-                                        key={index}
                                         {...facilityCard}
+                                        onClick={() => {
+                                            setSelectedFacility(facilityCard)
+                                            console.log('Set facility:')
+                                            console.log(facilityCard)
+                                        }}
+                                        key={index}
                                     />
                                 )
                         })}

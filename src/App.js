@@ -6,6 +6,7 @@ import { useDataEngine } from '@dhis2/app-runtime'
 import { getAllOrganisationData } from './api/Api'
 import FacilityArrow from './components/ui/FacilityArrow/FacilityArrow'
 import classNames from 'classNames'
+import { processDataSets } from './utils/DataSetProcessing'
 
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
@@ -13,41 +14,32 @@ import './App.css'
 
 const MyApp = () => {
     const engine = useDataEngine()
+    const desktopView = useMediaQuery('(min-width:600px)')
+
     const [selectedFacility, setSelectedFacility] = useState(null)
     const [facilities, setFacilities] = useState(undefined)
-    const [dataSets, setDataSets] = useState(null)
+
+    const [mobileActiveTab, setMobileActiveTab] = useState('facilities')
 
     useEffect(() => {
-        getAllOrganisationData(engine).then(
-            ({ organisations, viewOrganisations, dataSets }) => {
-                setDataSets(dataSets)
-                setFacilities(
-                    organisations
-                        .concat(viewOrganisations)
-                        .map(organisation => {
-                            return {
-                                title: organisation.displayName,
-                                deadlines: {
-                                    expired: 1,
-                                    due: 6,
-                                },
-                                id: organisation.id,
-                                onClick: () => {
-                                    setSelectedFacility({
-                                        displayName: organisation.displayName,
-                                        id: organisation.id,
-                                    })
-                                    setMobileActiveTab('forms')
-                                },
-                            }
-                        })
-                )
-            }
-        )
-    }, [])
+        getAllOrganisationData(engine).then(({ organisations, dataSets }) => {
+            const processedDataSets = processDataSets(dataSets)
+            console.log(processedDataSets)
 
-    const desktopView = useMediaQuery('(min-width:600px)')
-    const [mobileActiveTab, setMobileActiveTab] = useState('facilities')
+            const processedfacilities = organisations.map(organisation => {
+                return {
+                    id: organisation.id,
+                    displayName: organisation.displayName,
+                    readOnly: organisation.readOnly,
+                    dataSets: processedDataSets[organisation.id],
+                }
+            })
+
+            console.log(processedfacilities)
+
+            setFacilities(processedfacilities)
+        })
+    }, [])
 
     return (
         <>
@@ -64,8 +56,9 @@ const MyApp = () => {
                     }
                     mobileView={!desktopView ? 'max-width' : ''}
                     facilities={facilities}
+                    setSelectedFacility={setSelectedFacility}
                 />
-                {!desktopView ? (
+                {selectedFacility ? (
                     <FormOverviewLayout
                         hidden={
                             !desktopView && mobileActiveTab !== 'forms'
@@ -74,18 +67,6 @@ const MyApp = () => {
                         }
                         mobileView={!desktopView ? 'max-width' : ''}
                         selectedFacility={selectedFacility}
-                        dataSets={dataSets}
-                    />
-                ) : selectedFacility ? (
-                    <FormOverviewLayout
-                        hidden={
-                            !desktopView && mobileActiveTab !== 'forms'
-                                ? 'hidden-form'
-                                : ''
-                        }
-                        mobileView={!desktopView ? 'max-width' : ''}
-                        selectedFacility={selectedFacility}
-                        dataSets={dataSets}
                     />
                 ) : (
                     <FacilityArrow />

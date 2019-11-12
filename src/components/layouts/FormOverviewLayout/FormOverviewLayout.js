@@ -3,7 +3,7 @@ import classNames from 'classNames'
 import { TabBar, Tab } from '@dhis2/ui-core'
 import AppHeader from '../../ui/AppHeader/AppHeader'
 import SearchBar from '../../ui/SearchBar/SearchBar'
-import { DataEntryBox, FormState } from '../../ui/DataEntryBox/DataEntryBox'
+import DataEntryBox, { FormState } from '../../ui/DataEntryBox/DataEntryBox'
 import SortingButtons from '../../ui/SortingButtons/SortingButtons'
 import SimpleBar from 'simplebar-react'
 

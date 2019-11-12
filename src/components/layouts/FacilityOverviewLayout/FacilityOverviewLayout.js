@@ -25,7 +25,6 @@ const FacilityOverviewLayout = ({
         }
     }, [facilities])
 
-    if (facilityCards) console.log(facilityCards[0])
     return (
         <div
             className={classNames(

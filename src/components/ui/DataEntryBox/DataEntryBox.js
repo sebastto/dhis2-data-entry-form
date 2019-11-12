@@ -7,7 +7,7 @@ import EditIcon from '../../icons/EditIcon/EditIcon'
 
 import './DataEntryBox.css'
 
-export const DataEntryBox = ({ displayName, dueDate, formState }) => {
+const DataEntryBox = ({ displayName, dueDate, formState }) => {
     const [collapsed, setCollapsed] = useState(false)
 
     const color = getCardStatusColor(formState)

@@ -5,6 +5,7 @@ import SearchBar from '../../ui/SearchBar/SearchBar'
 import FacilityCard from '../../ui/FacilityCard/FacilityCard'
 import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
+import FacilityPlaceholder from '../../ui/Placeholders/FacilityPlaceholder'
 
 import './FacilityOverviewLayout.css'
 import Sorting from '../../../utils/Sorting'
@@ -48,11 +49,10 @@ const FacilityOverviewLayout = ({ hidden, mobileView, facilities }) => {
                 prevObject={facilityCards}
                 sortingFunc={form => form.deadlines.expired}
             />
-
-            <section className="facility-card-section">
-                <SimpleBar style={{ height: '100%' }}>
-                    {facilityCards &&
-                        facilityCards.map((facilityCard, index) => {
+            {facilityCards ? (
+                <section className="facility-card-section">
+                    <SimpleBar style={{ height: '100%' }}>
+                        {facilityCards.map((facilityCard, index) => {
                             if (
                                 facilityCard.title
                                     .toLocaleLowerCase()
@@ -65,8 +65,11 @@ const FacilityOverviewLayout = ({ hidden, mobileView, facilities }) => {
                                     />
                                 )
                         })}
-                </SimpleBar>
-            </section>
+                    </SimpleBar>
+                </section>
+            ) : (
+                <FacilityPlaceholder />
+            )}
         </div>
     )
 }

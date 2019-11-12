@@ -3,7 +3,7 @@ import classNames from 'classNames'
 import { TabBar, Tab } from '@dhis2/ui-core'
 import AppHeader from '../../ui/AppHeader/AppHeader'
 import SearchBar from '../../ui/SearchBar/SearchBar'
-import DataEntryBox from '../../ui/DataEntryBox/DataEntryBox'
+import { DataEntryBox, FormState } from '../../ui/DataEntryBox/DataEntryBox'
 import SortingButtons from '../../ui/SortingButtons/SortingButtons'
 import SimpleBar from 'simplebar-react'
 
@@ -15,6 +15,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
     const [displayedForms, setDisplayedForms] = useState(
         selectedFacility.dataSets
     )
+    const [formStateTab, setFormStateTab] = useState(FormState.NOTSET)
     const ref = React.createRef()
 
     useEffect(() => {
@@ -43,7 +44,10 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                     value={searchInput}
                     onChange={event => setSearchInput(event.target.value)}
                 />
-                <FacilityTabs />
+                <FacilityTabs
+                    formStateTab={formStateTab}
+                    setFormStateTab={setFormStateTab}
+                />
             </div>
             <SortingButtons
                 firstOption={{
@@ -66,7 +70,9 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                         if (
                             form.title
                                 .toLocaleLowerCase()
-                                .startsWith(searchInput.toLocaleLowerCase())
+                                .startsWith(searchInput.toLocaleLowerCase()) &&
+                            (form.formState == formStateTab ||
+                                formStateTab == FormState.NOTSET)
                         ) {
                             return (
                                 <DataEntryBox
@@ -85,13 +91,38 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
     )
 }
 
-const FacilityTabs = () => (
+const FacilityTabs = props => (
     <TabBar>
-        <Tab>All</Tab>
-        <Tab selected>Due soon</Tab>
-        <Tab>Overdue</Tab>
-        <Tab>Expired</Tab>
-        <Tab>Completed</Tab>
+        <Tab
+            selected={props.formStateTab === FormState.NOTSET}
+            onClick={() => props.setFormStateTab(FormState.NOTSET)}
+        >
+            All
+        </Tab>
+        <Tab
+            selected={props.formStateTab === FormState.CLOSEDUE}
+            onClick={() => props.setFormStateTab(FormState.CLOSEDUE)}
+        >
+            Due soon
+        </Tab>
+        <Tab
+            selected={props.formStateTab === FormState.OVERDUE}
+            onClick={() => props.setFormStateTab(FormState.OVERDUE)}
+        >
+            Overdue
+        </Tab>
+        <Tab
+            selected={props.formStateTab === FormState.EXPIRED}
+            onClick={() => props.setFormStateTab(FormState.EXPIRED)}
+        >
+            Expired
+        </Tab>
+        <Tab
+            selected={props.formStateTab === FormState.COMPLETED}
+            onClick={() => props.setFormStateTab(FormState.COMPLETED)}
+        >
+            Completed
+        </Tab>
     </TabBar>
 )
 

@@ -5,8 +5,7 @@ import './FacilityPlaceholder.css'
 
 const FacilityPlaceholder = () => {
     const contentHolder = []
-    /* 5 is a good number */
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 25; i++) {
         contentHolder.push(
             <ContentLoader
                 speed={0.5}

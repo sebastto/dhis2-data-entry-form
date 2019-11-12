@@ -9,6 +9,7 @@
     max-width: 40rem;
     margin: 1rem auto 0;
     height: 100vh;
+    overflow: hidden;
 }
 
 .tab-bar {

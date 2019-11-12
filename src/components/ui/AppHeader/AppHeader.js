@@ -2,9 +2,9 @@ import React from 'react'
 
 import './AppHeader.css'
 
-const AppHeader = ({ title, subtitle }) => (
+const AppHeader = ({ displayName, subtitle }) => (
     <div className="app-header">
-        <h2 className="app-header-title">{title}</h2>
+        <h2 className="app-header-title">{displayName}</h2>
         <h3 className="app-header-subtitle">{subtitle}</h3>
     </div>
 )

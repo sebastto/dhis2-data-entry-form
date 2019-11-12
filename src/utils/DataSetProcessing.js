@@ -10,7 +10,7 @@ export const processDataSets = dataSets => {
             const deadlineInfo = getFormDeadlineInfo(dataSet)
             return {
                 id: dataSet.id,
-                title: dataSet.title,
+                displayName: dataSet.displayName,
                 dueDate: deadlineInfo.formDates.dueDate,
                 formState: deadlineInfo.formState,
             }

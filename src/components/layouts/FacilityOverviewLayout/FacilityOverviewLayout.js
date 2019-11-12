@@ -43,7 +43,7 @@ const FacilityOverviewLayout = ({
             <SortingButtons
                 className={'facility-sorting-buttons'}
                 firstOption={{
-                    key: 'title',
+                    key: 'displayName',
                     title: 'Facility Title',
                 }}
                 secondOption={{
@@ -60,7 +60,7 @@ const FacilityOverviewLayout = ({
                     <SimpleBar style={{ height: '100%' }}>
                         {facilityCards.map((facilityCard, index) => {
                             if (
-                                facilityCard.title
+                                facilityCard.displayName
                                     .toLocaleLowerCase()
                                     .startsWith(searchInput.toLocaleLowerCase())
                             )

@@ -6,7 +6,7 @@ import { FormState } from '../DataEntryBox/DataEntryBox'
 
 import './FacilityCard.css'
 
-const FacilityCard = ({ id, title, readOnly, dataSets, onClick }) => {
+const FacilityCard = ({ id, displayName, readOnly, dataSets, onClick }) => {
     const deadlines = {
         closeDue: 0,
         overDue: 0,
@@ -22,7 +22,7 @@ const FacilityCard = ({ id, title, readOnly, dataSets, onClick }) => {
 
     return (
         <button className="facility-card" onClick={onClick}>
-            <span className="facility-card-title">{title}</span>
+            <span className="facility-card-title">{displayName}</span>
             <span className="facility-card-deadlines">
                 {deadlines.overDue > 0 ? (
                     <Chip className="chip-expired">
@@ -48,7 +48,7 @@ const FacilityCard = ({ id, title, readOnly, dataSets, onClick }) => {
 }
 
 FacilityCard.propTypes = {
-    title: PropTypes.string.isRequired,
+    displayName: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
 }
 

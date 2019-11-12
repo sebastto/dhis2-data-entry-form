@@ -44,7 +44,7 @@ export const getAllOrganisationData = async engine => {
             dataSets[unit.id] = unit.dataSets.map(dataset => {
                 return {
                     id: dataset.id,
-                    title: TextFormatter(dataset.displayName),
+                    displayName: TextFormatter(dataset.displayName),
                     periodType: dataset.periodType,
                     openFuturePeriods: dataset.openFuturePeriods,
                     timelyDays: dataset.timelyDays,
@@ -72,7 +72,7 @@ export const getAllOrganisationData = async engine => {
             dataSets[unit.id] = unit.dataSets.map(dataset => {
                 return {
                     id: dataset.id,
-                    title: TextFormatter(dataset.displayName),
+                    displayName: TextFormatter(dataset.displayName),
                     periodType: dataset.periodType,
                     openFuturePeriods: dataset.openFuturePeriods,
                     timelyDays: dataset.timelyDays,

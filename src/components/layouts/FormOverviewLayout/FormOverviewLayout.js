@@ -36,7 +36,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
         >
             <AppHeader
                 title="Form Overview"
-                subtitle={selectedFacility && selectedFacility.title}
+                subtitle={selectedFacility && selectedFacility.displayName}
             />
             <div className="form-overview-light-container">
                 <SearchBar
@@ -51,7 +51,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
             </div>
             <SortingButtons
                 firstOption={{
-                    key: 'title',
+                    key: 'displayName',
                     title: 'Form title',
                 }}
                 secondOption={{
@@ -68,7 +68,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                 <SimpleBar style={{ height: '100%' }} ref={ref}>
                     {displayedForms.map((form, index) => {
                         if (
-                            form.title
+                            form.displayName
                                 .toLocaleLowerCase()
                                 .startsWith(searchInput.toLocaleLowerCase()) &&
                             (form.formState == formStateTab ||
@@ -76,11 +76,11 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                         ) {
                             return (
                                 <DataEntryBox
-                                    title={form.title}
+                                    displayName={form.displayName}
                                     dueDate={form.dueDate}
                                     formState={form.formState}
                                     /* form.id is not uniqe, assume form.id + faciliyname is */
-                                    key={form.id + form.title}
+                                    key={form.id + form.displayName}
                                 />
                             )
                         }

@@ -1,13 +1,17 @@
 .facility-arrow-container {
-    margin: 10rem auto;
+    margin: 15vh auto 0;
+    width: 100%;
+    text-align: center;
 }
 
 .arrow {
-    width: 21rem;
-    height: 12rem;
+    width: 20vw;
+    height: 20vw;
+    margin: auto;
 }
 
 .arrow-text {
     text-align: center;
     font-weight: bold;
+    font-size: 3vw;
 }

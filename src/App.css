@@ -13,6 +13,7 @@ body {
     justify-content: space-between;
     align-items: flex-start;
     max-height: calc(100vh - 48px);
+    overflow: hidden;
 }
 
 .tab-view {

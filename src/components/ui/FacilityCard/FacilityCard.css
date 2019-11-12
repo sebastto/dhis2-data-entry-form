@@ -31,14 +31,20 @@
 
 .facility-card-deadlines {
     width: 50%;
+    align-items: right;
+    float: right;
 }
 
 .chip-expired {
     background-color: var(--error-color) !important;
     color: #ffffff !important;
+    width: 2.7rem;
+    float: right;
 }
 
 .chip-due {
     background-color: var(--warning-color) !important;
     color: #ffffff !important;
+    width: 2.7rem;
+    float: right;
 }

@@ -8,6 +8,7 @@ const FacilityPlaceholder = () => {
     for (let i = 0; i < 25; i++) {
         contentHolder.push(
             <ContentLoader
+                key={i}
                 speed={0.5}
                 className="facility-placeholder"
                 height={80}
@@ -18,6 +19,7 @@ const FacilityPlaceholder = () => {
             </ContentLoader>
         )
     }
+
     return (
         <div className="facility-placeholder-container"> {contentHolder} </div>
     )

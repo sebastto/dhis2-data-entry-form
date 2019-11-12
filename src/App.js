@@ -29,7 +29,7 @@ const MyApp = () => {
             const processedfacilities = organisations.map(organisation => {
                 return {
                     id: organisation.id,
-                    displayName: organisation.displayName,
+                    title: organisation.displayName,
                     readOnly: organisation.readOnly,
                     dataSets: processedDataSets[organisation.id],
                 }

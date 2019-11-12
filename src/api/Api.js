@@ -1,5 +1,6 @@
 import { useDataQuery } from '@dhis2/app-runtime'
 import { FormState } from '../components/ui/DataEntryBox/DataEntryBox'
+import { TextFormatter } from '../utils/Formatter'
 
 const organisations = {
     userData: {
@@ -43,7 +44,7 @@ export const getAllOrganisationData = async engine => {
             dataSets[unit.id] = unit.dataSets.map(dataset => {
                 return {
                     id: dataset.id,
-                    title: dataset.displayName,
+                    title: TextFormatter(dataset.displayName),
                     periodType: dataset.periodType,
                     openFuturePeriods: dataset.openFuturePeriods,
                     timelyDays: dataset.timelyDays,
@@ -52,6 +53,7 @@ export const getAllOrganisationData = async engine => {
                 }
             })
 
+            unit['displayName'] = TextFormatter(unit['displayName'])
             unit['readOnly'] = false
             orgList.push(unit)
         })
@@ -70,7 +72,7 @@ export const getAllOrganisationData = async engine => {
             dataSets[unit.id] = unit.dataSets.map(dataset => {
                 return {
                     id: dataset.id,
-                    title: dataset.displayName,
+                    title: TextFormatter(dataset.displayName),
                     periodType: dataset.periodType,
                     openFuturePeriods: dataset.openFuturePeriods,
                     timelyDays: dataset.timelyDays,
@@ -79,6 +81,7 @@ export const getAllOrganisationData = async engine => {
                 }
             })
 
+            unit['displayName'] = TextFormatter(unit['displayName'])
             unit['readOnly'] = true
             orgList.push(unit)
         })

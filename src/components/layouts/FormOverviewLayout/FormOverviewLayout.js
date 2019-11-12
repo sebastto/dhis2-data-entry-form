@@ -36,7 +36,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
         >
             <AppHeader
                 title="Form Overview"
-                subtitle={selectedFacility && selectedFacility.displayName}
+                subtitle={selectedFacility && selectedFacility.title}
             />
             <div className="form-overview-light-container">
                 <SearchBar
@@ -80,7 +80,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                                     dueDate={form.dueDate}
                                     formState={form.formState}
                                     /* form.id is not uniqe, assume form.id + faciliyname is */
-                                    key={form.id + form.displayName}
+                                    key={form.id + form.title}
                                 />
                             )
                         }

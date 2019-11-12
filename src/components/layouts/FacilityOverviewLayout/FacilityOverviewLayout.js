@@ -25,6 +25,7 @@ const FacilityOverviewLayout = ({
         }
     }, [facilities])
 
+    if (facilityCards) console.log(facilityCards[0])
     return (
         <div
             className={classNames(
@@ -59,7 +60,7 @@ const FacilityOverviewLayout = ({
                     <SimpleBar style={{ height: '100%' }}>
                         {facilityCards.map((facilityCard, index) => {
                             if (
-                                facilityCard.displayName
+                                facilityCard.title
                                     .toLocaleLowerCase()
                                     .startsWith(searchInput.toLocaleLowerCase())
                             )

@@ -6,6 +6,7 @@
 .facility-card {
     border: none;
     padding: 3px;
+    padding-right: 10px;
     font-size: 1.2rem;
     width: 100%;
     line-height: 100%;
@@ -36,6 +37,7 @@
 }
 
 .chip-expired {
+    justify-content: center;
     background-color: var(--error-color) !important;
     color: #ffffff !important;
     width: 2.7rem;
@@ -43,6 +45,7 @@
 }
 
 .chip-due {
+    justify-content: center;
     background-color: var(--warning-color) !important;
     color: #ffffff !important;
     width: 2.7rem;

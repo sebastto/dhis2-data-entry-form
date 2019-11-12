@@ -38,7 +38,6 @@ const MyApp = () => {
                                         id: organisation.id,
                                     })
                                     setMobileActiveTab('forms')
-                                    window.scrollTo(0, 0)
                                 },
                             }
                         })

@@ -26,11 +26,11 @@
     font-size: medium;
     margin: 0 4rem 0 2rem;
     text-align: left;
-    width: 60%;
+    width: 50%;
 }
 
 .facility-card-deadlines {
-    width: 40%;
+    width: 50%;
 }
 
 .chip-expired {

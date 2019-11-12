@@ -41,9 +41,6 @@ const MyApp = () => {
         })
     }, [])
 
-    return <h1>test</h1>
-
-    /*
     return (
         <>
             <div
@@ -59,7 +56,7 @@ const MyApp = () => {
                     }
                     mobileView={!desktopView ? 'max-width' : ''}
                     facilities={facilities}
-                    setSelectedFacility={facility => setSelectedFacility(facility)}
+                    setSelectedFacility={setSelectedFacility}
                 />
                 {selectedFacility ? (
                     <FormOverviewLayout
@@ -70,11 +67,10 @@ const MyApp = () => {
                         }
                         mobileView={!desktopView ? 'max-width' : ''}
                         selectedFacility={selectedFacility}
-                        dataSets={dataSets}
                     />
-                ) :
+                ) : (
                     <FacilityArrow />
-                }
+                )}
                 {!desktopView && (
                     <nav className="mobile-nav">
                         <TabBar fixed>
@@ -97,7 +93,6 @@ const MyApp = () => {
             </div>
         </>
     )
-    */
 }
 
 export default MyApp

@@ -20,6 +20,7 @@ const FormOverviewLayout = ({
     const [displayedForms, setDisplayedForms] = useState(null)
     const [allDatesSet, setAllDatesSet] = useState(false)
     const [facilityName, setFacilityName] = useState(null)
+    const ref = React.createRef()
 
     useEffect(() => {
         if (
@@ -27,6 +28,7 @@ const FormOverviewLayout = ({
             selectedFacility &&
             selectedFacility.displayName !== facilityName
         ) {
+            if (ref.current) ref.current.getScrollElement().scrollTop = 0
             setDisplayedForms(dataSets[selectedFacility.displayName])
             setFacilityName(selectedFacility.displayName)
             setAllDatesSet(false)
@@ -37,8 +39,8 @@ const FormOverviewLayout = ({
         const tmpForms = displayedForms
         if (childDate.dateDue === '') tmpForms[childDate.id].due = new Date(0)
         else tmpForms[childDate.id].due = childDate.dateDue
+        if (tmpForms.every(forms => forms.due)) setAllDatesSet(true)
         setDisplayedForms(tmpForms)
-        setAllDatesSet(tmpForms.every(forms => forms.due))
     }
 
     return (
@@ -80,36 +82,32 @@ const FormOverviewLayout = ({
             )}
             <section className="form-overview-form-section">
                 {displayedForms && (
-                    <>
-                        <SimpleBar style={{ height: '100%' }}>
-                            {displayedForms.map((form, index) => {
-                                if (
-                                    form.title
-                                        .toLocaleLowerCase()
-                                        .startsWith(
-                                            searchInput.toLocaleLowerCase()
-                                        )
-                                ) {
-                                    return (
-                                        <DataEntryBox
-                                            facilityName={
-                                                selectedFacility.displayName
-                                            }
-                                            ref={setChildDate}
-                                            title={form.title}
-                                            periodType={form.periodType}
-                                            formState={form.formState}
-                                            timelyDays={form.timelyDays}
-                                            expiryDays={form.expiryDays}
-                                            formId={index}
-                                            /* form.id is not uniqe, assume form.id + faciliyname is */
-                                            key={form.id + facilityName}
-                                        />
-                                    )
-                                }
-                            })}
-                        </SimpleBar>
-                    </>
+                    <SimpleBar style={{ height: '100%' }} ref={ref}>
+                        {displayedForms.map((form, index) => {
+                            if (
+                                form.title
+                                    .toLocaleLowerCase()
+                                    .startsWith(searchInput.toLocaleLowerCase())
+                            ) {
+                                return (
+                                    <DataEntryBox
+                                        facilityName={
+                                            selectedFacility.displayName
+                                        }
+                                        ref={setChildDate}
+                                        title={form.title}
+                                        periodType={form.periodType}
+                                        formState={form.formState}
+                                        timelyDays={form.timelyDays}
+                                        expiryDays={form.expiryDays}
+                                        formId={index}
+                                        /* form.id is not uniqe, assume form.id + faciliyname is */
+                                        key={form.id + facilityName}
+                                    />
+                                )
+                            }
+                        })}
+                    </SimpleBar>
                 )}
             </section>
         </div>

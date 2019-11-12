@@ -26,9 +26,10 @@ const completeForms = {
 // Gets all organisations that this user belong to
 export const getAllOrganisationData = async engine => {
     const orgList = []
-    const viewOrgList = []
+
     const dataSets = {}
     const { userData } = await engine.query(organisations)
+
     for (const unit of userData.organisationUnits) {
         const { childOrganisations } = await engine.query(
             allChildOrganisationUnits,
@@ -39,7 +40,7 @@ export const getAllOrganisationData = async engine => {
             }
         )
         childOrganisations.organisationUnits.forEach(unit => {
-            dataSets[unit.displayName] = unit.dataSets.map(dataset => {
+            dataSets[unit.id] = unit.dataSets.map(dataset => {
                 return {
                     id: dataset.id,
                     title: dataset.displayName,
@@ -48,9 +49,10 @@ export const getAllOrganisationData = async engine => {
                     timelyDays: dataset.timelyDays,
                     expiryDays: dataset.expiryDays,
                     formState: FormState.NOTSET, //default. Overriden later by completed-check
-                    viewOnly: false,
                 }
             })
+
+            unit['readOnly'] = false
             orgList.push(unit)
         })
     }
@@ -65,7 +67,7 @@ export const getAllOrganisationData = async engine => {
             }
         )
         childOrganisations.organisationUnits.forEach(unit => {
-            dataSets[unit.displayName] = unit.dataSets.map(dataset => {
+            dataSets[unit.id] = unit.dataSets.map(dataset => {
                 return {
                     id: dataset.id,
                     title: dataset.displayName,
@@ -74,13 +76,14 @@ export const getAllOrganisationData = async engine => {
                     timelyDays: dataset.timelyDays,
                     expiryDays: dataset.expiryDays,
                     formState: FormState.NOTSET, //default. Overriden later by completed-check
-                    viewOnly: true,
                 }
             })
-            viewOrgList.push(unit)
+
+            unit['readOnly'] = true
+            orgList.push(unit)
         })
     }
-    return { organisations: orgList, viewOrganisations: viewOrgList, dataSets }
+    return { organisations: orgList, dataSets }
 }
 
 //Get a list of completed dataSets in a given ogranisation in selected period

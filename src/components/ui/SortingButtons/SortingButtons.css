@@ -1,12 +1,12 @@
 .sortingbuttons-container {
-    padding: 0 1.7rem 0 1rem;
-    width: 100%;
-    max-width: 40rem;
+    width: 90%;
+    min-width: 22rem;
+    max-width: 36rem;
     margin: 1rem auto 0;
 }
 
 .first-option {
-    margin-left: 1rem;
+    float: left;
 }
 
 .second-option {

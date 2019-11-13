@@ -43,7 +43,7 @@ const getFormDeadlineInfo = dataSet => {
     } else {
         formState = getFormStateUrgency(
             todaysDate,
-            formDates.periodStart,
+            formDates.dueDate,
             dataSet.periodType
         )
     }
@@ -204,8 +204,8 @@ const getFormDates = dataSet => {
     return { periodStart, periodEnd, dueDate, expiryDate }
 }
 
-const getFormStateUrgency = (todaysDate, periodStart, periodType) => {
-    const daysToDeadLine = (periodStart - todaysDate) / (1000 * 3600 * 24)
+const getFormStateUrgency = (todaysDate, dueDate, periodType) => {
+    const daysToDeadLine = (dueDate - todaysDate) / (1000 * 3600 * 24)
     let fullDaysToDeadLine = -1
 
     switch (periodType) {

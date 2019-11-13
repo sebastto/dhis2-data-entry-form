@@ -111,7 +111,7 @@ const changeTabs = (func, formState, myRef) => {
     }
 }
 
-const FacilityTabs = ({ formStateTab, setFormStateTab, myRef }) => (
+const FacilityTabs = ({ formStateTab, setFormStateTab, forms, myRef }) => (
     <TabBar>
         <Tab
             selected={formStateTab === FormState.NOTSET}
@@ -124,7 +124,7 @@ const FacilityTabs = ({ formStateTab, setFormStateTab, myRef }) => (
             onClick={() =>
                 changeTabs(setFormStateTab, FormState.CLOSEDUE, myRef)
             }
-            disabled={props.forms[FormState.CLOSEDUE] < 1}
+            disabled={forms[FormState.CLOSEDUE] < 1}
         >
             Due soon
         </Tab>
@@ -133,7 +133,7 @@ const FacilityTabs = ({ formStateTab, setFormStateTab, myRef }) => (
             onClick={() =>
                 changeTabs(setFormStateTab, FormState.OVERDUE, myRef)
             }
-            disabled={props.forms[FormState.OVERDUE] < 1}
+            disabled={forms[FormState.OVERDUE] < 1}
         >
             Overdue
         </Tab>
@@ -142,7 +142,7 @@ const FacilityTabs = ({ formStateTab, setFormStateTab, myRef }) => (
             onClick={() =>
                 changeTabs(setFormStateTab, FormState.EXPIRED, myRef)
             }
-            disabled={props.forms[FormState.EXPIRED] < 1}
+            disabled={forms[FormState.EXPIRED] < 1}
         >
             Expired
         </Tab>
@@ -151,7 +151,7 @@ const FacilityTabs = ({ formStateTab, setFormStateTab, myRef }) => (
             onClick={() =>
                 changeTabs(setFormStateTab, FormState.COMPLETED, myRef)
             }
-            disabled={props.forms[FormState.COMPLETED] < 1}
+            disabled={forms[FormState.COMPLETED] < 1}
         >
             Completed
         </Tab>

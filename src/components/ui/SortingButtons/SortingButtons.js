@@ -18,78 +18,79 @@ const SortingButtons = React.forwardRef(
         },
         ref
     ) => {
-    /* Carets by default are with pointy  side up for names (chronoligcal) and for dates (oldest first)*/
-    const [firstCaretUp, setFirstCaret] = useState(
-        firstOption.default ? true : null
-    )
-    const [secondCaretUp, setSecondCaret] = useState(
-        secondOption.default ? true : null
-    )
+        /* Carets by default are with pointy  side up for names (chronoligcal) and for dates (oldest first)*/
+        const [firstCaretUp, setFirstCaret] = useState(
+            firstOption.default ? true : null
+        )
+        const [secondCaretUp, setSecondCaret] = useState(
+            secondOption.default ? true : null
+        )
 
-    /* Set default sorting options when null, follow Windows standard */
-    const handleFirstOption = () => {
-        setFirstCaret(firstCaretUp !== null ? !firstCaretUp : true)
-        setSecondCaret(null)
-    }
-
-    const handleSecondOption = () => {
-        setSecondCaret(secondCaretUp !== null ? !secondCaretUp : false)
-        setFirstCaret(null)
-    }
-
-    useEffect(() => {
-        /* Runs on componentDidMount aswell, to handle default caret cases */
-        if (objectToSet && prevObject && sortingFunc) {
-            if (firstCaretUp !== null) {
-                Sorting(
-                    {
-                        order: firstCaretUp ? 'asc' : 'desc',
-                        key: firstOption.key,
-                    },
-                    { objectToSet, prevObject },
-                    sortingFunc
-                )
-            } else if (secondCaretUp !== null) {
-                Sorting(
-                    {
-                        order: secondCaretUp ? 'asc' : 'desc',
-                        key: secondOption.key,
-                    },
-                    { objectToSet, prevObject },
-                    sortingFunc
-                )
-            }
-            if (ref.current) {
-                ref.current.getScrollElement().scrollTop = 0
-            }
+        /* Set default sorting options when null, follow Windows standard */
+        const handleFirstOption = () => {
+            setFirstCaret(firstCaretUp !== null ? !firstCaretUp : true)
+            setSecondCaret(null)
         }
-    }, [firstCaretUp, secondCaretUp])
 
-    return (
-        <div className={props.className}>
-            <button
-                className={'first-option ' + firstCaretUp}
-                onClick={handleFirstOption}
-            >
-                {firstOption.title}
-                {firstCaretUp === null ? (
-                    <FaCaretUp />
-                ) : firstCaretUp ? (
-                    <FaCaretUp />
-                ) : (
-                    <FaCaretDown />
-                )}
-            </button>
-            <button
-                className={'second-option ' + secondCaretUp}
-                onClick={handleSecondOption}
-            >
-                {secondOption.title}
-                {secondCaretUp ? <FaCaretUp /> : <FaCaretDown />}
-            </button>
-        </div>
-    )
-}
+        const handleSecondOption = () => {
+            setSecondCaret(secondCaretUp !== null ? !secondCaretUp : false)
+            setFirstCaret(null)
+        }
+
+        useEffect(() => {
+            /* Runs on componentDidMount aswell, to handle default caret cases */
+            if (objectToSet && prevObject && sortingFunc) {
+                if (firstCaretUp !== null) {
+                    Sorting(
+                        {
+                            order: firstCaretUp ? 'asc' : 'desc',
+                            key: firstOption.key,
+                        },
+                        { objectToSet, prevObject },
+                        sortingFunc
+                    )
+                } else if (secondCaretUp !== null) {
+                    Sorting(
+                        {
+                            order: secondCaretUp ? 'asc' : 'desc',
+                            key: secondOption.key,
+                        },
+                        { objectToSet, prevObject },
+                        sortingFunc
+                    )
+                }
+                if (ref.current) {
+                    ref.current.getScrollElement().scrollTop = 0
+                }
+            }
+        }, [firstCaretUp, secondCaretUp])
+
+        return (
+            <div className={className}>
+                <button
+                    className={'first-option ' + firstCaretUp}
+                    onClick={handleFirstOption}
+                >
+                    {firstOption.title}
+                    {firstCaretUp === null ? (
+                        <FaCaretUp />
+                    ) : firstCaretUp ? (
+                        <FaCaretUp />
+                    ) : (
+                        <FaCaretDown />
+                    )}
+                </button>
+                <button
+                    className={'second-option ' + secondCaretUp}
+                    onClick={handleSecondOption}
+                >
+                    {secondOption.title}
+                    {secondCaretUp ? <FaCaretUp /> : <FaCaretDown />}
+                </button>
+            </div>
+        )
+    }
+)
 
 const optionShape = {
     key: PropTypes.string.isRequired,

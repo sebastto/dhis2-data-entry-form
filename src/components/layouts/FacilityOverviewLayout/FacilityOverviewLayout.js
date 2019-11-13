@@ -67,6 +67,7 @@ const FacilityOverviewLayout = ({
                 objectToSet={setFacilityCards}
                 prevObject={facilityCards}
                 sortingFunc={facilitySortingFunction}
+                ref={ref}
             />
             {facilityCards ? (
                 <section className="facility-card-section">

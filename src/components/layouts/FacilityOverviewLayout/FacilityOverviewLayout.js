@@ -20,13 +20,6 @@ const FacilityOverviewLayout = ({
     const [searchInput, setSearchInput] = useState('')
     const [facilityCards, setFacilityCards] = useState(null)
 
-    useEffect(() => {
-        if (facilities) {
-            console.log(facilities)
-            setFacilityCards(facilities)
-        }
-    }, [facilities])
-
     const facilitySortingFunction = (a, b) => {
         if (a.deadlines.overDue > b.deadlines.overDue) return 1
         else if (a.deadlines.overDue < b.deadlines.overDue) return -1
@@ -60,10 +53,12 @@ const FacilityOverviewLayout = ({
                 secondOption={{
                     key: 'due',
                     title: 'Forms',
+                    default: true,
+                    defaultState: false,
                 }}
                 onClick={Sorting}
                 objectToSet={setFacilityCards}
-                prevObject={facilityCards}
+                prevObject={facilities}
                 sortingFunc={facilitySortingFunction}
             />
             {facilityCards ? (

@@ -17,10 +17,10 @@ const SortingButtons = props => {
 
     /* Carets by default are with pointy  side up for names (chronoligcal) and for dates (oldest first)*/
     const [firstCaretUp, setFirstCaret] = useState(
-        firstOption.default ? true : null
+        firstOption.default ? firstOption.defaultState : null
     )
     const [secondCaretUp, setSecondCaret] = useState(
-        secondOption.default ? true : null
+        secondOption.default ? secondOption.defaultState : null
     )
 
     /* Set default sorting options when null, follow Windows standard */
@@ -57,7 +57,7 @@ const SortingButtons = props => {
                 )
             }
         }
-    }, [firstCaretUp, secondCaretUp])
+    }, [firstCaretUp, secondCaretUp, prevObject])
 
     return (
         <div className={props.className}>

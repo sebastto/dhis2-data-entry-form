@@ -15,21 +15,22 @@ const SortingButtons = props => {
         prevObject,
     } = props
 
-    /* Carets by default are with pointy  side down for names, opposite for dates*/
+    /* Carets by default are with pointy  side up for names (chronoligcal) and for dates (oldest first)*/
     const [firstCaretUp, setFirstCaret] = useState(
-        firstOption.default ? false : null
+        firstOption.default ? true : null
     )
     const [secondCaretUp, setSecondCaret] = useState(
         secondOption.default ? true : null
     )
 
+    /* Set default sorting options when null, follow Windows standard */
     const handleFirstOption = () => {
-        setFirstCaret(!firstCaretUp)
+        setFirstCaret(firstCaretUp !== null ? !firstCaretUp : true)
         setSecondCaret(null)
     }
 
     const handleSecondOption = () => {
-        setSecondCaret(!secondCaretUp)
+        setSecondCaret(secondCaretUp !== null ? !secondCaretUp : false)
         setFirstCaret(null)
     }
 
@@ -65,8 +66,13 @@ const SortingButtons = props => {
                 onClick={handleFirstOption}
             >
                 {firstOption.title}
-                {/* If null, don't show caret at all. Will always show CaretDown on hover, do we care about this? */}
-                {firstCaretUp ? <FaCaretUp /> : <FaCaretDown />}
+                {firstCaretUp === null ? (
+                    <FaCaretUp />
+                ) : firstCaretUp ? (
+                    <FaCaretUp />
+                ) : (
+                    <FaCaretDown />
+                )}
             </button>
             <button
                 className={'second-option ' + secondCaretUp}

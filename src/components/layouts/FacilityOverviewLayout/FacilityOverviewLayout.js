@@ -27,6 +27,16 @@ const FacilityOverviewLayout = ({
         }
     }, [facilities])
 
+    const facilitySortingFunction = (a, b) => {
+        if (a.deadlines.overDue > b.deadlines.overDue) return 1
+        else if (a.deadlines.overDue < b.deadlines.overDue) return -1
+        else {
+            if (a.deadlines.closeDue > b.deadlines.closeDue) return 1
+            else if (a.deadlines.closeDue < b.deadlines.closeDue) return -1
+        }
+        return 0
+    }
+
     return (
         <div
             className={classNames(
@@ -48,13 +58,13 @@ const FacilityOverviewLayout = ({
                     title: 'Facility Title',
                 }}
                 secondOption={{
-                    key: 'deadlines.expired',
+                    key: 'due',
                     title: 'Forms',
                 }}
                 onClick={Sorting}
                 objectToSet={setFacilityCards}
                 prevObject={facilityCards}
-                sortingFunc={form => form.deadlines.expired}
+                sortingFunc={facilitySortingFunction}
             />
             {facilityCards ? (
                 <section className="facility-card-section">

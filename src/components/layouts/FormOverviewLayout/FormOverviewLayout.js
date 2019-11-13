@@ -13,7 +13,9 @@ import Sorting from '../../../utils/Sorting'
 const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
     const [searchInput, setSearchInput] = useState('')
     const [formStateTab, setFormStateTab] = useState(FormState.NOTSET)
-    const [displayedForms, setDisplayedForms] = useState(null)
+    const [displayedForms, setDisplayedForms] = useState(
+        selectedFacility.dataSets
+    )
 
     const ref = React.createRef()
 
@@ -59,7 +61,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                 }}
                 onClick={Sorting}
                 objectToSet={setDisplayedForms}
-                prevObject={selectedFacility.dataSets}
+                prevObject={displayedForms}
                 sortingFunc={object => object.dueDate}
             />
             <section className="form-overview-form-section">

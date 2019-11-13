@@ -73,6 +73,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                 objectToSet={setDisplayedForms}
                 prevObject={selectedFacility.dataSets}
                 sortingFunc={(a, b) => a.dueDate - b.dueDate}
+                ref={ref}
             />
             <section className="form-overview-form-section">
                 <SimpleBar style={{ height: '100%' }} ref={ref}>

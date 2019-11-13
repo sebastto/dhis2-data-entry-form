@@ -6,15 +6,18 @@ import Sorting from '../../../utils/Sorting'
 
 import './SortingButtons.css'
 
-const SortingButtons = props => {
-    const {
-        firstOption,
-        secondOption,
-        sortingFunc,
-        objectToSet,
-        prevObject,
-    } = props
-
+const SortingButtons = React.forwardRef(
+    (
+        {
+            className,
+            firstOption,
+            secondOption,
+            sortingFunc,
+            objectToSet,
+            prevObject,
+        },
+        ref
+    ) => {
     /* Carets by default are with pointy  side up for names (chronoligcal) and for dates (oldest first)*/
     const [firstCaretUp, setFirstCaret] = useState(
         firstOption.default ? true : null
@@ -55,6 +58,9 @@ const SortingButtons = props => {
                     { objectToSet, prevObject },
                     sortingFunc
                 )
+            }
+            if (ref.current) {
+                ref.current.getScrollElement().scrollTop = 0
             }
         }
     }, [firstCaretUp, secondCaretUp])

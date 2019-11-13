@@ -56,7 +56,7 @@ const SortingButtons = props => {
                 )
             }
         }
-    }, [firstCaretUp, secondCaretUp, prevObject])
+    }, [firstCaretUp, secondCaretUp])
 
     return (
         <div className={props.className}>

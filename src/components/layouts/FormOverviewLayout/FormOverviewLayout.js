@@ -12,14 +12,11 @@ import './FormOverviewLayout.css'
 const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
     const [searchInput, setSearchInput] = useState('')
     const [formStateTab, setFormStateTab] = useState(FormState.NOTSET)
-    const [displayedForms, setDisplayedForms] = useState(
-        selectedFacility.dataSets
-    )
+    const [displayedForms, setDisplayedForms] = useState(undefined)
 
     const ref = React.createRef()
 
     useEffect(() => {
-        setDisplayedForms(selectedFacility.dataSets)
         if (ref.current) {
             ref.current.getScrollElement().scrollTop = 0
         }
@@ -60,30 +57,33 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                     default: true,
                 }}
                 objectToSet={setDisplayedForms}
-                prevObject={displayedForms}
+                prevObject={selectedFacility.dataSets}
                 sortingFunc={object => object.dueDate}
             />
             <section className="form-overview-form-section">
                 <SimpleBar style={{ height: '100%' }} ref={ref}>
-                    {displayedForms.map((form, index) => {
-                        if (
-                            form.title
-                                .toLocaleLowerCase()
-                                .startsWith(searchInput.toLocaleLowerCase()) &&
-                            (form.formState == formStateTab ||
-                                formStateTab == FormState.NOTSET)
-                        ) {
-                            return (
-                                <DataEntryBox
-                                    title={form.title}
-                                    dueDate={form.dueDate}
-                                    formState={form.formState}
-                                    /* form.id is not uniqe, assume form.id + faciliyname is */
-                                    key={form.id + form.displayName}
-                                />
-                            )
-                        }
-                    })}
+                    {displayedForms &&
+                        displayedForms.map((form, index) => {
+                            if (
+                                form.title
+                                    .toLocaleLowerCase()
+                                    .startsWith(
+                                        searchInput.toLocaleLowerCase()
+                                    ) &&
+                                (form.formState == formStateTab ||
+                                    formStateTab == FormState.NOTSET)
+                            ) {
+                                return (
+                                    <DataEntryBox
+                                        title={form.title}
+                                        dueDate={form.dueDate}
+                                        formState={form.formState}
+                                        /* form.id is not uniqe, assume form.id + faciliyname is */
+                                        key={form.id + form.displayName}
+                                    />
+                                )
+                            }
+                        })}
                 </SimpleBar>
             </section>
         </div>

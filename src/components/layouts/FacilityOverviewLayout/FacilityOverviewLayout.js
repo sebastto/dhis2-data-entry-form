@@ -42,7 +42,7 @@ const FacilityOverviewLayout = ({
             <SortingButtons
                 className={'facility-sorting-buttons'}
                 firstOption={{
-                    key: 'title',
+                    key: 'displayName',
                     title: 'Facility Title',
                 }}
                 secondOption={{

@@ -48,8 +48,7 @@ const FacilityCard = ({ id, displayName, readOnly, dataSets, onClick }) => {
 }
 
 FacilityCard.propTypes = {
-    title: PropTypes.string.isRequired,
-    deadlines: PropTypes.object.isRequired,
+    displayName: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
 }
 

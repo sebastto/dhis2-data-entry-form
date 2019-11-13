@@ -17,7 +17,7 @@ export const processDataSets = dataSets => {
                     displayName: dataSet.displayName,
                     dueDate: deadlineInfo.formDates.dueDates[j],
                     formState: deadlineInfo.formStates[j],
-                    instanceNr: j,
+                    instanceNr: j.toString(),
                 })
             }
         }

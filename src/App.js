@@ -21,22 +21,8 @@ const MyApp = () => {
     const [mobileActiveTab, setMobileActiveTab] = useState('facilities')
 
     useEffect(() => {
-        getAllOrganisationData(engine).then(({ organisations, dataSets }) => {
-            const processedDataSets = processDataSets(dataSets)
-            console.log(processedDataSets)
-
-            const processedfacilities = organisations.map(organisation => {
-                return {
-                    id: organisation.id,
-                    displayName: organisation.displayName,
-                    readOnly: organisation.readOnly,
-                    dataSets: processedDataSets[organisation.id],
-                }
-            })
-
-            console.log(processedfacilities)
-
-            setFacilities(processedfacilities)
+        getAllOrganisationData(engine).then(({ organisations }) => {
+            setFacilities(processDataSets(organisations))
         })
     }, [])
 

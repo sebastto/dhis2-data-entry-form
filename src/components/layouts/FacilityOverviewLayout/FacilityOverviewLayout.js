@@ -22,6 +22,7 @@ const FacilityOverviewLayout = ({
 
     useEffect(() => {
         if (facilities) {
+            console.log(facilities)
             setFacilityCards(facilities)
         }
     }, [facilities])

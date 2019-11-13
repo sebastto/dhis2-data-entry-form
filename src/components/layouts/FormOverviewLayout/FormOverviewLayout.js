@@ -57,6 +57,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                     formStateTab={formStateTab}
                     setFormStateTab={setFormStateTab}
                     forms={formStateCount}
+                    myRef={ref}
                 />
             </div>
             <SortingButtons
@@ -103,38 +104,53 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
     )
 }
 
-const FacilityTabs = props => (
+const changeTabs = (func, formState, myRef) => {
+    func(formState)
+    if (myRef.current) {
+        myRef.current.getScrollElement().scrollTop = 0
+    }
+}
+
+const FacilityTabs = ({ formStateTab, setFormStateTab, myRef }) => (
     <TabBar>
         <Tab
-            selected={props.formStateTab === FormState.NOTSET}
-            onClick={() => props.setFormStateTab(FormState.NOTSET)}
+            selected={formStateTab === FormState.NOTSET}
+            onClick={() => changeTabs(setFormStateTab, FormState.NOTSET, myRef)}
         >
             All
         </Tab>
         <Tab
-            selected={props.formStateTab === FormState.CLOSEDUE}
-            onClick={() => props.setFormStateTab(FormState.CLOSEDUE)}
+            selected={formStateTab === FormState.CLOSEDUE}
+            onClick={() =>
+                changeTabs(setFormStateTab, FormState.CLOSEDUE, myRef)
+            }
             disabled={props.forms[FormState.CLOSEDUE] < 1}
         >
             Due soon
         </Tab>
         <Tab
-            selected={props.formStateTab === FormState.OVERDUE}
-            onClick={() => props.setFormStateTab(FormState.OVERDUE)}
+            selected={formStateTab === FormState.OVERDUE}
+            onClick={() =>
+                changeTabs(setFormStateTab, FormState.OVERDUE, myRef)
+            }
             disabled={props.forms[FormState.OVERDUE] < 1}
         >
             Overdue
         </Tab>
         <Tab
-            selected={props.formStateTab === FormState.EXPIRED}
-            onClick={() => props.setFormStateTab(FormState.EXPIRED)}
+            selected={formStateTab === FormState.EXPIRED}
+            onClick={() =>
+                changeTabs(setFormStateTab, FormState.EXPIRED, myRef)
+            }
             disabled={props.forms[FormState.EXPIRED] < 1}
         >
             Expired
         </Tab>
         <Tab
-            selected={props.formStateTab === FormState.COMPLETED}
-            onClick={() => props.setFormStateTab(FormState.COMPLETED)}
+            selected={formStateTab === FormState.COMPLETED}
+            onClick={() =>
+                changeTabs(setFormStateTab, FormState.COMPLETED, myRef)
+            }
             disabled={props.forms[FormState.COMPLETED] < 1}
         >
             Completed

@@ -21,12 +21,12 @@ const Sorting = (
                 )
             }
             break
-        case 'title':
+        case 'displayName':
             if (order === 'asc') {
                 objectToSet(
                     [...prevObject].sort((a, b) =>
-                        a.title.toLocaleLowerCase() >
-                        b.title.toLocaleLowerCase()
+                        a.displayName.toLocaleLowerCase() >
+                        b.displayName.toLocaleLowerCase()
                             ? 1
                             : -1
                     )
@@ -34,8 +34,8 @@ const Sorting = (
             } else if (order === 'desc') {
                 objectToSet(
                     [...prevObject].sort((a, b) =>
-                        a.title.toLocaleLowerCase() >
-                        b.title.toLocaleLowerCase()
+                        a.displayName.toLocaleLowerCase() >
+                        b.displayName.toLocaleLowerCase()
                             ? -1
                             : 1
                     )

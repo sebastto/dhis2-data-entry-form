@@ -42,3 +42,8 @@
 .hidden-form {
     right: -100%;
 }
+
+.form-overview-form-section .simplebar-track.simplebar-vertical {
+    margin-top: 1rem;
+}
+

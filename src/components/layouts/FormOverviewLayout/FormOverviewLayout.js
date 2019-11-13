@@ -3,7 +3,7 @@ import classNames from 'classNames'
 import { TabBar, Tab } from '@dhis2/ui-core'
 import AppHeader from '../../ui/AppHeader/AppHeader'
 import SearchBar from '../../ui/SearchBar/SearchBar'
-import { DataEntryBox, FormState } from '../../ui/DataEntryBox/DataEntryBox'
+import DataEntryBox, { FormState } from '../../ui/DataEntryBox/DataEntryBox'
 import SortingButtons from '../../ui/SortingButtons/SortingButtons'
 import SimpleBar from 'simplebar-react'
 
@@ -51,7 +51,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
             </div>
             <SortingButtons
                 firstOption={{
-                    key: 'title',
+                    key: 'displayName',
                     title: 'Form title',
                 }}
                 secondOption={{
@@ -68,7 +68,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                 <SimpleBar style={{ height: '100%' }} ref={ref}>
                     {displayedForms.map((form, index) => {
                         if (
-                            form.title
+                            form.displayName
                                 .toLocaleLowerCase()
                                 .startsWith(searchInput.toLocaleLowerCase()) &&
                             (form.formState == formStateTab ||
@@ -76,7 +76,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                         ) {
                             return (
                                 <DataEntryBox
-                                    title={form.title}
+                                    displayName={form.displayName}
                                     dueDate={form.dueDate}
                                     formState={form.formState}
                                     /* form.id is not uniqe, assume form.id + faciliyname is */

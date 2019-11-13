@@ -7,7 +7,7 @@ import EditIcon from '../../icons/EditIcon/EditIcon'
 
 import './DataEntryBox.css'
 
-export const DataEntryBox = ({ title, dueDate, formState }) => {
+const DataEntryBox = ({ displayName, dueDate, formState }) => {
     const [collapsed, setCollapsed] = useState(false)
 
     const color = getCardStatusColor(formState)
@@ -21,7 +21,7 @@ export const DataEntryBox = ({ title, dueDate, formState }) => {
                 onClick={() => setCollapsed(!collapsed)}
             >
                 <div className="datacard-content-info">
-                    <p className="titlebox">{title}</p>
+                    <p className="titlebox">{displayName}</p>
                     <p className="datebox-due">{dueString && dueString}</p>
                 </div>
 
@@ -68,7 +68,7 @@ export const FormState = {
 }
 
 DataEntryBox.propTypes = {
-    title: PropTypes.string.isRequired,
+    displayName: PropTypes.string.isRequired,
     dueDate: PropTypes.instanceOf(Date),
     formState: PropTypes.oneOf(Object.values(FormState)),
     viewUrl: PropTypes.string,

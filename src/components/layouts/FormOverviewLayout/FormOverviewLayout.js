@@ -12,15 +12,12 @@ import Sorting from '../../../utils/Sorting'
 
 const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
     const [searchInput, setSearchInput] = useState('')
-    const [displayedForms, setDisplayedForms] = useState(
-        selectedFacility.dataSets
-    )
     const [formStateTab, setFormStateTab] = useState(FormState.NOTSET)
+    const [displayedForms, setDisplayedForms] = useState(null)
+
     const ref = React.createRef()
 
     useEffect(() => {
-        setDisplayedForms(selectedFacility.dataSets)
-
         if (ref.current) {
             ref.current.getScrollElement().scrollTop = 0
         }
@@ -50,6 +47,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                 />
             </div>
             <SortingButtons
+                key={selectedFacility.displayName}
                 firstOption={{
                     key: 'title',
                     title: 'Form title',
@@ -61,7 +59,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                 }}
                 onClick={Sorting}
                 objectToSet={setDisplayedForms}
-                prevObject={displayedForms}
+                prevObject={selectedFacility.dataSets}
                 sortingFunc={object => object.dueDate}
             />
             <section className="form-overview-form-section">

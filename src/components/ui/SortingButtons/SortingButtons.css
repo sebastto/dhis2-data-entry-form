@@ -37,6 +37,10 @@
     outline: 0;
 }
 
+.form-overview-container .second-option {
+    padding-right: 25px
+}
+
 svg {
     margin: 0 0 -0.1rem 0.2rem;
     color: black;

@@ -23,6 +23,8 @@ export const processDataSets = organisations => {
                 displayName: TextFormatter(dataSet.displayName),
                 dueDate: deadlineInfo.formDates.dueDate,
                 formState: deadlineInfo.formState,
+                periodType: dataSet.periodType,
+                expiryDate: deadlineInfo.formDates.expiryDate,
             }
         })
         organisations[index].deadlines = deadlines
@@ -200,7 +202,7 @@ const getFormDates = dataSet => {
         periodStart.getTime() + dataSet.timelyDays * 24 * 60 * 60 * 1000
     )
     const expiryDate =
-        dataSet.expiryDays > 0
+        dataSet.expiryDays != 0
             ? new Date(
                   periodEnd.getTime() +
                       (dataSet.timelyDays + dataSet.expiryDays) *

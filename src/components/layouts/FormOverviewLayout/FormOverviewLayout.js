@@ -13,6 +13,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
     const [searchInput, setSearchInput] = useState('')
     const [formStateTab, setFormStateTab] = useState(FormState.NOTSET)
     const [displayedForms, setDisplayedForms] = useState(undefined)
+    const [formStateCount, setFormStateCount] = useState({})
 
     const ref = React.createRef()
 
@@ -20,6 +21,18 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
         if (ref.current) {
             ref.current.getScrollElement().scrollTop = 0
         }
+
+        const count = {}
+        count[FormState.NOTCLOSEDUE] = 0
+        count[FormState.CLOSEDUE] = 0
+        count[FormState.OVERDUE] = 0
+        count[FormState.EXPIRED] = 0
+        count[FormState.COMPLETED] = 0
+        selectedFacility.dataSets.forEach(dataSet => {
+            count[dataSet.formState] += 1
+        })
+
+        setFormStateCount(count)
     }, [selectedFacility])
 
     return (
@@ -43,6 +56,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                 <FacilityTabs
                     formStateTab={formStateTab}
                     setFormStateTab={setFormStateTab}
+                    forms={formStateCount}
                 />
             </div>
             <SortingButtons
@@ -99,24 +113,28 @@ const FacilityTabs = props => (
         <Tab
             selected={props.formStateTab === FormState.CLOSEDUE}
             onClick={() => props.setFormStateTab(FormState.CLOSEDUE)}
+            disabled={props.forms[FormState.CLOSEDUE] < 1}
         >
             Due soon
         </Tab>
         <Tab
             selected={props.formStateTab === FormState.OVERDUE}
             onClick={() => props.setFormStateTab(FormState.OVERDUE)}
+            disabled={props.forms[FormState.OVERDUE] < 1}
         >
             Overdue
         </Tab>
         <Tab
             selected={props.formStateTab === FormState.EXPIRED}
             onClick={() => props.setFormStateTab(FormState.EXPIRED)}
+            disabled={props.forms[FormState.EXPIRED] < 1}
         >
             Expired
         </Tab>
         <Tab
             selected={props.formStateTab === FormState.COMPLETED}
             onClick={() => props.setFormStateTab(FormState.COMPLETED)}
+            disabled={props.forms[FormState.COMPLETED] < 1}
         >
             Completed
         </Tab>

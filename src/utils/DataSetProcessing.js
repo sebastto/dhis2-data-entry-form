@@ -176,7 +176,7 @@ const getFormDates = dataSet => {
         default:
             console.warn(
                 'Unhandled periodType: ' +
-                    periodType +
+                    dataSet.periodType +
                     '. Due date was simply set one week ahead'
             )
             periodEnd.setDate(periodEnd.getDate() + 7)

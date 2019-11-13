@@ -19,8 +19,8 @@ const allChildOrganisationUnits = {
 const completeForms = {
     myData: {
         resource: 'completeDataSetRegistrations',
-        id: ({ organisationId, dataSetId, period }) =>
-            `?orgUnit=${organisationId}&dataSet=${dataSetId}&period=${period}`,
+        id: ({ organisationId, dataSetId, startDate, endDate }) =>
+            `?orgUnit=${organisationId}&dataSet=${dataSetId}&startDate=${startDate}&endDate=${endDate}`,
     },
 }
 
@@ -100,19 +100,18 @@ export const getAllOrganisationData = async engine => {
  * 2004S1; January-June(half-year) 2004. 2004; 2004
  *
  */
-export const getCompleteForm = (organisationId, dataSetId, period) => {
-    const { error, data } = useDataQuery(completeForms, {
+export const getCompleteForm = async (
+    { organisationId, dataSetId, startDate, endDate },
+    engine
+) => {
+    const { myData } = await engine.query(completeForms, {
         variables: {
             organisationId,
             dataSetId,
-            period,
+            startDate,
+            endDate,
         },
     })
 
-    {
-        error && `ERROR: ${error.message}`
-    }
-    if (data && data.myData) {
-        return data.myData
-    }
+    return myData
 }

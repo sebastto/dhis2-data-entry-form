@@ -79,7 +79,11 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                                         dueDate={form.dueDate}
                                         formState={form.formState}
                                         /* form.id is not uniqe, assume form.id + faciliyname is */
-                                        key={form.id + form.displayName}
+                                        key={
+                                            form.id +
+                                            form.instanceNr +
+                                            form.displayName
+                                        }
                                     />
                                 )
                             }

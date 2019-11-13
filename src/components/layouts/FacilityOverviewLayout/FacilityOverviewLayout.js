@@ -15,6 +15,7 @@ const FacilityOverviewLayout = ({
     mobileView,
     facilities,
     setSelectedFacility,
+    setMobileActiveTab,
 }) => {
     const [searchInput, setSearchInput] = useState('')
     const [facilityCards, setFacilityCards] = useState(null)
@@ -42,7 +43,7 @@ const FacilityOverviewLayout = ({
             <SortingButtons
                 className={'facility-sorting-buttons'}
                 firstOption={{
-                    key: 'title',
+                    key: 'displayName',
                     title: 'Facility Title',
                 }}
                 secondOption={{
@@ -68,6 +69,7 @@ const FacilityOverviewLayout = ({
                                         {...facilityCard}
                                         onClick={() => {
                                             setSelectedFacility(facilityCard)
+                                            setMobileActiveTab('forms')
                                             console.log('Set facility:')
                                             console.log(facilityCard)
                                         }}

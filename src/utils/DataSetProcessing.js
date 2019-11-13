@@ -10,7 +10,7 @@ export const processDataSets = dataSets => {
             const deadlineInfo = getFormDeadlineInfo(dataSet)
             return {
                 id: dataSet.id,
-                title: dataSet.title,
+                displayName: dataSet.displayName,
                 dueDate: deadlineInfo.formDates.dueDate,
                 formState: deadlineInfo.formState,
             }
@@ -176,7 +176,7 @@ const getFormDates = dataSet => {
         default:
             console.warn(
                 'Unhandled periodType: ' +
-                    periodType +
+                    dataSet.periodType +
                     '. Due date was simply set one week ahead'
             )
             periodEnd.setDate(periodEnd.getDate() + 7)

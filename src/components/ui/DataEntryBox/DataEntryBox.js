@@ -7,7 +7,13 @@ import EditIcon from '../../icons/EditIcon/EditIcon'
 
 import './DataEntryBox.css'
 
-export const DataEntryBox = ({ title, dueDate, formState }) => {
+export const DataEntryBox = ({
+    displayName,
+    dueDate,
+    formState,
+    viewUrl,
+    editUrl,
+}) => {
     const [collapsed, setCollapsed] = useState(false)
 
     const color = getCardStatusColor(formState)
@@ -21,7 +27,7 @@ export const DataEntryBox = ({ title, dueDate, formState }) => {
                 onClick={() => setCollapsed(!collapsed)}
             >
                 <div className="datacard-content-info">
-                    <p className="titlebox">{title}</p>
+                    <p className="titlebox">{displayName}</p>
                     <p className="datebox-due">{dueString && dueString}</p>
                 </div>
 
@@ -29,14 +35,14 @@ export const DataEntryBox = ({ title, dueDate, formState }) => {
                     <ButtonStrip middle className="data-card-button-strip">
                         <Button
                             type="button"
-                            onClick={() => window.open(props.viewUrl)}
+                            onClick={() => window.open(viewUrl)}
                         >
                             <ViewIcon />
                             <p className="datacard-icon-group-text">View</p>
                         </Button>
                         <Button
                             type="button"
-                            onClick={() => window.open(props.editUrl)}
+                            onClick={() => window.open(editUrl)}
                         >
                             <EditIcon />
                             <p className="datacard-icon-group-text">Edit</p>
@@ -49,12 +55,11 @@ export const DataEntryBox = ({ title, dueDate, formState }) => {
 }
 
 const StatusColors = {
-    OVERDUE: '#891515', // red
-    CLOSEDUE: '#FFC324', // yellow
-    NOTCLOSEDUE: 'blue', // blue
-    COMPLETED: 'green', // green
-    EXPIRED: 'gray', // gray
-    //LOCKED: '#212934',    // black
+    OVERDUE: '#891515', // dhis2 critical red
+    CLOSEDUE: '#FFC324', // dhis2 warning yellow
+    NOTCLOSEDUE: '#212934', // dhis2 default black
+    COMPLETED: '#1b5e20', // dhis2 success green
+    EXPIRED: '#a0adba', // dhis2 disabled gray
 }
 
 export const FormState = {
@@ -68,7 +73,7 @@ export const FormState = {
 }
 
 DataEntryBox.propTypes = {
-    title: PropTypes.string.isRequired,
+    displayName: PropTypes.string.isRequired,
     dueDate: PropTypes.instanceOf(Date),
     formState: PropTypes.oneOf(Object.values(FormState)),
     viewUrl: PropTypes.string,

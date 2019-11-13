@@ -7,7 +7,7 @@
 .form-overview-form-section {
     width: 100%;
     max-width: 40rem;
-    margin: 1rem auto 0;
+    margin: 0 auto 1rem auto;
     height: 100vh;
     overflow: hidden;
 }
@@ -42,3 +42,8 @@
 .hidden-form {
     right: -100%;
 }
+
+.form-overview-form-section .simplebar-track.simplebar-vertical {
+    margin-top: 1rem;
+}
+

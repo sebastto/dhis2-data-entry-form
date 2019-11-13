@@ -5,15 +5,19 @@
 
 .facility-card {
     border: none;
-    padding: 3px;
+    padding: 0.5rem 1.25rem;
     font-size: 1.2rem;
     width: 100%;
     line-height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: inherit;
+    background: #e3f2ff;
     outline: 0;
+}
+
+.facility-card:nth-child(even) {
+  background: inherit;
 }
 
 .facility-card:hover {
@@ -24,21 +28,28 @@
 
 .facility-card-title {
     font-size: medium;
-    margin: 0 4rem 0 2rem;
     text-align: left;
     width: 50%;
 }
 
 .facility-card-deadlines {
     width: 50%;
+    align-items: right;
+    float: right;
 }
 
 .chip-expired {
+    justify-content: center;
     background-color: var(--error-color) !important;
     color: #ffffff !important;
+    width: 2.7rem;
+    float: right;
 }
 
 .chip-due {
+    justify-content: center;
     background-color: var(--warning-color) !important;
     color: #ffffff !important;
+    width: 2.7rem;
+    float: right;
 }

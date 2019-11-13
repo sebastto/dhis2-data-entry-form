@@ -1,35 +1,7 @@
 import { FormState } from '../components/ui/DataEntryBox/DataEntryBox'
 import { TextFormatter } from './Formatter'
 
-/*export const processDataSets = dataSets => {
-    const processedDataSets = {}
-    let i = 0
-    let j = 0
-    for (const key in dataSets) {
-        const facilityDataSets = dataSets[key]
-        const holder = []
-
-        for (i = 0; i < facilityDataSets.length; i++) {
-            const dataSet = facilityDataSets[i]
-            const deadlineInfo = getFormDeadlineInfo(dataSet)
-            for (j = 0; j < deadlineInfo.formDates.dueDates.length; j++) {
-                holder.push({
-                    id: dataSets.id,
-                    displayName: dataSet.displayName,
-                    dueDate: deadlineInfo.formDates.dueDates[j],
-                    formState: deadlineInfo.formStates[j],
-                    instanceNr: j.toString(),
-                })
-            }
-        }
-        processedDataSets[key] = holder.slice()
-    }
-    return processedDataSets
-}*/
-
 export const processDataSets = organisations => {
-    let i = 0
-    let j = 0
     for (const index in organisations) {
         const holder = []
         const deadlines = {
@@ -38,10 +10,10 @@ export const processDataSets = organisations => {
         }
         const facilityDataSets = organisations[index].dataSets
 
-        for (i = 0; i < facilityDataSets.length; i++) {
+        for (let i = 0; i < facilityDataSets.length; i++) {
             const dataSet = facilityDataSets[i]
             const deadlineInfo = getFormDeadlineInfo(dataSet)
-            for (j = 0; j < deadlineInfo.formDates.dueDates.length; j++) {
+            for (let j = 0; j < deadlineInfo.formDates.dueDates.length; j++) {
                 if (deadlineInfo.formStates[j] === FormState.CLOSEDUE) {
                     deadlines.closeDue += 1
                 } else if (deadlineInfo.formStates[j] === FormState.OVERDUE) {
@@ -75,9 +47,8 @@ const getFormDeadlineInfo = dataSet => {
     // Set the forms state
     let formState = undefined
     const formStates = []
-    let i = 0
 
-    for (i = 0; i < formDates.dueDates.length; i++) {
+    for (let i = 0; i < formDates.dueDates.length; i++) {
         if (formCompleted) {
             formState = FormState.COMPLETED
         } else if (
@@ -113,7 +84,6 @@ const getFormDates = dataSet => {
     let quarter = -1
     let quarterMonth = -1
     let shift = -1
-    let i = 0
 
     switch (dataSet.periodType) {
         /*
@@ -138,7 +108,7 @@ const getFormDates = dataSet => {
 
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (i = 0; i < 4; i++) {
+            for (let i = 0; i < 4; i++) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd = new Date(periodEnd.setDate(periodEnd.getDate() - 7))
@@ -170,7 +140,7 @@ const getFormDates = dataSet => {
 
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (i = 0; i < 3; i++) {
+            for (let i = 0; i < 3; i++) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd = new Date(
@@ -188,7 +158,7 @@ const getFormDates = dataSet => {
             periodStart = new Date(periodEnd.getFullYear(), month, 1)
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (i = 0; i < 3; i++) {
+            for (let i = 0; i < 3; i++) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd = new Date(
@@ -219,7 +189,7 @@ const getFormDates = dataSet => {
             periodEnd = new Date(periodStart.getFullYear(), month + shift, 0)
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (i = 0; i < 3; i++) {
+            for (let i = 0; i < 3; i++) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd = new Date(
@@ -251,7 +221,7 @@ const getFormDates = dataSet => {
             )
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (i = 0; i < 2; i++) {
+            for (let i = 0; i < 2; i++) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd.setMonth(periodEnd.getMonth() - 3)
@@ -281,7 +251,7 @@ const getFormDates = dataSet => {
             )
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (i = 0; i < 2; i++) {
+            for (let i = 0; i < 2; i++) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd.setDate(20)
@@ -313,7 +283,7 @@ const getFormDates = dataSet => {
             periodStart = new Date(periodStart.getFullYear(), shift, 1)
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (i = 0; i < 2; i++) {
+            for (let i = 0; i < 2; i++) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd.setFullYear(periodEnd.getFullYear() - 1)
@@ -331,7 +301,7 @@ const getFormDates = dataSet => {
             periodStart.setDate(periodEnd.getDate() + -7)
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (i = 0; i < 2; i++) {
+            for (let i = 0; i < 2; i++) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd = new Date(
@@ -344,7 +314,7 @@ const getFormDates = dataSet => {
     }
 
     const dueDates = []
-    for (i = 0; i < periodStarts.length; i++) {
+    for (let i = 0; i < periodStarts.length; i++) {
         dueDates.push(
             new Date(
                 periodStarts[i].getTime() +
@@ -354,7 +324,7 @@ const getFormDates = dataSet => {
     }
 
     const expiryDates = []
-    for (i = 0; i < periodStarts.length; i++) {
+    for (let i = 0; i < periodStarts.length; i++) {
         expiryDates.push(
             dataSet.expiryDays != 0
                 ? new Date(

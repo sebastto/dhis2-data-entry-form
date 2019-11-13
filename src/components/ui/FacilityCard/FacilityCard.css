@@ -17,7 +17,7 @@
 }
 
 .facility-card:nth-child(even) {
-  background: inherit;
+    background: inherit;
 }
 
 .facility-card:hover {

@@ -57,6 +57,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                     formStateTab={formStateTab}
                     setFormStateTab={setFormStateTab}
                     forms={formStateCount}
+                    myRef={ref}
                 />
             </div>
             <SortingButtons
@@ -73,6 +74,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                 objectToSet={setDisplayedForms}
                 prevObject={selectedFacility.dataSets}
                 sortingFunc={(a, b) => a.dueDate - b.dueDate}
+                ref={ref}
             />
             <section className="form-overview-form-section">
                 <SimpleBar style={{ height: '100%' }} ref={ref}>
@@ -106,39 +108,54 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
     )
 }
 
-const FacilityTabs = props => (
+const changeTabs = (func, formState, myRef) => {
+    func(formState)
+    if (myRef.current) {
+        myRef.current.getScrollElement().scrollTop = 0
+    }
+}
+
+const FacilityTabs = ({ formStateTab, setFormStateTab, forms, myRef }) => (
     <TabBar>
         <Tab
-            selected={props.formStateTab === FormState.NOTSET}
-            onClick={() => props.setFormStateTab(FormState.NOTSET)}
+            selected={formStateTab === FormState.NOTSET}
+            onClick={() => changeTabs(setFormStateTab, FormState.NOTSET, myRef)}
         >
             All
         </Tab>
         <Tab
-            selected={props.formStateTab === FormState.CLOSEDUE}
-            onClick={() => props.setFormStateTab(FormState.CLOSEDUE)}
-            disabled={props.forms[FormState.CLOSEDUE] < 1}
+            selected={formStateTab === FormState.CLOSEDUE}
+            onClick={() =>
+                changeTabs(setFormStateTab, FormState.CLOSEDUE, myRef)
+            }
+            disabled={forms[FormState.CLOSEDUE] < 1}
         >
             Due soon
         </Tab>
         <Tab
-            selected={props.formStateTab === FormState.OVERDUE}
-            onClick={() => props.setFormStateTab(FormState.OVERDUE)}
-            disabled={props.forms[FormState.OVERDUE] < 1}
+            selected={formStateTab === FormState.OVERDUE}
+            onClick={() =>
+                changeTabs(setFormStateTab, FormState.OVERDUE, myRef)
+            }
+            disabled={forms[FormState.OVERDUE] < 1}
         >
             Overdue
         </Tab>
         <Tab
-            selected={props.formStateTab === FormState.EXPIRED}
-            onClick={() => props.setFormStateTab(FormState.EXPIRED)}
-            disabled={props.forms[FormState.EXPIRED] < 1}
+            selected={formStateTab === FormState.EXPIRED}
+            onClick={() =>
+                changeTabs(setFormStateTab, FormState.EXPIRED, myRef)
+            }
+            disabled={forms[FormState.EXPIRED] < 1}
         >
             Expired
         </Tab>
         <Tab
-            selected={props.formStateTab === FormState.COMPLETED}
-            onClick={() => props.setFormStateTab(FormState.COMPLETED)}
-            disabled={props.forms[FormState.COMPLETED] < 1}
+            selected={formStateTab === FormState.COMPLETED}
+            onClick={() =>
+                changeTabs(setFormStateTab, FormState.COMPLETED, myRef)
+            }
+            disabled={forms[FormState.COMPLETED] < 1}
         >
             Completed
         </Tab>

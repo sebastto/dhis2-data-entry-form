@@ -20,6 +20,8 @@ const FacilityOverviewLayout = ({
     const [searchInput, setSearchInput] = useState('')
     const [facilityCards, setFacilityCards] = useState(null)
 
+    const ref = React.createRef()
+
     useEffect(() => {
         if (facilities) {
             console.log(facilities)
@@ -68,7 +70,7 @@ const FacilityOverviewLayout = ({
             />
             {facilityCards ? (
                 <section className="facility-card-section">
-                    <SimpleBar style={{ height: '100%' }}>
+                    <SimpleBar style={{ height: '100%' }} ref={ref}>
                         {facilityCards.map((facilityCard, index) => {
                             if (
                                 facilityCard.displayName

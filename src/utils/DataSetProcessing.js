@@ -49,10 +49,12 @@ export const processDataSets = organisations => {
                 }
                 holder.push({
                     id: dataSet.id,
-                    displayName: dataSet.displayName,
+                    displayName: TextFormatter(dataSet.displayName),
                     dueDate: deadlineInfo.formDates.dueDates[j],
                     formState: deadlineInfo.formStates[j],
                     instanceNr: j.toString(),
+                    periodType: dataSet.periodType,
+                    expiryDate: deadlineInfo.formDates.expiryDates[j],
                 })
             }
         }
@@ -354,7 +356,7 @@ const getFormDates = dataSet => {
     const expiryDates = []
     for (i = 0; i < periodStarts.length; i++) {
         expiryDates.push(
-            dataSet.expiryDays > 0
+            dataSet.expiryDays != 0
                 ? new Date(
                       periodEnds[i].getTime() +
                           (dataSet.timelyDays + dataSet.expiryDays) *

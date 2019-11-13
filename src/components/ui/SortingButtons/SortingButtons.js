@@ -2,10 +2,18 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { FaCaretUp, FaCaretDown } from 'react-icons/fa'
 
+import Sorting from '../../../utils/Sorting'
+
 import './SortingButtons.css'
 
 const SortingButtons = props => {
-    const { firstOption, secondOption } = props
+    const {
+        firstOption,
+        secondOption,
+        sortingFunc,
+        objectToSet,
+        prevObject,
+    } = props
 
     /* Carets by default are with pointy  side down for names, opposite for dates*/
     const [firstCaretUp, setFirstCaret] = useState(
@@ -26,11 +34,10 @@ const SortingButtons = props => {
     }
 
     useEffect(() => {
-        const { onClick, objectToSet, prevObject, sortingFunc } = props
         /* Runs on componentDidMount aswell, to handle default caret cases */
-        if (onClick && objectToSet && prevObject && sortingFunc) {
+        if (objectToSet && prevObject && sortingFunc) {
             if (firstCaretUp !== null) {
-                onClick(
+                Sorting(
                     {
                         order: firstCaretUp ? 'asc' : 'desc',
                         key: firstOption.key,
@@ -39,7 +46,7 @@ const SortingButtons = props => {
                     sortingFunc
                 )
             } else if (secondCaretUp !== null) {
-                onClick(
+                Sorting(
                     {
                         order: secondCaretUp ? 'asc' : 'desc',
                         key: secondOption.key,
@@ -49,7 +56,7 @@ const SortingButtons = props => {
                 )
             }
         }
-    }, [firstCaretUp, secondCaretUp])
+    }, [firstCaretUp, secondCaretUp, prevObject])
 
     return (
         <div className={props.className}>
@@ -82,7 +89,6 @@ SortingButtons.propTypes = {
     className: PropTypes.string,
     firstOption: PropTypes.shape(optionShape).isRequired,
     secondOption: PropTypes.shape(optionShape).isRequired,
-    onClick: PropTypes.func.isRequired,
     objectToSet: PropTypes.func.isRequired,
     prevObject: PropTypes.array,
     sortingFunc: PropTypes.func.isRequired,

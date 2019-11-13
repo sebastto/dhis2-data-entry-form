@@ -8,7 +8,6 @@ import SortingButtons from '../../ui/SortingButtons/SortingButtons'
 import SimpleBar from 'simplebar-react'
 
 import './FormOverviewLayout.css'
-import Sorting from '../../../utils/Sorting'
 
 const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
     const [searchInput, setSearchInput] = useState('')
@@ -20,6 +19,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
     const ref = React.createRef()
 
     useEffect(() => {
+        setDisplayedForms(selectedFacility.dataSets)
         if (ref.current) {
             ref.current.getScrollElement().scrollTop = 0
         }
@@ -59,7 +59,6 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                     title: 'Due date',
                     default: true,
                 }}
-                onClick={Sorting}
                 objectToSet={setDisplayedForms}
                 prevObject={displayedForms}
                 sortingFunc={object => object.dueDate}

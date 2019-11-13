@@ -7,7 +7,13 @@ import EditIcon from '../../icons/EditIcon/EditIcon'
 
 import './DataEntryBox.css'
 
-export const DataEntryBox = ({ title, dueDate, formState }) => {
+export const DataEntryBox = ({
+    title,
+    dueDate,
+    formState,
+    viewUrl,
+    editUrl,
+}) => {
     const [collapsed, setCollapsed] = useState(false)
 
     const color = getCardStatusColor(formState)
@@ -29,14 +35,14 @@ export const DataEntryBox = ({ title, dueDate, formState }) => {
                     <ButtonStrip middle className="data-card-button-strip">
                         <Button
                             type="button"
-                            onClick={() => window.open(props.viewUrl)}
+                            onClick={() => window.open(viewUrl)}
                         >
                             <ViewIcon />
                             <p className="datacard-icon-group-text">View</p>
                         </Button>
                         <Button
                             type="button"
-                            onClick={() => window.open(props.editUrl)}
+                            onClick={() => window.open(editUrl)}
                         >
                             <EditIcon />
                             <p className="datacard-icon-group-text">Edit</p>

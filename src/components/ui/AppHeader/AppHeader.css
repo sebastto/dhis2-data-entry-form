@@ -4,6 +4,12 @@
     width: 100%;
 }
 
+.app-header-text-box {
+    width: 100%;
+    max-width: 36rem;
+    margin: 0 auto;
+}
+
 .app-header-title {
     margin: 10px 0;
     font-weight: lighter;

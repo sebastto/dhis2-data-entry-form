@@ -18,7 +18,6 @@ const MyApp = () => {
 
     const [selectedFacility, setSelectedFacility] = useState(null)
     const [facilities, setFacilities] = useState(undefined)
-
     const [mobileActiveTab, setMobileActiveTab] = useState('facilities')
 
     useEffect(() => {
@@ -57,6 +56,7 @@ const MyApp = () => {
                     mobileView={!desktopView ? 'max-width' : ''}
                     facilities={facilities}
                     setSelectedFacility={setSelectedFacility}
+                    setMobileActiveTab={setMobileActiveTab}
                 />
                 {selectedFacility ? (
                     <FormOverviewLayout

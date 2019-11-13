@@ -6,20 +6,7 @@ import { FormState } from '../DataEntryBox/DataEntryBox'
 
 import './FacilityCard.css'
 
-const FacilityCard = ({ id, displayName, readOnly, dataSets, onClick }) => {
-    const deadlines = {
-        closeDue: 0,
-        overDue: 0,
-    }
-
-    dataSets.forEach(dataSet => {
-        if (dataSet.formState === FormState.CLOSEDUE) {
-            deadlines.closeDue = deadlines.closeDue + 1
-        } else if (dataSet.formState === FormState.OVERDUE) {
-            deadlines.overDue = deadlines.overDue + 1
-        }
-    })
-
+const FacilityCard = ({ displayName, onClick, deadlines, ...props }) => {
     return (
         <button className="facility-card" onClick={onClick}>
             <span className="facility-card-title">{displayName}</span>
@@ -47,9 +34,15 @@ const FacilityCard = ({ id, displayName, readOnly, dataSets, onClick }) => {
     )
 }
 
+const deadlineShape = {
+    closeDue: PropTypes.number.isRequired,
+    overDue: PropTypes.number.isRequired,
+}
+
 FacilityCard.propTypes = {
     displayName: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
+    deadlines: PropTypes.shape(deadlineShape).isRequired,
 }
 
 export default FacilityCard

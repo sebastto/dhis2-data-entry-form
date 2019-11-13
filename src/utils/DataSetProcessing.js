@@ -1,6 +1,7 @@
 import { FormState } from '../components/ui/DataEntryBox/DataEntryBox'
+import { TextFormatter } from './Formatter'
 
-export const processDataSets = dataSets => {
+/*export const processDataSets = dataSets => {
     const processedDataSets = {}
     let i = 0
     let j = 0
@@ -22,18 +23,43 @@ export const processDataSets = dataSets => {
             }
         }
         processedDataSets[key] = holder.slice()
-
-        /*processedDataSets[key] = facilityDataSets.map(dataSet => {
-            const deadlineInfo = getFormDeadlineInfo(dataSet)
-            return {
-                id: dataSet.id,
-                displayName: dataSet.displayName,
-                dueDate: deadlineInfo.formDates.dueDates[0],
-                formState: deadlineInfo.formStates[0],
-            }
-        })*/
     }
     return processedDataSets
+}*/
+
+export const processDataSets = organisations => {
+    let i = 0
+    let j = 0
+    for (const index in organisations) {
+        const holder = []
+        const deadlines = {
+            closeDue: 0,
+            overDue: 0,
+        }
+        const facilityDataSets = organisations[index].dataSets
+
+        for (i = 0; i < facilityDataSets.length; i++) {
+            const dataSet = facilityDataSets[i]
+            const deadlineInfo = getFormDeadlineInfo(dataSet)
+            for (j = 0; j < deadlineInfo.formDates.dueDates.length; j++) {
+                if (deadlineInfo.formStates[j] === FormState.CLOSEDUE) {
+                    deadlines.closeDue += 1
+                } else if (deadlineInfo.formStates[j] === FormState.OVERDUE) {
+                    deadlines.overDue += 1
+                }
+                holder.push({
+                    id: dataSet.id,
+                    displayName: dataSet.displayName,
+                    dueDate: deadlineInfo.formDates.dueDates[j],
+                    formState: deadlineInfo.formStates[j],
+                    instanceNr: j.toString(),
+                })
+            }
+        }
+        organisations[index].dataSets = holder.slice()
+        organisations[index].deadlines = deadlines
+    }
+    return organisations
 }
 
 const getFormDeadlineInfo = dataSet => {

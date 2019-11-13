@@ -9,15 +9,11 @@ const Sorting = (
         case 'due':
             if (order === 'asc') {
                 objectToSet(
-                    [...prevObject].sort(
-                        (a, b) => getSortingValue(a) - getSortingValue(b)
-                    )
+                    [...prevObject].sort((a, b) => getSortingValue(a, b))
                 )
             } else if (order === 'desc') {
                 objectToSet(
-                    [...prevObject].sort(
-                        (a, b) => getSortingValue(b) - getSortingValue(a)
-                    )
+                    [...prevObject].sort((a, b) => getSortingValue(b, a))
                 )
             }
             break

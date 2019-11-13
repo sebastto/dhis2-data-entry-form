@@ -5,6 +5,7 @@ import Collapse from '@material-ui/core/Collapse'
 import ViewIcon from '../../icons/ViewIcon/ViewIcon'
 import EditIcon from '../../icons/EditIcon/EditIcon'
 import ExpandIcon from '../../icons/ExpandIcon/ExpandIcon'
+import ShrinkIcon from '../../icons/ShrinkIcon/ShrinkIcon'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import './DataEntryBox.css'
@@ -60,11 +61,7 @@ export const DataEntryBox = ({
                     )}
                     <p className="datebox-due">{dueString && dueString}</p>
                     <div className="icon-holder">
-                        <ExpandIcon
-                            className={
-                                !collapsed ? 'expand-icon' : 'contract-icon'
-                            }
-                        />
+                        {!collapsed ? <ExpandIcon /> : <ShrinkIcon />}
                     </div>
                 </div>
 

@@ -38,21 +38,25 @@
 }
 
 .titlebox {
-    border-right: 1px solid;
+    /*border-right: 1px solid;*/
     padding: 0 1rem;
     width: 80%;
+    align-self: center;
 }
 
 .datebox-due {
     /*padding: 0 1.5rem;*/
     width: 67px;
+    align-self: center;
     text-align: center;
+    margin: 0 1rem;
 }
 
 .datebox-expiration {
     /*padding: 0 1.5rem;*/
     width: 67px;
     text-align: center;
+    margin-left: 1rem;
 }
 
 .data-card-button-strip {
@@ -63,4 +67,51 @@
     margin: 0 0.5rem;
     display: inline;
     vertical-align: middle;
+}
+
+.url-buttons {
+    margin: 1em 0em 1em 0;
+    display: flex;
+    border-right: 1px solid #9a9a9a;
+    border-left: 1px solid #9a9a9a;
+    align-self: center;
+    padding: 0 0.2rem;
+}
+
+.card-button {
+    padding: 0 !important;
+    margin: 0 0.8rem !important;
+    border: none !important;
+    height: max-content !important;
+    flex-direction: column;
+}
+
+.card-button > p {
+    margin: 0;
+}
+
+.card-button:focus::after {
+    outline: none !important;
+    border: none !important;
+}
+
+.card-button:hover {
+    background-color: #e4e8eb !important;
+}
+
+.icon-holder {
+    width: 48px !important;
+}
+
+.expand-icon {
+    align-self: center;
+    margin-right: 0.2rem;
+    width: 48px !important;
+}
+
+.contract-icon {
+    align-self: center;
+    margin-right: 0.2rem;
+    transform: rotate(180deg);
+    width: 48px !important;
 }

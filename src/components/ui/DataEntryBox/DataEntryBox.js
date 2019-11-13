@@ -4,6 +4,8 @@ import { Card, ButtonStrip, Button } from '@dhis2/ui-core'
 import Collapse from '@material-ui/core/Collapse'
 import ViewIcon from '../../icons/ViewIcon/ViewIcon'
 import EditIcon from '../../icons/EditIcon/EditIcon'
+import ExpandIcon from '../../icons/ExpandIcon/ExpandIcon'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import './DataEntryBox.css'
 
@@ -13,11 +15,13 @@ export const DataEntryBox = ({
     formState,
     viewUrl,
     editUrl,
+    periodType,
+    expiryDate,
 }) => {
     const [collapsed, setCollapsed] = useState(false)
-
     const color = getCardStatusColor(formState)
     const dueString = getDateString(dueDate)
+    const mobileView = !useMediaQuery('(min-width:870px)')
 
     return (
         <Card className="datacard box-shadow">
@@ -27,11 +31,49 @@ export const DataEntryBox = ({
                 onClick={() => setCollapsed(!collapsed)}
             >
                 <div className="datacard-content-info">
-                    <p className="titlebox">{displayName}</p>
+                    <p
+                        className="titlebox"
+                        style={{ borderRight: !mobileView ? 0 : '1px solid' }}
+                    >
+                        {displayName}
+                    </p>
+                    {!collapsed && !mobileView && (
+                        <div className="url-buttons">
+                            <Button
+                                className={'card-button'}
+                                type="button"
+                                onClick={() => window.open(viewUrl)}
+                            >
+                                <ViewIcon className="expand-icon" />
+                                <p>View</p>
+                            </Button>
+                            <Button
+                                className={'card-button'}
+                                type="button"
+                                visibility="hidden"
+                                onClick={() => window.open(editUrl)}
+                            >
+                                <EditIcon />
+                                <p>Edit</p>
+                            </Button>
+                        </div>
+                    )}
                     <p className="datebox-due">{dueString && dueString}</p>
+                    <div className="icon-holder">
+                        <ExpandIcon
+                            className={
+                                !collapsed ? 'expand-icon' : 'contract-icon'
+                            }
+                        />
+                    </div>
                 </div>
 
                 <Collapse in={collapsed}>
+                    <p>Period type: {periodType}</p>
+                    <p>
+                        Expiration date (will close at):{' '}
+                        {expiryDate != -1 ? getDateString(expiryDate) : 'Never'}
+                    </p>
                     <ButtonStrip middle className="data-card-button-strip">
                         <Button
                             type="button"

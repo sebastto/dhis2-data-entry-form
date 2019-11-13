@@ -5,8 +5,7 @@
 
 .facility-card {
     border: none;
-    padding: 3px;
-    padding-right: 10px;
+    padding: 0 1.25rem;
     font-size: 1.2rem;
     width: 100%;
     line-height: 100%;
@@ -25,7 +24,6 @@
 
 .facility-card-title {
     font-size: medium;
-    margin: 0 4rem 0 2rem;
     text-align: left;
     width: 50%;
 }

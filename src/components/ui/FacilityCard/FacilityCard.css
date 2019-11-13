@@ -5,15 +5,19 @@
 
 .facility-card {
     border: none;
-    padding: 0 1.25rem;
+    padding: 0.5rem 1.25rem;
     font-size: 1.2rem;
     width: 100%;
     line-height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: inherit;
+    background: #e3f2ff;
     outline: 0;
+}
+
+.facility-card:nth-child(even) {
+  background: inherit;
 }
 
 .facility-card:hover {

@@ -1,23 +1,33 @@
 import { FormState } from '../components/ui/DataEntryBox/DataEntryBox'
+import { TextFormatter } from './Formatter'
 
-export const processDataSets = dataSets => {
-    const processedDataSets = {}
+export const processDataSets = organisations => {
+    for (const index in organisations) {
+        const deadlines = {
+            closeDue: 0,
+            overDue: 0,
+        }
+        const facilityDataSets = organisations[index].dataSets
 
-    for (const key in dataSets) {
-        const facilityDataSets = dataSets[key]
-
-        processedDataSets[key] = facilityDataSets.map(dataSet => {
+        organisations[index].dataSets = facilityDataSets.map(dataSet => {
             const deadlineInfo = getFormDeadlineInfo(dataSet)
+
+            if (deadlineInfo.formState === FormState.CLOSEDUE) {
+                deadlines.closeDue += 1
+            } else if (deadlineInfo.formState === FormState.OVERDUE) {
+                deadlines.overDue += 1
+            }
+
             return {
                 id: dataSet.id,
-                displayName: dataSet.displayName,
+                displayName: TextFormatter(dataSet.displayName),
                 dueDate: deadlineInfo.formDates.dueDate,
                 formState: deadlineInfo.formState,
             }
         })
+        organisations[index].deadlines = deadlines
     }
-
-    return processedDataSets
+    return organisations
 }
 
 const getFormDeadlineInfo = dataSet => {

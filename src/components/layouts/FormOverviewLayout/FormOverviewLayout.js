@@ -63,7 +63,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
             <section className="form-overview-form-section">
                 <SimpleBar style={{ height: '100%' }} ref={ref}>
                     {displayedForms &&
-                        displayedForms.map((form, index) => {
+                        displayedForms.map(form => {
                             if (
                                 form.displayName
                                     .toLocaleLowerCase()
@@ -75,9 +75,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                             ) {
                                 return (
                                     <DataEntryBox
-                                        displayName={form.displayName}
-                                        dueDate={form.dueDate}
-                                        formState={form.formState}
+                                        {...form}
                                         /* form.id is not uniqe, assume form.id + faciliyname is */
                                         key={form.id + form.displayName}
                                     />

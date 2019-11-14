@@ -133,15 +133,13 @@ const getCardStatusColor = formState => {
 }
 
 const getDateString = date => {
-    const dateString = date
+    return date
         .toLocaleDateString('en-GB', {
             year: '2-digit',
             month: '2-digit',
             day: '2-digit',
         })
         .replace(/\//g, '.')
-
-    return dateString
 }
 
 export default DataEntryBox

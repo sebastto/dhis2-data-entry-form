@@ -2,8 +2,10 @@ import { TextFormatter } from './Formatter'
 import {
     BI_MONTHLY,
     BI_WEEKLY,
+    DAYS_IN_A_MONTH,
     DAYS_IN_A_WEEK,
-    DEFAULT_ERROR_PERIODTYPE,
+    DAYS_IN_A_YEAR,
+    DEFAULT_WARN_PERIODTYPE,
     FINANCIAL_APRIL,
     FINANCIAL_JULY,
     FINANCIAL_NOVEMBER,
@@ -330,7 +332,7 @@ const getFormDates = dataSet => {
             }
             break
         default:
-            console.warn(DEFAULT_ERROR_PERIODTYPE(periodType))
+            console.warn(DEFAULT_WARN_PERIODTYPE(periodType))
             periodEnd.setDate(periodEnd.getDate() + 7)
             periodStart.setDate(periodEnd.getDate() + -7)
             periodStart.setHours(0, 0, 0, 0)
@@ -396,25 +398,25 @@ const getFormStateUrgency = (todaysDate, dueDate, periodType) => {
 
     switch (periodType) {
         case WEEKLY:
-            fullDaysToDeadLine = 7
+            fullDaysToDeadLine = DAYS_IN_A_WEEK
             break
         case MONTHLY:
-            fullDaysToDeadLine = 30
+            fullDaysToDeadLine = DAYS_IN_A_MONTH
             break
         case WEEKLY_WEDNESDAY:
-            fullDaysToDeadLine = 7
+            fullDaysToDeadLine = DAYS_IN_A_WEEK
             break
         case QUARTERLY:
-            fullDaysToDeadLine = 365 / 4
+            fullDaysToDeadLine = DAYS_IN_A_YEAR / 4
             break
         case YEARLY:
-            fullDaysToDeadLine = 365
+            fullDaysToDeadLine = DAYS_IN_A_YEAR
             break
         case SIX_MONTHLY:
-            fullDaysToDeadLine = 365 / 2
+            fullDaysToDeadLine = DAYS_IN_A_YEAR / 2
             break
         default:
-            fullDaysToDeadLine = 30
+            fullDaysToDeadLine = DAYS_IN_A_MONTH
     }
 
     if (

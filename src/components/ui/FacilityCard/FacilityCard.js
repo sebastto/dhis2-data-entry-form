@@ -6,11 +6,11 @@ import { VALUE_OVER_99 } from '../../../constants/constants'
 
 import './FacilityCard.css'
 
-const FacilityCard = ({ displayName, onClick, deadlines, ...props }) => {
+const FacilityCard = ({ displayName, onClick, deadlines }) => {
     return (
         <button className="facility-card" onClick={onClick}>
             <span className="facility-card-title">{displayName}</span>
-            <span className="facility-card-deadlines">
+            <span>
                 {deadlines.overDue > 0 ? (
                     <Chip className="chip-expired">
                         {deadlines.overDue > 99

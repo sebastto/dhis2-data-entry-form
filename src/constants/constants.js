@@ -5,6 +5,8 @@ export const FORMS = 'forms'
 /* DATE AND TIME */
 export const MS_IN_A_DAY = 86400000
 export const DAYS_IN_A_WEEK = 7
+export const DAYS_IN_A_YEAR = 365
+export const DAYS_IN_A_MONTH = 30
 export const HOURS_IN_A_DAY = 24
 export const MINUTES_IN_AN_HOUR = 60
 export const SECONDS_IN_AN_HOUR = 3600
@@ -27,7 +29,7 @@ export const FINANCIAL_APRIL = 'FinancialApril'
 export const FINANCIAL_JULY = 'FinancialJuly'
 export const FINANCIAL_OCTOBER = 'FinancialOctober'
 export const FINANCIAL_NOVEMBER = 'FinancialNovember'
-export const DEFAULT_ERROR_PERIODTYPE = periodType =>
+export const DEFAULT_WARN_PERIODTYPE = periodType =>
     'Unhandled periodType: ' +
     periodType +
     '. Due date was simply set one week ahead.'
@@ -54,7 +56,7 @@ export const SORT_DESC = 'desc'
 export const VALUE_OVER_99 = '99+'
 
 /* INTRO TEXT */
-export const INRO_TEXT = 'Choose a facility to get started!'
+export const INTRO_TEXT = 'Choose a facility to get started!'
 
 /* MEDIA QUERIES */
 export const MIN_WIDTH_DATAENTRYBOX = '(min-width:870px)'

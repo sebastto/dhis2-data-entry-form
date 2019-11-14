@@ -89,6 +89,7 @@ const optionShape = {
     key: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     default: PropTypes.bool,
+    defaultState: PropTypes.bool,
 }
 
 SortingButtons.propTypes = {
@@ -104,9 +105,11 @@ SortingButtons.defaultProps = {
     className: 'sortingbuttons-container',
     firstOption: PropTypes.shape({
         default: false,
+        defaultState: true,
     }),
     secondOption: PropTypes.shape({
         default: false,
+        defaultState: true,
     }),
     prevObject: null,
 }

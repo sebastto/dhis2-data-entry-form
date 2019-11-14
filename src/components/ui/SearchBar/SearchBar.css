@@ -6,6 +6,10 @@
     white-space: nowrap;
 }
 
+.search-container label {
+    padding-left: inherit !important;
+}
+
 .search-icon {
     position: absolute;
     margin: 0.7rem 0.3rem;

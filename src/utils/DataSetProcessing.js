@@ -27,8 +27,9 @@ import {
     YEARLY,
 } from '../constants/constants'
 import { FORM_STATE } from '../constants/enums'
+import { getCompleteForm } from '../api/Api'
 
-export const processDataSets = organisations => {
+export const processDataSets = (organisations, engine) => {
     for (const index in organisations) {
         const holder = []
         const deadlines = {
@@ -48,18 +49,103 @@ export const processDataSets = organisations => {
                 }
                 holder.push({
                     id: dataSet.id,
+                    organisationId: organisations[index].id,
                     displayName: TextFormatter(dataSet.displayName),
                     dueDate: deadlineInfo.formDates.dueDates[j],
                     formState: deadlineInfo.formStates[j],
                     instanceNr: j.toString(),
                     periodType: dataSet.periodType,
                     expiryDate: deadlineInfo.formDates.expiryDates[j],
+                    periodStarts: deadlineInfo.formDates.periodStarts,
+                    periodEnds: deadlineInfo.formDates.periodEnds,
                 })
             }
         }
         organisations[index].dataSets = holder.slice()
         organisations[index].deadlines = deadlines
     }
+
+    // Test for completed form
+
+    // console.log(queryDataSets)
+
+    // Kall så med alle orgUnits som er relevante for hver periodType(liste av dataSets), så maks 17 kall, men i praksis rundt 6-8.
+
+    // så perioden man bruker i api-kallet blir periodStart til periodEnd
+
+    /*
+        Ta foresten å send et kall per periode bakover,
+        eks 200401(2004-01-01 og 2004-01-31)
+        200402(2004-02-01 og 2004-02-28)
+        så slipper du å håndtere forskjellene mellom forskjellige perioder
+    */
+
+    // Get datasets by periodType
+
+    const dataSetsByPeriodType = {}
+
+    for (const facility of organisations) {
+        for (const dataSet of facility.dataSets) {
+            const periodType = dataSet.periodType
+
+            if (!dataSetsByPeriodType[periodType]) {
+                dataSetsByPeriodType[periodType] = []
+            }
+
+            dataSetsByPeriodType[periodType].push(dataSet)
+        }
+    }
+
+    // Need to find earliest periodStart and latest periodEnd
+
+    const queryInfoByPeriodType = {}
+
+    for (const periodType in dataSetsByPeriodType) {
+        ;[]
+        let earliestPeriodStart = undefined
+        let latestPeriodEnd = undefined
+
+        queryInfoByPeriodType[periodType] = {}
+        const periodDataSets = dataSetsByPeriodType[periodType]
+        const queryInfoOrganisations = []
+        const queryInfoDataSets = []
+
+        for (const dataSet of periodDataSets) {
+            for (const periodStart of dataSet.periodStarts) {
+                if (periodStart < earliestPeriodStart || !earliestPeriodStart) {
+                    earliestPeriodStart = periodStart
+                }
+            }
+
+            for (const periodEnd of dataSet.periodEnds) {
+                if (periodEnd > latestPeriodEnd || !latestPeriodEnd) {
+                    latestPeriodEnd = periodEnd
+                }
+            }
+
+            if (!queryInfoOrganisations.includes(dataSet.organisationId)) {
+                queryInfoOrganisations.push(dataSet.organisationId)
+            }
+
+            if (!queryInfoDataSets.includes(dataSet.id)) {
+                queryInfoDataSets.push(dataSet.id)
+            }
+        }
+
+        queryInfoByPeriodType[periodType][
+            'startDate'
+        ] = earliestPeriodStart.toISOString().substring(0, 10)
+        queryInfoByPeriodType[periodType][
+            'endDate'
+        ] = latestPeriodEnd.toISOString().substring(0, 10)
+        queryInfoByPeriodType[periodType][
+            'organizations'
+        ] = queryInfoOrganisations
+        queryInfoByPeriodType[periodType]['dataSets'] = queryInfoDataSets
+    }
+
+    console.log(queryInfoByPeriodType)
+
     return organisations
 }
 

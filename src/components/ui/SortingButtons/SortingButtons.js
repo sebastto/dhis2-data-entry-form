@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { FaCaretDown, FaCaretUp } from 'react-icons/fa'
 import PropTypes from 'prop-types'
 
 import CaretUpIcon from '../../icons/CaretUpIcon/CaretUpIcon'

@@ -22,6 +22,14 @@
     border: none !important;
 }
 
+@media only screen and (max-width: 400px) {
+    .tab {
+        border: none !important;
+        padding-right: 6px !important;
+        padding-left: 6px !important;
+    }
+}
+
 .form-overview-container {
     width: 100%;
     max-height: inherit;

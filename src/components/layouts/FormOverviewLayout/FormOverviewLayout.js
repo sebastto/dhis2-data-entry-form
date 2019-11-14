@@ -28,6 +28,8 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
     const ref = React.createRef()
 
     useEffect(() => {
+        setFormStateTab(FormState.NOTSET)
+
         if (ref.current) {
             ref.current.getScrollElement().scrollTop = 0
         }

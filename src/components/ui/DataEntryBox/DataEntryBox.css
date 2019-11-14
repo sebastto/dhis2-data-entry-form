@@ -70,7 +70,7 @@
 }
 
 .url-buttons {
-    margin: 1em 0em 1em 0;
+    margin: 1em 0;
     display: flex;
     border-right: 1px solid #9a9a9a;
     border-left: 1px solid #9a9a9a;
@@ -103,7 +103,8 @@
     align-self: center;
 }
 
-.expand-icon, .shrink-icon {
+.expand-icon,
+.shrink-icon {
     width: 30px;
     padding-right: 10px;
 }

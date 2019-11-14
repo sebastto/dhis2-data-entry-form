@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import classNames from 'classNames'
-import SortingButtons from '../../ui/SortingButtons/SortingButtons'
-import SearchBar from '../../ui/SearchBar/SearchBar'
-import FacilityCard from '../../ui/FacilityCard/FacilityCard'
 import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
+
+import FacilityCard from '../../ui/FacilityCard/FacilityCard'
 import FacilityPlaceholder from '../../ui/Placeholders/FacilityPlaceholder'
+import SearchBar from '../../ui/SearchBar/SearchBar'
+import Sorting from '../../../utils/Sorting'
+import SortingButtons from '../../ui/SortingButtons/SortingButtons'
+import {
+    FACILITY_SEARCH_PLACEHOLDER,
+    FACILITY_TITLE,
+    FORMS_TITLE,
+    SORTING_KEY_DUE,
+    SORTING_KEY_NAME,
+} from '../../../constants/constants'
 
 import './FacilityOverviewLayout.css'
-import Sorting from '../../../utils/Sorting'
 
 const FacilityOverviewLayout = ({
     hidden,
@@ -50,18 +58,18 @@ const FacilityOverviewLayout = ({
             <h2 className="facility-overview-title">Facilities</h2>
             <SearchBar
                 value={searchInput}
-                placeholder="Search facility"
+                placeholder={FACILITY_SEARCH_PLACEHOLDER}
                 onChange={event => setSearchInput(event.target.value)}
             />
             <SortingButtons
                 className={'facility-sorting-buttons'}
                 firstOption={{
-                    key: 'displayName',
-                    title: 'Facility Title',
+                    key: SORTING_KEY_NAME,
+                    title: FACILITY_TITLE,
                 }}
                 secondOption={{
-                    key: 'due',
-                    title: 'Forms',
+                    key: SORTING_KEY_DUE,
+                    title: FORMS_TITLE,
                 }}
                 onClick={Sorting}
                 objectToSet={setFacilityCards}

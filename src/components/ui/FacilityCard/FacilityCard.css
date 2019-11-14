@@ -17,7 +17,7 @@
 }
 
 .facility-card:nth-child(even) {
-  background: inherit;
+    background: inherit;
 }
 
 .facility-card:hover {
@@ -30,12 +30,6 @@
     font-size: medium;
     text-align: left;
     width: 50%;
-}
-
-.facility-card-deadlines {
-    width: 50%;
-    align-items: right;
-    float: right;
 }
 
 .chip-expired {

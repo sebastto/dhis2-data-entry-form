@@ -25,5 +25,5 @@
 }
 
 .hidden-facility {
-    right: 100%;
+    right: 100% !important;
 }

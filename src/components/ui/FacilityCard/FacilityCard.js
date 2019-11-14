@@ -20,7 +20,7 @@ const FacilityCard = ({ displayName, onClick, deadlines, readOnly }) => {
             ) : (
                 ''
             )}
-            <span>
+            <span className="chip-container">
                 {deadlines.overDue > 0 ? (
                     <Chip className="chip-expired">
                         {deadlines.overDue > 99

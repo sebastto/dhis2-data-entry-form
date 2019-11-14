@@ -22,9 +22,16 @@
 }
 
 .facility-card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: medium;
     text-align: left;
-    /*width: var(--FACILITY-CARD-TITLE-WIDTH);*/
+    width: var(--FACILITY-CARD-TITLE-WIDTH);
+}
+
+.chip-container {
+    width: 30%;
 }
 
 .chip-expired {

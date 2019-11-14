@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const SearchIcon = props => {
-    const { className } = props
+const SearchIcon = ({ className }) => {
     return (
         <svg
             className={className}

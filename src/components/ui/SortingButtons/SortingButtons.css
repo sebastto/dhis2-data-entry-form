@@ -20,6 +20,11 @@
     background: none;
     cursor: pointer;
 }
+.first-option > svg,
+.second-option > svg {
+    margin: 0 0 -0.1rem 0.2rem;
+    color: black;
+}
 
 .first-option.null > svg,
 .second-option.null > svg {
@@ -39,9 +44,4 @@
 
 .form-overview-container .second-option {
     padding-right: 25px;
-}
-
-svg {
-    margin: 0 0 -0.1rem 0.2rem;
-    color: black;
 }

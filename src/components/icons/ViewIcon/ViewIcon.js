@@ -1,8 +1,10 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-const ViewIcon = () => {
+const ViewIcon = ({ className }) => {
     return (
         <svg
+            className={className}
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
@@ -15,6 +17,10 @@ const ViewIcon = () => {
             />
         </svg>
     )
+}
+
+ViewIcon.propTypes = {
+    className: PropTypes.string,
 }
 
 export default ViewIcon

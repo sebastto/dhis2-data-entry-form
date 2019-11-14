@@ -20,8 +20,4 @@ ShrinkIcon.propTypes = {
     className: PropTypes.string,
 }
 
-ShrinkIcon.defaultProps = {
-    className: 'shrink-icon',
-}
-
 export default ShrinkIcon

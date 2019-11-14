@@ -43,7 +43,9 @@
     position: fixed;
     transition: right 0.3s;
     right: 0;
-    max-height: calc(100vh - var(--DHIS2-HEADER-HEIGHT) - var(--NAVBAR-HEIGHT)) !important;
+    max-height: calc(
+        100vh - var(--DHIS2-HEADER-HEIGHT) - var(--NAVBAR-HEIGHT)
+    ) !important;
     min-height: 0;
 }
 

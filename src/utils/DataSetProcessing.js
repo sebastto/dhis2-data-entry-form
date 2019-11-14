@@ -2,6 +2,7 @@ import { TextFormatter } from './Formatter'
 import {
     BI_MONTHLY,
     BI_WEEKLY,
+    BIWEEKLY_AND_MONTHLY_INSTANCES,
     DAYS_IN_A_MONTH,
     DAYS_IN_A_WEEK,
     DAYS_IN_A_YEAR,
@@ -14,12 +15,15 @@ import {
     MINUTES_IN_AN_HOUR,
     MONTHLY,
     MS_IN_A_DAY,
+    MS_IN_A_SECONDS,
     QUARTERLY,
+    QUARTERLY_SIX_MONTHLY_AND_YEARLY_INSTANCES,
     SECONDS_IN_AN_HOUR,
     SIX_MONTHLY,
     SIX_MONTHLY_APRIL,
     SIX_MONTHLY_NOVEMBER,
     WEEKLY,
+    WEEKLY_INSTANCES,
     WEEKLY_SATURDAY,
     WEEKLY_SUNDAY,
     WEEKLY_THURSDAY,
@@ -133,12 +137,12 @@ const getFormDates = dataSet => {
                         HOURS_IN_A_DAY *
                         MINUTES_IN_AN_HOUR *
                         MINUTES_IN_AN_HOUR *
-                        1000
+                        MS_IN_A_SECONDS
             )
 
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (let i = 0; i < 4; i++) {
+            for (let i = 0; i < WEEKLY_INSTANCES; i++) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd = new Date(
@@ -146,7 +150,7 @@ const getFormDates = dataSet => {
                 )
                 periodEnd.setHours(23, 59, 59, 999)
                 periodStart = new Date(
-                    periodStart.setDate(periodStart.getDate() - 7)
+                    periodStart.setDate(periodStart.getDate() - DAYS_IN_A_WEEK)
                 )
             }
             break
@@ -172,13 +176,13 @@ const getFormDates = dataSet => {
                         HOURS_IN_A_DAY *
                         MINUTES_IN_AN_HOUR *
                         MINUTES_IN_AN_HOUR *
-                        1000 *
+                        MS_IN_A_SECONDS *
                         2
             )
 
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i < BIWEEKLY_AND_MONTHLY_INSTANCES; i++) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd = new Date(
@@ -198,7 +202,7 @@ const getFormDates = dataSet => {
             periodStart = new Date(periodEnd.getFullYear(), month, 1)
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i < BIWEEKLY_AND_MONTHLY_INSTANCES; i++) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd = new Date(
@@ -229,7 +233,7 @@ const getFormDates = dataSet => {
             periodEnd = new Date(periodStart.getFullYear(), month + shift, 0)
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i < BIWEEKLY_AND_MONTHLY_INSTANCES; i++) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd = new Date(
@@ -261,7 +265,11 @@ const getFormDates = dataSet => {
             )
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (let i = 0; i < 2; i++) {
+            for (
+                let i = 0;
+                i < QUARTERLY_SIX_MONTHLY_AND_YEARLY_INSTANCES;
+                i++
+            ) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd.setMonth(periodEnd.getMonth() - 3)
@@ -291,7 +299,11 @@ const getFormDates = dataSet => {
             )
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (let i = 0; i < 2; i++) {
+            for (
+                let i = 0;
+                i < QUARTERLY_SIX_MONTHLY_AND_YEARLY_INSTANCES;
+                i++
+            ) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd.setDate(20)
@@ -323,7 +335,11 @@ const getFormDates = dataSet => {
             periodStart = new Date(periodStart.getFullYear(), shift, 1)
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (let i = 0; i < 2; i++) {
+            for (
+                let i = 0;
+                i < QUARTERLY_SIX_MONTHLY_AND_YEARLY_INSTANCES;
+                i++
+            ) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd.setFullYear(periodEnd.getFullYear() - 1)
@@ -333,11 +349,11 @@ const getFormDates = dataSet => {
             break
         default:
             console.warn(DEFAULT_WARN_PERIODTYPE(dataSet.periodType))
-            periodEnd.setDate(periodEnd.getDate() + 7)
-            periodStart.setDate(periodEnd.getDate() + -7)
+            periodEnd.setDate(periodEnd.getDate() + DAYS_IN_A_WEEK)
+            periodStart.setDate(periodEnd.getDate() + -DAYS_IN_A_WEEK)
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (let i = 0; i < 2; i++) {
+            for (let i = 0; i < UNHANDLED_PERIODTYPE_INSTANCES; i++) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd = new Date(
@@ -346,7 +362,7 @@ const getFormDates = dataSet => {
                             HOURS_IN_A_DAY *
                             MINUTES_IN_AN_HOUR *
                             MINUTES_IN_AN_HOUR *
-                            1000
+                            MS_IN_A_SECONDS
                 )
                 periodStart = new Date(
                     periodEnd.getTime() -
@@ -354,7 +370,7 @@ const getFormDates = dataSet => {
                             HOURS_IN_A_DAY *
                             MINUTES_IN_AN_HOUR *
                             MINUTES_IN_AN_HOUR *
-                            1000
+                            MS_IN_A_SECONDS
                 )
             }
     }
@@ -368,7 +384,7 @@ const getFormDates = dataSet => {
                         HOURS_IN_A_DAY *
                         MINUTES_IN_AN_HOUR *
                         MINUTES_IN_AN_HOUR *
-                        1000
+                        MS_IN_A_SECONDS
             )
         )
     }
@@ -383,7 +399,7 @@ const getFormDates = dataSet => {
                               HOURS_IN_A_DAY *
                               MINUTES_IN_AN_HOUR *
                               MINUTES_IN_AN_HOUR *
-                              1000
+                              MS_IN_A_SECONDS
                   )
                 : -1
         )
@@ -393,7 +409,8 @@ const getFormDates = dataSet => {
 
 const getFormStateUrgency = (todaysDate, dueDate, periodType) => {
     const daysToDeadLine =
-        (dueDate - todaysDate) / (1000 * SECONDS_IN_AN_HOUR * HOURS_IN_A_DAY)
+        (dueDate - todaysDate) /
+        (MS_IN_A_SECONDS * SECONDS_IN_AN_HOUR * HOURS_IN_A_DAY)
     let fullDaysToDeadLine = -1
 
     switch (periodType) {

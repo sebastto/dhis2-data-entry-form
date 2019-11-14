@@ -20,8 +20,4 @@ ExpandIcon.propTypes = {
     className: PropTypes.string,
 }
 
-ExpandIcon.defaultProps = {
-    className: 'expand-icon',
-}
-
 export default ExpandIcon

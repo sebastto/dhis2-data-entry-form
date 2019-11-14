@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { FaCaretUp, FaCaretDown } from 'react-icons/fa'
 
+import CaretUpIcon from '../../icons/CaretUpIcon/CaretUpIcon'
+import CaretDownIcon from '../../icons/CaretDownIcon/CaretDownIcon'
 import Sorting from '../../../utils/Sorting'
 
 import './SortingButtons.css'
@@ -73,11 +74,11 @@ const SortingButtons = React.forwardRef(
                 >
                     {firstOption.title}
                     {firstCaretUp === null ? (
-                        <FaCaretUp />
+                        <CaretUpIcon />
                     ) : firstCaretUp ? (
-                        <FaCaretUp />
+                        <CaretUpIcon />
                     ) : (
-                        <FaCaretDown />
+                        <CaretDownIcon />
                     )}
                 </button>
                 <button
@@ -85,7 +86,7 @@ const SortingButtons = React.forwardRef(
                     onClick={handleSecondOption}
                 >
                     {secondOption.title}
-                    {secondCaretUp ? <FaCaretUp /> : <FaCaretDown />}
+                    {secondCaretUp ? <CaretUpIcon /> : <CaretDownIcon />}
                 </button>
             </div>
         )

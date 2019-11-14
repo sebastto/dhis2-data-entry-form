@@ -61,7 +61,11 @@ export const DataEntryBox = ({
                     )}
                     <p className="datebox-due">{dueString && dueString}</p>
                     <div className="icon-holder">
-                        {!collapsed ? <ExpandIcon /> : <ShrinkIcon />}
+                        {!collapsed ? (
+                            <ExpandIcon className={'expand-icon'} />
+                        ) : (
+                            <ShrinkIcon className={'shrink-icon'} />
+                        )}
                     </div>
                 </div>
 

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { FaCaretDown, FaCaretUp } from 'react-icons/fa'
 import PropTypes from 'prop-types'
-import { FaCaretUp, FaCaretDown } from 'react-icons/fa'
-import { SORT_ASC, SORT_DESC } from '../../../constants/constants'
 
 import Sorting from '../../../utils/Sorting'
+import { SORT_ASC, SORT_DESC } from '../../../constants/constants'
 
 import './SortingButtons.css'
 

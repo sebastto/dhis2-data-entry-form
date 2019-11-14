@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react'
+import { Tab, TabBar } from '@dhis2/ui-core'
 import classNames from 'classNames'
-import { TabBar, Tab } from '@dhis2/ui-core'
-import AppHeader from '../../ui/AppHeader/AppHeader'
-import SearchBar from '../../ui/SearchBar/SearchBar'
-import DataEntryBox from '../../ui/DataEntryBox/DataEntryBox'
-import SortingButtons from '../../ui/SortingButtons/SortingButtons'
 import SimpleBar from 'simplebar-react'
+import 'simplebar/dist/simplebar.min.css'
+
+import AppHeader from '../../ui/AppHeader/AppHeader'
+import DataEntryBox from '../../ui/DataEntryBox/DataEntryBox'
+import SearchBar from '../../ui/SearchBar/SearchBar'
+import SortingButtons from '../../ui/SortingButtons/SortingButtons'
 import {
-    FORMS_SEARCH_PLACEHOLDER,
-    SORTING_KEY_NAME,
-    SORTING_KEY_DUE,
-    FORM_TITLE,
     DUE_DATE_TITLE,
+    FORM_TITLE,
+    FORMS_SEARCH_PLACEHOLDER,
+    SORTING_KEY_DUE,
+    SORTING_KEY_NAME,
 } from '../../../constants/constants'
+import { FORM_STATE } from '../../../constants/enums'
 
 import './FormOverviewLayout.css'
-import { FORM_STATE } from '../../../constants/enums'
 
 const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
     const [searchInput, setSearchInput] = useState('')

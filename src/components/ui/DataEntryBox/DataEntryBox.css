@@ -103,7 +103,8 @@
     align-self: center;
 }
 
-.expand-icon, .shrink-icon {
+.expand-icon,
+.shrink-icon {
     width: 30px;
     padding-right: 10px;
 }

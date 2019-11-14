@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { Card, ButtonStrip, Button } from '@dhis2/ui-core'
+import React, { useState } from 'react'
+import { Button, ButtonStrip, Card } from '@dhis2/ui-core'
 import Collapse from '@material-ui/core/Collapse'
-import ViewIcon from '../../icons/ViewIcon/ViewIcon'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import PropTypes from 'prop-types'
+
 import EditIcon from '../../icons/EditIcon/EditIcon'
 import ExpandIcon from '../../icons/ExpandIcon/ExpandIcon'
 import ShrinkIcon from '../../icons/ShrinkIcon/ShrinkIcon'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import ViewIcon from '../../icons/ViewIcon/ViewIcon'
 import { MIN_WIDTH_DATAENTRYBOX } from '../../../constants/constants'
 import { FORM_STATE, STATUS_COLORS } from '../../../constants/enums'
 

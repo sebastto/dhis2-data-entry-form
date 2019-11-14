@@ -1,5 +1,6 @@
 import React from 'react'
 import { TiArrowBack } from 'react-icons/ti'
+
 import { INRO_TEXT } from '../../../constants/constants'
 
 import './FacilityArrow.css'

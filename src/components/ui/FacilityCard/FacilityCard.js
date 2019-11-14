@@ -1,6 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Chip } from '@dhis2/ui-core'
+import PropTypes from 'prop-types'
+
 import { VALUE_OVER_99 } from '../../../constants/constants'
 
 import './FacilityCard.css'

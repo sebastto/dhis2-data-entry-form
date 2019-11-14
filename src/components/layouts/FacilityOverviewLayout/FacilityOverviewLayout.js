@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import classNames from 'classNames'
-import SortingButtons from '../../ui/SortingButtons/SortingButtons'
-import SearchBar from '../../ui/SearchBar/SearchBar'
-import FacilityCard from '../../ui/FacilityCard/FacilityCard'
 import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
-import FacilityPlaceholder from '../../ui/Placeholders/FacilityPlaceholder'
 
-import './FacilityOverviewLayout.css'
+import FacilityCard from '../../ui/FacilityCard/FacilityCard'
+import FacilityPlaceholder from '../../ui/Placeholders/FacilityPlaceholder'
+import SearchBar from '../../ui/SearchBar/SearchBar'
 import Sorting from '../../../utils/Sorting'
+import SortingButtons from '../../ui/SortingButtons/SortingButtons'
 import {
     FACILITY_SEARCH_PLACEHOLDER,
-    SORTING_KEY_NAME,
-    SORTING_KEY_DUE,
     FACILITY_TITLE,
     FORMS_TITLE,
+    SORTING_KEY_DUE,
+    SORTING_KEY_NAME,
 } from '../../../constants/constants'
+
+import './FacilityOverviewLayout.css'
 
 const FacilityOverviewLayout = ({
     hidden,

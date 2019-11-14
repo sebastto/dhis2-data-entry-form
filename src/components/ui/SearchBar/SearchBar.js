@@ -1,9 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { InputField } from '@dhis2/ui-core'
-import { SEARCHBAR_NAME } from '../../../constants/constants'
+import PropTypes from 'prop-types'
 
 import SearchIcon from '../../icons/SearchIcon/SearchIcon'
+import { SEARCHBAR_NAME } from '../../../constants/constants'
 
 import './SearchBar.css'
 

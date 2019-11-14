@@ -1,4 +1,5 @@
 import { useDataQuery } from '@dhis2/app-runtime'
+
 import { TextFormatter } from '../utils/Formatter'
 
 const organisations = {

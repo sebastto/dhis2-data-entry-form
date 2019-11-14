@@ -10,8 +10,14 @@ export const DAYS_IN_A_MONTH = 30
 export const HOURS_IN_A_DAY = 24
 export const MINUTES_IN_AN_HOUR = 60
 export const SECONDS_IN_AN_HOUR = 3600
+export const MS_IN_A_SECONDS = 1000
 
 /* BUSINESS LOGIC */
+export const WEEKLY_INSTANCES = 4
+export const BIWEEKLY_AND_MONTHLY_INSTANCES = 3
+export const QUARTERLY_SIX_MONTHLY_AND_YEARLY_INSTANCES = 2
+export const UNHANDLED_PERIODTYPE_INSTANCES = 2
+
 export const WEEKLY = 'Weekly'
 export const WEEKLY_WEDNESDAY = 'WeeklyWednesday'
 export const WEEKLY_THURSDAY = 'WeeklyThursday'
@@ -33,6 +39,14 @@ export const DEFAULT_WARN_PERIODTYPE = periodType =>
     'Unhandled periodType: ' +
     periodType +
     '. Due date was simply set one week ahead.'
+
+/* COLORS */
+export const DHIS2_CRITICAL_RED = '#891515'
+export const DHIS2_WARNING_YELLOW = '#FFC324'
+export const DHIS2_DEFAULT_BLACK = '#212934'
+export const DHIS2_SUCCESS_GREEN = '#1B5E20'
+export const DHIS2_DISABLED_GRAY = '#A0ADBA'
+export const DEFAULT = '#800080' // PURPLE
 
 /* SORTING & SEARCH INFO */
 export const FACILITY_SEARCH_PLACEHOLDER = 'Search facility'

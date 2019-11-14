@@ -531,7 +531,6 @@ const checkCompletedDataSets = (organisations, engine) => {
                 }
 
                 for (const completedRegistration of myData.completeDataSetRegistrations) {
-                    // TODO: update formstate of completed dataSets
                     const { organisationUnit, dataSet } = completedRegistration
                     const matchingOrganisation = organisations.filter(
                         organisation => organisation.id === organisationUnit

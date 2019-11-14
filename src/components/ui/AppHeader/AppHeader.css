@@ -1,12 +1,12 @@
 .app-header {
-    background-color: #c3e1ff;
+    background-color: var(--APP-HEADER-BACKGROUND-COLOR);
     padding: 10px 20px;
     width: 100%;
 }
 
 .app-header-text-box {
     width: 100%;
-    max-width: 36rem;
+    max-width: var(--APP-HEADER-TEXT-BOX-MAX-WIDTH);
     margin: 0 auto;
 }
 

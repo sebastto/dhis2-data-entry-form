@@ -15,6 +15,7 @@ import './App.css'
 
 const MyApp = () => {
     const engine = useDataEngine()
+    const getCompleteFormEngine = useDataEngine()
     const desktopView = useMediaQuery(MIN_WIDTH_APP)
 
     const [selectedFacility, setSelectedFacility] = useState(null)
@@ -23,7 +24,7 @@ const MyApp = () => {
 
     useEffect(() => {
         getAllOrganisationData(engine).then(({ organisations }) => {
-            setFacilities(processDataSets(organisations))
+            setFacilities(processDataSets(organisations, getCompleteFormEngine))
         })
     }, [])
 

@@ -65,103 +65,7 @@ export const processDataSets = (organisations, engine) => {
         organisations[index].deadlines = deadlines
     }
 
-    // Test for completed form
-
-    // console.log(queryDataSets)
-
-    // Kall så med alle orgUnits som er relevante for hver periodType(liste av dataSets), så maks 17 kall, men i praksis rundt 6-8.
-
-    // så perioden man bruker i api-kallet blir periodStart til periodEnd
-
-    /*
-        Ta foresten å send et kall per periode bakover,
-        eks 200401(2004-01-01 og 2004-01-31)
-        200402(2004-02-01 og 2004-02-28)
-        så slipper du å håndtere forskjellene mellom forskjellige perioder
-    */
-
-    // Get datasets by periodType
-
-    const dataSetsByPeriodType = {}
-
-    for (const facility of organisations) {
-        // Not allowed to access viewOnly facilities
-        if (facility.readOnly) {
-            continue
-        }
-
-        for (const dataSet of facility.dataSets) {
-            const periodType = dataSet.periodType
-
-            if (!dataSetsByPeriodType[periodType]) {
-                dataSetsByPeriodType[periodType] = []
-            }
-
-            dataSetsByPeriodType[periodType].push(dataSet)
-        }
-    }
-
-    // Now divide into cycles within each
-
-    const dataSetsByCycle = {}
-
-    for (const period in dataSetsByPeriodType) {
-        const dataSets = dataSetsByPeriodType[period]
-        dataSetsByCycle[period] = []
-
-        for (const dataSet of dataSets) {
-            for (let i = 0; i < dataSet.periodStarts.length; i++) {
-                if (!dataSetsByCycle[period][i]) {
-                    dataSetsByCycle[period][i] = {
-                        dataSetIds: [],
-                        organisationIds: [],
-                        startDate: '',
-                        endDate: '',
-                    }
-                }
-
-                if (
-                    !dataSetsByCycle[period][i].dataSetIds.includes(dataSet.id)
-                ) {
-                    dataSetsByCycle[period][i].dataSetIds.push(dataSet.id)
-                }
-
-                if (
-                    !dataSetsByCycle[period][i].organisationIds.includes(
-                        dataSet.organisationId
-                    )
-                ) {
-                    dataSetsByCycle[period][i].organisationIds.push(
-                        dataSet.organisationId
-                    )
-                }
-
-                dataSetsByCycle[period][i].startDate = dataSet.periodStarts[i]
-                    .toISOString()
-                    .substring(0, 10)
-                dataSetsByCycle[period][i].endDate = dataSet.periodEnds[i]
-                    .toISOString()
-                    .substring(0, 10)
-            }
-        }
-    }
-
-    for (const period in dataSetsByCycle) {
-        const cycles = dataSetsByCycle[period]
-
-        for (const cycleDataSets of cycles) {
-            getCompleteForm(cycleDataSets, engine).then(myData => {
-                // If a dataSet was completed, we need to update the FormState of the corresponding dataSet of the organisation
-                if (!myData || !myData.completeDataSetRegistrations) {
-                    return
-                }
-
-                for (const completedRegistration of myData.completeDataSetRegistrations) {
-                    // TODO: update formstate of completed dataSets
-                }
-            })
-        }
-    }
+    checkCompletedDataSets(organisations, engine)
 
     return organisations
 }
@@ -529,5 +433,102 @@ const getFormStateUrgency = (todaysDate, dueDate, periodType) => {
         return FORM_STATE.CLOSEDUE
     } else {
         return FORM_STATE.NOTCLOSEDUE
+    }
+}
+
+const checkCompletedDataSets = (organisations, engine) => {
+    const dataSetsByPeriodType = {}
+
+    for (const organisation of organisations) {
+        // Not allowed to access viewOnly facilities
+        if (organisation.readOnly) {
+            continue
+        }
+
+        for (const dataSet of organisation.dataSets) {
+            const periodType = dataSet.periodType
+
+            if (!dataSetsByPeriodType[periodType]) {
+                dataSetsByPeriodType[periodType] = []
+            }
+
+            dataSetsByPeriodType[periodType].push(dataSet)
+        }
+    }
+
+    // Now divide into cycles within each
+
+    const dataSetsByCycle = {}
+
+    for (const period in dataSetsByPeriodType) {
+        const dataSets = dataSetsByPeriodType[period]
+        dataSetsByCycle[period] = []
+
+        for (const dataSet of dataSets) {
+            for (let i = 0; i < dataSet.periodStarts.length; i++) {
+                if (!dataSetsByCycle[period][i]) {
+                    dataSetsByCycle[period][i] = {
+                        dataSetIds: [],
+                        organisationIds: [],
+                        startDate: '',
+                        endDate: '',
+                    }
+                }
+
+                if (
+                    !dataSetsByCycle[period][i].dataSetIds.includes(dataSet.id)
+                ) {
+                    dataSetsByCycle[period][i].dataSetIds.push(dataSet.id)
+                }
+
+                if (
+                    !dataSetsByCycle[period][i].organisationIds.includes(
+                        dataSet.organisationId
+                    )
+                ) {
+                    dataSetsByCycle[period][i].organisationIds.push(
+                        dataSet.organisationId
+                    )
+                }
+
+                dataSetsByCycle[period][i].startDate = dataSet.periodStarts[i]
+                    .toISOString()
+                    .substring(0, 10)
+                dataSetsByCycle[period][i].endDate = dataSet.periodEnds[i]
+                    .toISOString()
+                    .substring(0, 10)
+            }
+        }
+    }
+
+    for (const period in dataSetsByCycle) {
+        const cycles = dataSetsByCycle[period]
+
+        for (let i = 0; i < cycles.length; i++) {
+            const cycleDataSets = cycles[i]
+
+            getCompleteForm(cycleDataSets, engine).then(myData => {
+                // If a dataSet was completed, we need to update the FormState of the corresponding dataSet of the organisation
+                if (!myData || !myData.completeDataSetRegistrations) {
+                    return
+                }
+
+                for (const completedRegistration of myData.completeDataSetRegistrations) {
+                    // TODO: update formstate of completed dataSets
+                    const { organisationUnit, dataSet } = completedRegistration
+                    const matchingOrganisation = organisations.filter(
+                        organisation => organisation.id === organisationUnit
+                    )[0]
+                    const matchingDataSets = matchingOrganisation.dataSets.filter(
+                        orgDataSet => orgDataSet.id === dataSet
+                    )
+                    const matchingDataSet = matchingDataSets.filter(
+                        matchDataSet => matchDataSet.instanceNr === i.toString()
+                    )[0]
+
+                    matchingDataSet.formState = FORM_STATE.COMPLETED
+                }
+            })
+        }
     }
 }

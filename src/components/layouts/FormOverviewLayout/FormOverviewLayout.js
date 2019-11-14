@@ -96,8 +96,8 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                                     .startsWith(
                                         searchInput.toLocaleLowerCase()
                                     ) &&
-                                (form.formState == formStateTab ||
-                                    formStateTab == FORM_STATE.NOTSET)
+                                (form.formState === formStateTab ||
+                                    formStateTab === FORM_STATE.NOTSET)
                             ) {
                                 return (
                                     <DataEntryBox

@@ -113,15 +113,15 @@ const getFormDates = dataSet => {
         Implemented to match these specs:
         https://github.com/dhis2/dhis2-core/blob/master/dhis-2/dhis-api/src/main/java/org/hisp/dhis/period/PeriodType.java        */
         case WEEKLY:
-            if (shift == -1) shift = 0
+            if (shift === -1) shift = 0
         case WEEKLY_WEDNESDAY:
-            if (shift == -1) shift = 2
+            if (shift === -1) shift = 2
         case WEEKLY_THURSDAY:
-            if (shift == -1) shift = 3
+            if (shift === -1) shift = 3
         case WEEKLY_SATURDAY:
-            if (shift == -1) shift = 5
+            if (shift === -1) shift = 5
         case WEEKLY_SUNDAY:
-            if (shift == -1) shift = 6
+            if (shift === -1) shift = 6
             daysToEnd = shift - day
             if (daysToEnd < 0) daysToEnd += DAYS_IN_A_WEEK
             periodEnd.setDate(periodEnd.getDate() + daysToEnd)
@@ -162,7 +162,7 @@ const getFormDates = dataSet => {
             } else {
                 daysToEnd = -day + DAYS_IN_A_WEEK
             }
-            if (day == 0) daysToEnd -= DAYS_IN_A_WEEK
+            if (day === 0) daysToEnd -= DAYS_IN_A_WEEK
             periodEnd.setDate(periodEnd.getDate() + daysToEnd)
             periodStart = new Date(
                 periodEnd.getTime() -
@@ -268,11 +268,11 @@ const getFormDates = dataSet => {
             }
             break
         case SIX_MONTHLY:
-            if (shift == -1) shift = 1
+            if (shift === -1) shift = 1
         case SIX_MONTHLY_APRIL:
-            if (shift == -1) shift = 4
+            if (shift === -1) shift = 4
         case SIX_MONTHLY_NOVEMBER:
-            if (shift == -1) shift = 11
+            if (shift === -1) shift = 11
             //Set periodEnd to last date in quarter. Sets periodStart to first date in quarter.
             let half = 0
             if (shift - month < -4 || (shift - month > 1 && shift - month < 8))
@@ -307,15 +307,15 @@ const getFormDates = dataSet => {
             }
             break
         case YEARLY:
-            if (shift == -1) shift = 0
+            if (shift === -1) shift = 0
         case FINANCIAL_APRIL:
-            if (shift == -1) shift = 3
+            if (shift === -1) shift = 3
         case FINANCIAL_JULY:
-            if (shift == -1) shift = 6
+            if (shift === -1) shift = 6
         case FINANCIAL_OCTOBER:
-            if (shift == -1) shift = 9
+            if (shift === -1) shift = 9
         case FINANCIAL_NOVEMBER:
-            if (shift == -1) shift = 10
+            if (shift === -1) shift = 10
             //Set periodEnd to the last day of the year. Sets periodStart to the first day of the year
             periodEnd = new Date(periodEnd.getFullYear(), shift + 12, 0)
             periodStart = new Date(periodStart.getFullYear(), shift, 1)
@@ -374,7 +374,7 @@ const getFormDates = dataSet => {
     const expiryDates = []
     for (let i = 0; i < periodStarts.length; i++) {
         expiryDates.push(
-            dataSet.expiryDays != 0
+            dataSet.expiryDays !== 0
                 ? new Date(
                       periodEnds[i].getTime() +
                           (dataSet.timelyDays + dataSet.expiryDays) *

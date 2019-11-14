@@ -72,7 +72,9 @@ export const DataEntryBox = ({
                     <p>Period type: {periodType}</p>
                     <p>
                         Expiration date (will close at):{' '}
-                        {expiryDate != -1 ? getDateString(expiryDate) : 'Never'}
+                        {expiryDate !== -1
+                            ? getDateString(expiryDate)
+                            : 'Never'}
                     </p>
                     <ButtonStrip middle className="data-card-button-strip">
                         <Button

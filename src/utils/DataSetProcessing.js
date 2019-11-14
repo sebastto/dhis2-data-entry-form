@@ -85,6 +85,11 @@ export const processDataSets = (organisations, engine) => {
     const dataSetsByPeriodType = {}
 
     for (const facility of organisations) {
+        // Not allowed to access viewOnly facilities
+        if (facility.readOnly) {
+            continue
+        }
+
         for (const dataSet of facility.dataSets) {
             const periodType = dataSet.periodType
 
@@ -96,55 +101,67 @@ export const processDataSets = (organisations, engine) => {
         }
     }
 
-    // Need to find earliest periodStart and latest periodEnd
+    // Now divide into cycles within each
 
-    const queryInfoByPeriodType = {}
+    const dataSetsByCycle = {}
 
-    for (const periodType in dataSetsByPeriodType) {
-        ;[]
-        let earliestPeriodStart = undefined
-        let latestPeriodEnd = undefined
+    for (const period in dataSetsByPeriodType) {
+        const dataSets = dataSetsByPeriodType[period]
+        dataSetsByCycle[period] = []
 
-        queryInfoByPeriodType[periodType] = {}
-        const periodDataSets = dataSetsByPeriodType[periodType]
-        const queryInfoOrganisations = []
-        const queryInfoDataSets = []
-
-        for (const dataSet of periodDataSets) {
-            for (const periodStart of dataSet.periodStarts) {
-                if (periodStart < earliestPeriodStart || !earliestPeriodStart) {
-                    earliestPeriodStart = periodStart
+        for (const dataSet of dataSets) {
+            for (let i = 0; i < dataSet.periodStarts.length; i++) {
+                if (!dataSetsByCycle[period][i]) {
+                    dataSetsByCycle[period][i] = {
+                        dataSetIds: [],
+                        organisationIds: [],
+                        startDate: '',
+                        endDate: '',
+                    }
                 }
-            }
 
-            for (const periodEnd of dataSet.periodEnds) {
-                if (periodEnd > latestPeriodEnd || !latestPeriodEnd) {
-                    latestPeriodEnd = periodEnd
+                if (
+                    !dataSetsByCycle[period][i].dataSetIds.includes(dataSet.id)
+                ) {
+                    dataSetsByCycle[period][i].dataSetIds.push(dataSet.id)
                 }
-            }
 
-            if (!queryInfoOrganisations.includes(dataSet.organisationId)) {
-                queryInfoOrganisations.push(dataSet.organisationId)
-            }
+                if (
+                    !dataSetsByCycle[period][i].organisationIds.includes(
+                        dataSet.organisationId
+                    )
+                ) {
+                    dataSetsByCycle[period][i].organisationIds.push(
+                        dataSet.organisationId
+                    )
+                }
 
-            if (!queryInfoDataSets.includes(dataSet.id)) {
-                queryInfoDataSets.push(dataSet.id)
+                dataSetsByCycle[period][i].startDate = dataSet.periodStarts[i]
+                    .toISOString()
+                    .substring(0, 10)
+                dataSetsByCycle[period][i].endDate = dataSet.periodEnds[i]
+                    .toISOString()
+                    .substring(0, 10)
             }
         }
-
-        queryInfoByPeriodType[periodType][
-            'startDate'
-        ] = earliestPeriodStart.toISOString().substring(0, 10)
-        queryInfoByPeriodType[periodType][
-            'endDate'
-        ] = latestPeriodEnd.toISOString().substring(0, 10)
-        queryInfoByPeriodType[periodType][
-            'organizations'
-        ] = queryInfoOrganisations
-        queryInfoByPeriodType[periodType]['dataSets'] = queryInfoDataSets
     }
 
-    console.log(queryInfoByPeriodType)
+    for (const period in dataSetsByCycle) {
+        const cycles = dataSetsByCycle[period]
+
+        for (const cycleDataSets of cycles) {
+            getCompleteForm(cycleDataSets, engine).then(myData => {
+                // If a dataSet was completed, we need to update the FormState of the corresponding dataSet of the organisation
+                if (!myData || !myData.completeDataSetRegistrations) {
+                    return
+                }
+
+                for (const completedRegistration of myData.completeDataSetRegistrations) {
+                    // TODO: update formstate of completed dataSets
+                }
+            })
+        }
+    }
 
     return organisations
 }

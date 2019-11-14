@@ -40,7 +40,7 @@
 }
 
 .hidden-form {
-    right: -100%;
+    right: -100% !important;
 }
 
 .form-overview-form-section .simplebar-track.simplebar-vertical {

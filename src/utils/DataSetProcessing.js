@@ -332,7 +332,7 @@ const getFormDates = dataSet => {
             }
             break
         default:
-            console.warn(DEFAULT_WARN_PERIODTYPE(periodType))
+            console.warn(DEFAULT_WARN_PERIODTYPE(dataSet.periodType))
             periodEnd.setDate(periodEnd.getDate() + 7)
             periodStart.setDate(periodEnd.getDate() + -7)
             periodStart.setHours(0, 0, 0, 0)

@@ -118,6 +118,7 @@ DataEntryBox.propTypes = {
     formState: PropTypes.oneOf(Object.values(FORM_STATE)),
     viewUrl: PropTypes.string,
     editUrl: PropTypes.string,
+    readOnly: PropTypes.bool,
 }
 
 DataEntryBox.defaultProps = {
@@ -127,6 +128,7 @@ DataEntryBox.defaultProps = {
     editUrl:
         process.env.REACT_APP_DHIS2_BASE_URL +
         process.env.REACT_APP_DHIS2_FORM_EDIT_URL,
+    readOnly: false,
 }
 
 const getCardStatusColor = formState => {

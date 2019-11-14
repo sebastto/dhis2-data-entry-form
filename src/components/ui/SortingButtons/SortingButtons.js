@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { FaCaretUp, FaCaretDown } from 'react-icons/fa'
+import { SORT_ASC, SORT_DESC } from '../../../constants/constants'
 
 import Sorting from '../../../utils/Sorting'
 
@@ -43,7 +44,7 @@ const SortingButtons = React.forwardRef(
                 if (firstCaretUp !== null) {
                     Sorting(
                         {
-                            order: firstCaretUp ? 'asc' : 'desc',
+                            order: firstCaretUp ? SORT_ASC : SORT_DESC,
                             key: firstOption.key,
                         },
                         { objectToSet, prevObject },
@@ -52,7 +53,7 @@ const SortingButtons = React.forwardRef(
                 } else if (secondCaretUp !== null) {
                     Sorting(
                         {
-                            order: secondCaretUp ? 'asc' : 'desc',
+                            order: secondCaretUp ? SORT_ASC : SORT_DESC,
                             key: secondOption.key,
                         },
                         { objectToSet, prevObject },

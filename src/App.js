@@ -7,6 +7,7 @@ import { getAllOrganisationData } from './api/Api'
 import FacilityArrow from './components/ui/FacilityArrow/FacilityArrow'
 import classNames from 'classNames'
 import { processDataSets } from './utils/DataSetProcessing'
+import { FACILITIES, FORMS, MIN_WIDTH_APP } from './constants/constants'
 
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
@@ -14,11 +15,11 @@ import './App.css'
 
 const MyApp = () => {
     const engine = useDataEngine()
-    const desktopView = useMediaQuery('(min-width:600px)')
+    const desktopView = useMediaQuery(MIN_WIDTH_APP)
 
     const [selectedFacility, setSelectedFacility] = useState(null)
     const [facilities, setFacilities] = useState(undefined)
-    const [mobileActiveTab, setMobileActiveTab] = useState('facilities')
+    const [mobileActiveTab, setMobileActiveTab] = useState(FACILITIES)
 
     useEffect(() => {
         getAllOrganisationData(engine).then(({ organisations }) => {
@@ -35,7 +36,7 @@ const MyApp = () => {
             >
                 <FacilityOverviewLayout
                     hidden={
-                        !desktopView && mobileActiveTab !== 'facilities'
+                        !desktopView && mobileActiveTab !== FACILITIES
                             ? 'hidden-facility'
                             : ''
                     }
@@ -47,7 +48,7 @@ const MyApp = () => {
                 {selectedFacility ? (
                     <FormOverviewLayout
                         hidden={
-                            !desktopView && mobileActiveTab !== 'forms'
+                            !desktopView && mobileActiveTab !== FORMS
                                 ? 'hidden-form'
                                 : ''
                         }
@@ -61,15 +62,15 @@ const MyApp = () => {
                     <nav className="mobile-nav">
                         <TabBar fixed>
                             <Tab
-                                selected={mobileActiveTab === 'facilities'}
-                                onClick={() => setMobileActiveTab('facilities')}
+                                selected={mobileActiveTab === FACILITIES}
+                                onClick={() => setMobileActiveTab(FACILITIES)}
                             >
                                 Facilities
                             </Tab>
                             <Tab
                                 disabled={!selectedFacility}
-                                selected={mobileActiveTab === 'forms'}
-                                onClick={() => setMobileActiveTab('forms')}
+                                selected={mobileActiveTab === FORMS}
+                                onClick={() => setMobileActiveTab(FORMS)}
                             >
                                 Forms
                             </Tab>

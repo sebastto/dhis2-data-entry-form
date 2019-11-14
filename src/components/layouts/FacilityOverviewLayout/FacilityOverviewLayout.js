@@ -9,6 +9,13 @@ import FacilityPlaceholder from '../../ui/Placeholders/FacilityPlaceholder'
 
 import './FacilityOverviewLayout.css'
 import Sorting from '../../../utils/Sorting'
+import {
+    FACILITY_SEARCH_PLACEHOLDER,
+    SORTING_KEY_NAME,
+    SORTING_KEY_DUE,
+    FACILITY_TITLE,
+    FORMS_TITLE,
+} from '../../../constants/constants'
 
 const FacilityOverviewLayout = ({
     hidden,
@@ -50,18 +57,18 @@ const FacilityOverviewLayout = ({
             <h2 className="facility-overview-title">Facilities</h2>
             <SearchBar
                 value={searchInput}
-                placeholder="Search facility"
+                placeholder={FACILITY_SEARCH_PLACEHOLDER}
                 onChange={event => setSearchInput(event.target.value)}
             />
             <SortingButtons
                 className={'facility-sorting-buttons'}
                 firstOption={{
-                    key: 'displayName',
-                    title: 'Facility Title',
+                    key: SORTING_KEY_NAME,
+                    title: FACILITY_TITLE,
                 }}
                 secondOption={{
-                    key: 'due',
-                    title: 'Forms',
+                    key: SORTING_KEY_DUE,
+                    title: FORMS_TITLE,
                 }}
                 onClick={Sorting}
                 objectToSet={setFacilityCards}

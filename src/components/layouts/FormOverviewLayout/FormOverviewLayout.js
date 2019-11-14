@@ -3,15 +3,23 @@ import classNames from 'classNames'
 import { TabBar, Tab } from '@dhis2/ui-core'
 import AppHeader from '../../ui/AppHeader/AppHeader'
 import SearchBar from '../../ui/SearchBar/SearchBar'
-import DataEntryBox, { FormState } from '../../ui/DataEntryBox/DataEntryBox'
+import DataEntryBox from '../../ui/DataEntryBox/DataEntryBox'
 import SortingButtons from '../../ui/SortingButtons/SortingButtons'
 import SimpleBar from 'simplebar-react'
+import {
+    FORMS_SEARCH_PLACEHOLDER,
+    SORTING_KEY_NAME,
+    SORTING_KEY_DUE,
+    FORM_TITLE,
+    DUE_DATE_TITLE,
+} from '../../../constants/constants'
 
 import './FormOverviewLayout.css'
+import { FORM_STATE } from '../../../constants/enums'
 
 const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
     const [searchInput, setSearchInput] = useState('')
-    const [formStateTab, setFormStateTab] = useState(FormState.NOTSET)
+    const [formStateTab, setFormStateTab] = useState(FORM_STATE.NOTSET)
     const [displayedForms, setDisplayedForms] = useState(undefined)
     const [formStateCount, setFormStateCount] = useState({})
 
@@ -23,11 +31,11 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
         }
 
         const count = {}
-        count[FormState.NOTCLOSEDUE] = 0
-        count[FormState.CLOSEDUE] = 0
-        count[FormState.OVERDUE] = 0
-        count[FormState.EXPIRED] = 0
-        count[FormState.COMPLETED] = 0
+        count[FORM_STATE.NOTCLOSEDUE] = 0
+        count[FORM_STATE.CLOSEDUE] = 0
+        count[FORM_STATE.OVERDUE] = 0
+        count[FORM_STATE.EXPIRED] = 0
+        count[FORM_STATE.COMPLETED] = 0
         selectedFacility.dataSets.forEach(dataSet => {
             count[dataSet.formState] += 1
         })
@@ -49,7 +57,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
             />
             <div className="form-overview-light-container">
                 <SearchBar
-                    placeholder="Search form"
+                    placeholder={FORMS_SEARCH_PLACEHOLDER}
                     value={searchInput}
                     onChange={event => setSearchInput(event.target.value)}
                 />
@@ -63,12 +71,12 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
             <SortingButtons
                 key={selectedFacility.displayName}
                 firstOption={{
-                    key: 'displayName',
-                    title: 'Form title',
+                    key: SORTING_KEY_NAME,
+                    title: FORM_TITLE,
                 }}
                 secondOption={{
-                    key: 'due',
-                    title: 'Due date',
+                    key: SORTING_KEY_DUE,
+                    title: DUE_DATE_TITLE,
                     default: true,
                 }}
                 objectToSet={setDisplayedForms}
@@ -87,7 +95,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                                         searchInput.toLocaleLowerCase()
                                     ) &&
                                 (form.formState == formStateTab ||
-                                    formStateTab == FormState.NOTSET)
+                                    formStateTab == FORM_STATE.NOTSET)
                             ) {
                                 return (
                                     <DataEntryBox
@@ -118,44 +126,46 @@ const changeTabs = (func, formState, myRef) => {
 const FacilityTabs = ({ formStateTab, setFormStateTab, forms, myRef }) => (
     <TabBar>
         <Tab
-            selected={formStateTab === FormState.NOTSET}
-            onClick={() => changeTabs(setFormStateTab, FormState.NOTSET, myRef)}
+            selected={formStateTab === FORM_STATE.NOTSET}
+            onClick={() =>
+                changeTabs(setFormStateTab, FORM_STATE.NOTSET, myRef)
+            }
         >
             All
         </Tab>
         <Tab
-            selected={formStateTab === FormState.CLOSEDUE}
+            selected={formStateTab === FORM_STATE.CLOSEDUE}
             onClick={() =>
-                changeTabs(setFormStateTab, FormState.CLOSEDUE, myRef)
+                changeTabs(setFormStateTab, FORM_STATE.CLOSEDUE, myRef)
             }
-            disabled={forms[FormState.CLOSEDUE] < 1}
+            disabled={forms[FORM_STATE.CLOSEDUE] < 1}
         >
             Due soon
         </Tab>
         <Tab
-            selected={formStateTab === FormState.OVERDUE}
+            selected={formStateTab === FORM_STATE.OVERDUE}
             onClick={() =>
-                changeTabs(setFormStateTab, FormState.OVERDUE, myRef)
+                changeTabs(setFormStateTab, FORM_STATE.OVERDUE, myRef)
             }
-            disabled={forms[FormState.OVERDUE] < 1}
+            disabled={forms[FORM_STATE.OVERDUE] < 1}
         >
             Overdue
         </Tab>
         <Tab
-            selected={formStateTab === FormState.EXPIRED}
+            selected={formStateTab === FORM_STATE.EXPIRED}
             onClick={() =>
-                changeTabs(setFormStateTab, FormState.EXPIRED, myRef)
+                changeTabs(setFormStateTab, FORM_STATE.EXPIRED, myRef)
             }
-            disabled={forms[FormState.EXPIRED] < 1}
+            disabled={forms[FORM_STATE.EXPIRED] < 1}
         >
             Expired
         </Tab>
         <Tab
-            selected={formStateTab === FormState.COMPLETED}
+            selected={formStateTab === FORM_STATE.COMPLETED}
             onClick={() =>
-                changeTabs(setFormStateTab, FormState.COMPLETED, myRef)
+                changeTabs(setFormStateTab, FORM_STATE.COMPLETED, myRef)
             }
-            disabled={forms[FormState.COMPLETED] < 1}
+            disabled={forms[FORM_STATE.COMPLETED] < 1}
         >
             Completed
         </Tab>

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { InputField } from '@dhis2/ui-core'
+import { SEARCHBAR_NAME } from '../../../constants/constants'
 
 import SearchIcon from '../../icons/SearchIcon/SearchIcon'
 
@@ -17,7 +18,7 @@ const SearchBar = props => {
                 dense
                 label={placeholder}
                 value={value}
-                name="Search"
+                name={SEARCHBAR_NAME}
                 onChange={e => onChange(e)}
                 type="text"
                 className="search-input"

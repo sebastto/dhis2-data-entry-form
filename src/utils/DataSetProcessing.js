@@ -1,5 +1,30 @@
-import { FormState } from '../components/ui/DataEntryBox/DataEntryBox'
 import { TextFormatter } from './Formatter'
+import {
+    BI_MONTHLY,
+    BI_WEEKLY,
+    DAYS_IN_A_WEEK,
+    DEFAULT_ERROR_PERIODTYPE,
+    FINANCIAL_APRIL,
+    FINANCIAL_JULY,
+    FINANCIAL_NOVEMBER,
+    FINANCIAL_OCTOBER,
+    HOURS_IN_A_DAY,
+    MINUTES_IN_AN_HOUR,
+    MONTHLY,
+    MS_IN_A_DAY,
+    QUARTERLY,
+    SECONDS_IN_AN_HOUR,
+    SIX_MONTHLY,
+    SIX_MONTHLY_APRIL,
+    SIX_MONTHLY_NOVEMBER,
+    WEEKLY,
+    WEEKLY_SATURDAY,
+    WEEKLY_SUNDAY,
+    WEEKLY_THURSDAY,
+    WEEKLY_WEDNESDAY,
+    YEARLY,
+} from '../constants/constants'
+import { FORM_STATE } from '../constants/enums'
 
 export const processDataSets = organisations => {
     for (const index in organisations) {
@@ -14,9 +39,9 @@ export const processDataSets = organisations => {
             const dataSet = facilityDataSets[i]
             const deadlineInfo = getFormDeadlineInfo(dataSet)
             for (let j = 0; j < deadlineInfo.formDates.dueDates.length; j++) {
-                if (deadlineInfo.formStates[j] === FormState.CLOSEDUE) {
+                if (deadlineInfo.formStates[j] === FORM_STATE.CLOSEDUE) {
                     deadlines.closeDue += 1
-                } else if (deadlineInfo.formStates[j] === FormState.OVERDUE) {
+                } else if (deadlineInfo.formStates[j] === FORM_STATE.OVERDUE) {
                     deadlines.overDue += 1
                 }
                 holder.push({
@@ -38,9 +63,7 @@ export const processDataSets = organisations => {
 
 const getFormDeadlineInfo = dataSet => {
     const formDates = getFormDates(dataSet)
-
     const todaysDate = new Date()
-
     // TODO: check api for completed form
     const formCompleted = false
 
@@ -50,14 +73,14 @@ const getFormDeadlineInfo = dataSet => {
 
     for (let i = 0; i < formDates.dueDates.length; i++) {
         if (formCompleted) {
-            formState = FormState.COMPLETED
+            formState = FORM_STATE.COMPLETED
         } else if (
             formDates.expiryDates[i] !== -1 &&
             todaysDate > formDates.expiryDates[i]
         ) {
-            formState = FormState.EXPIRED
+            formState = FORM_STATE.EXPIRED
         } else if (todaysDate > formDates.dueDates[i]) {
-            formState = FormState.OVERDUE
+            formState = FORM_STATE.OVERDUE
         } else {
             formState = getFormStateUrgency(
                 todaysDate,
@@ -89,21 +112,26 @@ const getFormDates = dataSet => {
         /*
         Implemented to match these specs:
         https://github.com/dhis2/dhis2-core/blob/master/dhis-2/dhis-api/src/main/java/org/hisp/dhis/period/PeriodType.java        */
-        case 'Weekly':
+        case WEEKLY:
             if (shift == -1) shift = 0
-        case 'WeeklyWednesday':
+        case WEEKLY_WEDNESDAY:
             if (shift == -1) shift = 2
-        case 'WeeklyThursday':
+        case WEEKLY_THURSDAY:
             if (shift == -1) shift = 3
-        case 'WeeklySaturday':
+        case WEEKLY_SATURDAY:
             if (shift == -1) shift = 5
-        case 'WeeklySunday':
+        case WEEKLY_SUNDAY:
             if (shift == -1) shift = 6
             daysToEnd = shift - day
-            if (daysToEnd < 0) daysToEnd += 7
+            if (daysToEnd < 0) daysToEnd += DAYS_IN_A_WEEK
             periodEnd.setDate(periodEnd.getDate() + daysToEnd)
             periodStart = new Date(
-                periodEnd.getTime() - 6 * 24 * 60 * 60 * 1000
+                periodEnd.getTime() -
+                    6 *
+                        HOURS_IN_A_DAY *
+                        MINUTES_IN_AN_HOUR *
+                        MINUTES_IN_AN_HOUR *
+                        1000
             )
 
             periodStart.setHours(0, 0, 0, 0)
@@ -111,31 +139,39 @@ const getFormDates = dataSet => {
             for (let i = 0; i < 4; i++) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
-                periodEnd = new Date(periodEnd.setDate(periodEnd.getDate() - 7))
+                periodEnd = new Date(
+                    periodEnd.setDate(periodEnd.getDate() - DAYS_IN_A_WEEK)
+                )
                 periodEnd.setHours(23, 59, 59, 999)
                 periodStart = new Date(
                     periodStart.setDate(periodStart.getDate() - 7)
                 )
             }
             break
-        case 'BiWeekly':
+        case BI_WEEKLY:
             //Finds the current week number
             const januaryFirst = new Date(periodEnd.getFullYear(), 0, 1)
             const week = Math.ceil(
-                ((periodEnd - januaryFirst) / 86400000 +
+                ((periodEnd - januaryFirst) / MS_IN_A_DAY +
                     januaryFirst.getDay() -
                     1) /
-                    7
+                    DAYS_IN_A_WEEK
             )
             if (week % 2) {
-                daysToEnd = -day + 14
+                daysToEnd = -day + DAYS_IN_A_WEEK * 2
             } else {
-                daysToEnd = -day + 7
+                daysToEnd = -day + DAYS_IN_A_WEEK
             }
-            if (day == 0) daysToEnd -= 7
+            if (day == 0) daysToEnd -= DAYS_IN_A_WEEK
             periodEnd.setDate(periodEnd.getDate() + daysToEnd)
             periodStart = new Date(
-                periodEnd.getTime() - 6.5 * 24 * 60 * 60 * 1000 * 2
+                periodEnd.getTime() -
+                    6.5 *
+                        HOURS_IN_A_DAY *
+                        MINUTES_IN_AN_HOUR *
+                        MINUTES_IN_AN_HOUR *
+                        1000 *
+                        2
             )
 
             periodStart.setHours(0, 0, 0, 0)
@@ -144,15 +180,17 @@ const getFormDates = dataSet => {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd = new Date(
-                    periodEnd.setDate(periodEnd.getDate() - 14)
+                    periodEnd.setDate(periodEnd.getDate() - DAYS_IN_A_WEEK * 2)
                 )
                 periodEnd.setHours(23, 59, 59, 999)
                 periodStart = new Date(
-                    periodStart.setDate(periodStart.getDate() - 14)
+                    periodStart.setDate(
+                        periodStart.getDate() - DAYS_IN_A_WEEK * 2
+                    )
                 )
             }
             break
-        case 'Monthly':
+        case MONTHLY:
             //Sets periodEnd to last day of month. Sets periodStart to first day of month
             periodEnd = new Date(periodEnd.getFullYear(), month + 1, 0)
             periodStart = new Date(periodEnd.getFullYear(), month, 1)
@@ -174,7 +212,7 @@ const getFormDates = dataSet => {
                 )
             }
             break
-        case 'BiMonthly':
+        case BI_MONTHLY:
             //Sets periodEnd to last day of every even month. Sets periodStart to first day of month
             if (month % 2) {
                 shift = 1
@@ -205,7 +243,7 @@ const getFormDates = dataSet => {
                 )
             }
             break
-        case 'Quarterly':
+        case QUARTERLY:
             //Set periodEnd to last date in quarter. Sets periodStart to first date in quarter.
             quarter = Math.floor(month / 3) + 1
             quarterMonth = month - (quarter - 1) * 3
@@ -229,11 +267,11 @@ const getFormDates = dataSet => {
                 periodStart.setMonth(periodStart.getMonth() - 3)
             }
             break
-        case 'SixMonthly':
+        case SIX_MONTHLY:
             if (shift == -1) shift = 1
-        case 'SixMonthlyApril':
+        case SIX_MONTHLY_APRIL:
             if (shift == -1) shift = 4
-        case 'SixMonthlyNovember':
+        case SIX_MONTHLY_NOVEMBER:
             if (shift == -1) shift = 11
             //Set periodEnd to last date in quarter. Sets periodStart to first date in quarter.
             let half = 0
@@ -268,15 +306,15 @@ const getFormDates = dataSet => {
                 )
             }
             break
-        case 'Yearly':
+        case YEARLY:
             if (shift == -1) shift = 0
-        case 'FinancialApril':
+        case FINANCIAL_APRIL:
             if (shift == -1) shift = 3
-        case 'FinancialJuly':
+        case FINANCIAL_JULY:
             if (shift == -1) shift = 6
-        case 'FinancialOctober':
+        case FINANCIAL_OCTOBER:
             if (shift == -1) shift = 9
-        case 'FinancialNovember':
+        case FINANCIAL_NOVEMBER:
             if (shift == -1) shift = 10
             //Set periodEnd to the last day of the year. Sets periodStart to the first day of the year
             periodEnd = new Date(periodEnd.getFullYear(), shift + 12, 0)
@@ -292,11 +330,7 @@ const getFormDates = dataSet => {
             }
             break
         default:
-            console.warn(
-                'Unhandled periodType: ' +
-                    periodType +
-                    '. Due date was simply set one week ahead'
-            )
+            console.warn(DEFAULT_ERROR_PERIODTYPE(periodType))
             periodEnd.setDate(periodEnd.getDate() + 7)
             periodStart.setDate(periodEnd.getDate() + -7)
             periodStart.setHours(0, 0, 0, 0)
@@ -305,10 +339,20 @@ const getFormDates = dataSet => {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd = new Date(
-                    periodEnd.getTime() - 7 * 24 * 60 * 60 * 1000
+                    periodEnd.getTime() -
+                        DAYS_IN_A_WEEK *
+                            HOURS_IN_A_DAY *
+                            MINUTES_IN_AN_HOUR *
+                            MINUTES_IN_AN_HOUR *
+                            1000
                 )
                 periodStart = new Date(
-                    periodEnd.getTime() - 7 * 24 * 60 * 60 * 1000
+                    periodEnd.getTime() -
+                        DAYS_IN_A_WEEK *
+                            HOURS_IN_A_DAY *
+                            MINUTES_IN_AN_HOUR *
+                            MINUTES_IN_AN_HOUR *
+                            1000
                 )
             }
     }
@@ -318,7 +362,11 @@ const getFormDates = dataSet => {
         dueDates.push(
             new Date(
                 periodStarts[i].getTime() +
-                    dataSet.timelyDays * 24 * 60 * 60 * 1000
+                    dataSet.timelyDays *
+                        HOURS_IN_A_DAY *
+                        MINUTES_IN_AN_HOUR *
+                        MINUTES_IN_AN_HOUR *
+                        1000
             )
         )
     }
@@ -330,9 +378,9 @@ const getFormDates = dataSet => {
                 ? new Date(
                       periodEnds[i].getTime() +
                           (dataSet.timelyDays + dataSet.expiryDays) *
-                              24 *
-                              60 *
-                              60 *
+                              HOURS_IN_A_DAY *
+                              MINUTES_IN_AN_HOUR *
+                              MINUTES_IN_AN_HOUR *
                               1000
                   )
                 : -1
@@ -342,26 +390,27 @@ const getFormDates = dataSet => {
 }
 
 const getFormStateUrgency = (todaysDate, dueDate, periodType) => {
-    const daysToDeadLine = (dueDate - todaysDate) / (1000 * 3600 * 24)
+    const daysToDeadLine =
+        (dueDate - todaysDate) / (1000 * SECONDS_IN_AN_HOUR * HOURS_IN_A_DAY)
     let fullDaysToDeadLine = -1
 
     switch (periodType) {
-        case 'Weekly':
+        case WEEKLY:
             fullDaysToDeadLine = 7
             break
-        case 'Monthly':
+        case MONTHLY:
             fullDaysToDeadLine = 30
             break
-        case 'WeeklyWednesday':
+        case WEEKLY_WEDNESDAY:
             fullDaysToDeadLine = 7
             break
-        case 'Quarterly':
+        case QUARTERLY:
             fullDaysToDeadLine = 365 / 4
             break
-        case 'Yearly':
+        case YEARLY:
             fullDaysToDeadLine = 365
             break
-        case 'SixMontly':
+        case SIX_MONTHLY:
             fullDaysToDeadLine = 365 / 2
             break
         default:
@@ -372,8 +421,8 @@ const getFormStateUrgency = (todaysDate, dueDate, periodType) => {
         (daysToDeadLine / fullDaysToDeadLine < 0.2 && daysToDeadLine < 20) ||
         daysToDeadLine <= 1
     ) {
-        return FormState.CLOSEDUE
+        return FORM_STATE.CLOSEDUE
     } else {
-        return FormState.NOTCLOSEDUE
+        return FORM_STATE.NOTCLOSEDUE
     }
 }

@@ -12,7 +12,6 @@ import { MIN_WIDTH_DATAENTRYBOX } from '../../../constants/constants'
 import { FORM_STATE, STATUS_COLORS } from '../../../constants/enums'
 
 import './DataEntryBox.css'
-import ReadOnlyIcon from '../../icons/ReadOnlyIcon/ReadOnlyIcon'
 
 export const DataEntryBox = ({
     displayName,
@@ -50,19 +49,22 @@ export const DataEntryBox = ({
                                 type="button"
                                 onClick={() => window.open(viewUrl)}
                             >
-                                <ViewIcon className="expand-icon" />
+                                <ViewIcon className="url-buttons-icons" />
                                 <p>View</p>
                             </Button>
-                            <Button
-                                className={'card-button'}
-                                type="button"
-                                visibility="hidden"
-                                onClick={() => window.open(editUrl)}
-                                disabled={readOnly}
-                            >
-                                {readOnly ? <ReadOnlyIcon /> : <EditIcon />}
-                                <p>Edit</p>
-                            </Button>
+                            {readOnly ? (
+                                ''
+                            ) : (
+                                <Button
+                                    className={'card-button'}
+                                    type="button"
+                                    visibility="hidden"
+                                    onClick={() => window.open(editUrl)}
+                                >
+                                    <EditIcon />
+                                    <p>Edit</p>
+                                </Button>
+                            )}
                         </div>
                     )}
                     <p className="datebox-due">{dueString && dueString}</p>
@@ -91,14 +93,18 @@ export const DataEntryBox = ({
                             <ViewIcon />
                             <p className="datacard-icon-group-text">View</p>
                         </Button>
-                        <Button
-                            type="button"
-                            onClick={() => window.open(editUrl)}
-                            disabled={readOnly}
-                        >
-                            {readOnly ? <ReadOnlyIcon /> : <EditIcon />}
-                            <p className="datacard-icon-group-text">Edit</p>
-                        </Button>
+
+                        {readOnly ? (
+                            ''
+                        ) : (
+                            <Button
+                                type="button"
+                                onClick={() => window.open(editUrl)}
+                            >
+                                <EditIcon />
+                                <p className="datacard-icon-group-text">Edit</p>
+                            </Button>
+                        )}
                     </ButtonStrip>
                 </Collapse>
             </div>

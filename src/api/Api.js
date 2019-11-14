@@ -1,5 +1,5 @@
 import { useDataQuery } from '@dhis2/app-runtime'
-import { FormState } from '../components/ui/DataEntryBox/DataEntryBox'
+
 import { TextFormatter } from '../utils/Formatter'
 
 const organisations = {
@@ -27,8 +27,6 @@ const completeForms = {
 // Gets all organisations that this user belong to
 export const getAllOrganisationData = async engine => {
     const orgList = []
-
-    const dataSets = {}
     const { userData } = await engine.query(organisations)
 
     for (const unit of userData.organisationUnits) {
@@ -41,20 +39,9 @@ export const getAllOrganisationData = async engine => {
             }
         )
         childOrganisations.organisationUnits.forEach(unit => {
-            dataSets[unit.id] = unit.dataSets.map(dataset => {
-                return {
-                    id: dataset.id,
-                    displayName: TextFormatter(dataset.displayName),
-                    periodType: dataset.periodType,
-                    openFuturePeriods: dataset.openFuturePeriods,
-                    timelyDays: dataset.timelyDays,
-                    expiryDays: dataset.expiryDays,
-                    formState: FormState.NOTSET, //default. Overriden later by completed-check
-                }
-            })
-
             unit['displayName'] = TextFormatter(unit['displayName'])
             unit['readOnly'] = false
+
             orgList.push(unit)
         })
     }
@@ -69,24 +56,13 @@ export const getAllOrganisationData = async engine => {
             }
         )
         childOrganisations.organisationUnits.forEach(unit => {
-            dataSets[unit.id] = unit.dataSets.map(dataset => {
-                return {
-                    id: dataset.id,
-                    displayName: TextFormatter(dataset.displayName),
-                    periodType: dataset.periodType,
-                    openFuturePeriods: dataset.openFuturePeriods,
-                    timelyDays: dataset.timelyDays,
-                    expiryDays: dataset.expiryDays,
-                    formState: FormState.NOTSET, //default. Overriden later by completed-check
-                }
-            })
-
             unit['displayName'] = TextFormatter(unit['displayName'])
             unit['readOnly'] = true
+
             orgList.push(unit)
         })
     }
-    return { organisations: orgList, dataSets }
+    return { organisations: orgList }
 }
 
 //Get a list of completed dataSets in a given ogranisation in selected period

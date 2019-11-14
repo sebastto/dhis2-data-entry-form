@@ -1,4 +1,11 @@
 /* {} is es-lint workaround, as max params is 4... */
+import {
+    SORT_ASC,
+    SORT_DESC,
+    SORTING_KEY_DUE,
+    SORTING_KEY_NAME,
+} from '../constants/constants'
+
 const Sorting = (
     sortingChoices,
     { objectToSet, prevObject },
@@ -6,23 +13,19 @@ const Sorting = (
 ) => {
     const { order, key } = sortingChoices
     switch (key) {
-        case 'due':
-            if (order === 'asc') {
+        case SORTING_KEY_DUE:
+            if (order === SORT_ASC) {
                 objectToSet(
-                    [...prevObject].sort(
-                        (a, b) => getSortingValue(a) - getSortingValue(b)
-                    )
+                    [...prevObject].sort((a, b) => getSortingValue(a, b))
                 )
-            } else if (order === 'desc') {
+            } else if (order === SORT_DESC) {
                 objectToSet(
-                    [...prevObject].sort(
-                        (a, b) => getSortingValue(b) - getSortingValue(a)
-                    )
+                    [...prevObject].sort((a, b) => getSortingValue(b, a))
                 )
             }
             break
-        case 'displayName':
-            if (order === 'asc') {
+        case SORTING_KEY_NAME:
+            if (order === SORT_ASC) {
                 objectToSet(
                     [...prevObject].sort((a, b) =>
                         a.displayName.toLocaleLowerCase() >
@@ -31,7 +34,7 @@ const Sorting = (
                             : -1
                     )
                 )
-            } else if (order === 'desc') {
+            } else if (order === SORT_DESC) {
                 objectToSet(
                     [...prevObject].sort((a, b) =>
                         a.displayName.toLocaleLowerCase() >

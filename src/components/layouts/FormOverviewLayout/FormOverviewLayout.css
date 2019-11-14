@@ -7,7 +7,7 @@
 .form-overview-form-section {
     width: 100%;
     max-width: 40rem;
-    margin: 0 auto 1rem auto;
+    margin: 0.5rem auto 1rem auto;
     height: 100vh;
     overflow: hidden;
 }
@@ -20,6 +20,14 @@
 
 .tab {
     border: none !important;
+}
+
+@media only screen and (max-width: 400px) {
+    .tab {
+        border: none !important;
+        padding-right: 6px !important;
+        padding-left: 6px !important;
+    }
 }
 
 .form-overview-container {
@@ -40,9 +48,9 @@
 }
 
 .hidden-form {
-    right: -100%;
+    right: -100% !important;
 }
 
 .form-overview-form-section .simplebar-track.simplebar-vertical {
-    margin-top: 1rem;
+    margin: 1rem 0;
 }

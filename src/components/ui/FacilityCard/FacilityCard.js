@@ -1,33 +1,20 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Chip } from '@dhis2/ui-core'
+import PropTypes from 'prop-types'
 
-import { FormState } from '../DataEntryBox/DataEntryBox'
+import { VALUE_OVER_99 } from '../../../constants/constants'
 
 import './FacilityCard.css'
 
-const FacilityCard = ({ id, displayName, readOnly, dataSets, onClick }) => {
-    const deadlines = {
-        closeDue: 0,
-        overDue: 0,
-    }
-
-    dataSets.forEach(dataSet => {
-        if (dataSet.formState === FormState.CLOSEDUE) {
-            deadlines.closeDue = deadlines.closeDue + 1
-        } else if (dataSet.formState === FormState.OVERDUE) {
-            deadlines.overDue = deadlines.overDue + 1
-        }
-    })
-
+const FacilityCard = ({ displayName, onClick, deadlines }) => {
     return (
         <button className="facility-card" onClick={onClick}>
             <span className="facility-card-title">{displayName}</span>
-            <span className="facility-card-deadlines">
+            <span>
                 {deadlines.overDue > 0 ? (
                     <Chip className="chip-expired">
                         {deadlines.overDue > 99
-                            ? '99+'
+                            ? VALUE_OVER_99
                             : deadlines.overDue.toLocaleString()}
                     </Chip>
                 ) : (
@@ -36,7 +23,7 @@ const FacilityCard = ({ id, displayName, readOnly, dataSets, onClick }) => {
                 {deadlines.closeDue > 0 ? (
                     <Chip className="chip-due">
                         {deadlines.closeDue > 99
-                            ? '99+'
+                            ? VALUE_OVER_99
                             : deadlines.closeDue.toLocaleString()}
                     </Chip>
                 ) : (
@@ -47,9 +34,15 @@ const FacilityCard = ({ id, displayName, readOnly, dataSets, onClick }) => {
     )
 }
 
+const deadlineShape = {
+    closeDue: PropTypes.number.isRequired,
+    overDue: PropTypes.number.isRequired,
+}
+
 FacilityCard.propTypes = {
     displayName: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
+    deadlines: PropTypes.shape(deadlineShape).isRequired,
 }
 
 export default FacilityCard

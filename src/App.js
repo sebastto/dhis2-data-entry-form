@@ -1,42 +1,29 @@
-import React, { useState, useEffect } from 'react'
-import FormOverviewLayout from './components/layouts/FormOverviewLayout/FormOverviewLayout'
-import FacilityOverviewLayout from './components/layouts/FacilityOverviewLayout/FacilityOverviewLayout'
-import { TabBar, Tab } from '@dhis2/ui-core'
+import React, { useEffect, useState } from 'react'
+import { Tab, TabBar } from '@dhis2/ui-core'
 import { useDataEngine } from '@dhis2/app-runtime'
-import { getAllOrganisationData } from './api/Api'
-import FacilityArrow from './components/ui/FacilityArrow/FacilityArrow'
 import classNames from 'classNames'
-import { processDataSets } from './utils/DataSetProcessing'
-
 import useMediaQuery from '@material-ui/core/useMediaQuery'
+
+import { getAllOrganisationData } from './api/Api'
+import { processDataSets } from './utils/DataSetProcessing'
+import FacilityOverviewLayout from './components/layouts/FacilityOverviewLayout/FacilityOverviewLayout'
+import FacilityArrow from './components/ui/FacilityArrow/FacilityArrow'
+import FormOverviewLayout from './components/layouts/FormOverviewLayout/FormOverviewLayout'
+import { FACILITIES, FORMS, MIN_WIDTH_APP } from './constants/constants'
 
 import './App.css'
 
 const MyApp = () => {
     const engine = useDataEngine()
-    const desktopView = useMediaQuery('(min-width:600px)')
+    const desktopView = useMediaQuery(MIN_WIDTH_APP)
 
     const [selectedFacility, setSelectedFacility] = useState(null)
     const [facilities, setFacilities] = useState(undefined)
-    const [mobileActiveTab, setMobileActiveTab] = useState('facilities')
+    const [mobileActiveTab, setMobileActiveTab] = useState(FACILITIES)
 
     useEffect(() => {
-        getAllOrganisationData(engine).then(({ organisations, dataSets }) => {
-            const processedDataSets = processDataSets(dataSets)
-            console.log(processedDataSets)
-
-            const processedfacilities = organisations.map(organisation => {
-                return {
-                    id: organisation.id,
-                    displayName: organisation.displayName,
-                    readOnly: organisation.readOnly,
-                    dataSets: processedDataSets[organisation.id],
-                }
-            })
-
-            console.log(processedfacilities)
-
-            setFacilities(processedfacilities)
+        getAllOrganisationData(engine).then(({ organisations }) => {
+            setFacilities(processDataSets(organisations))
         })
     }, [])
 
@@ -49,7 +36,7 @@ const MyApp = () => {
             >
                 <FacilityOverviewLayout
                     hidden={
-                        !desktopView && mobileActiveTab !== 'facilities'
+                        !desktopView && mobileActiveTab !== FACILITIES
                             ? 'hidden-facility'
                             : ''
                     }
@@ -61,7 +48,7 @@ const MyApp = () => {
                 {selectedFacility ? (
                     <FormOverviewLayout
                         hidden={
-                            !desktopView && mobileActiveTab !== 'forms'
+                            !desktopView && mobileActiveTab !== FORMS
                                 ? 'hidden-form'
                                 : ''
                         }
@@ -75,15 +62,15 @@ const MyApp = () => {
                     <nav className="mobile-nav">
                         <TabBar fixed>
                             <Tab
-                                selected={mobileActiveTab === 'facilities'}
-                                onClick={() => setMobileActiveTab('facilities')}
+                                selected={mobileActiveTab === FACILITIES}
+                                onClick={() => setMobileActiveTab(FACILITIES)}
                             >
                                 Facilities
                             </Tab>
                             <Tab
                                 disabled={!selectedFacility}
-                                selected={mobileActiveTab === 'forms'}
-                                onClick={() => setMobileActiveTab('forms')}
+                                selected={mobileActiveTab === FORMS}
+                                onClick={() => setMobileActiveTab(FORMS)}
                             >
                                 Forms
                             </Tab>

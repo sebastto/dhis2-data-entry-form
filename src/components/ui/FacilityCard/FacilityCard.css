@@ -32,12 +32,6 @@
     width: 50%;
 }
 
-.facility-card-deadlines {
-    width: 50%;
-    align-items: right;
-    float: right;
-}
-
 .chip-expired {
     justify-content: center;
     background-color: var(--error-color) !important;

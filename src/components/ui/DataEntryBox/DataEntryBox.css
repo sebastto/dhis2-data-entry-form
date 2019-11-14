@@ -49,7 +49,7 @@
     width: 67px;
     align-self: center;
     text-align: center;
-    margin: 0 1rem;
+    margin: 0 0.3rem 0 1rem;
 }
 
 .datebox-expiration {
@@ -70,7 +70,7 @@
 }
 
 .url-buttons {
-    margin: 1em 0em 1em 0;
+    margin: 1em 0;
     display: flex;
     border-right: 1px solid #9a9a9a;
     border-left: 1px solid #9a9a9a;
@@ -100,18 +100,11 @@
 }
 
 .icon-holder {
-    width: 48px !important;
+    align-self: center;
 }
 
-.expand-icon {
-    align-self: center;
-    margin-right: 0.2rem;
-    width: 48px !important;
-}
-
-.contract-icon {
-    align-self: center;
-    margin-right: 0.2rem;
-    transform: rotate(180deg);
-    width: 48px !important;
+.expand-icon,
+.shrink-icon {
+    width: 30px;
+    padding-right: 10px;
 }

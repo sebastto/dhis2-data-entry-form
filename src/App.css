@@ -1,5 +1,7 @@
+@import "constants/constants.css";
+
 body {
-    min-width: 300px;
+    min-width: var(--BODY-MIN-WIDTH);
 }
 
 .box-shadow {
@@ -12,12 +14,12 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    max-height: calc(100vh - 48px);
+    max-height: calc(100vh - var(--DHIS2-HEADER-HEIGHT));
     overflow: hidden;
 }
 
 .tab-view {
-    height: calc(100vh - 48px - 47px);
+    height: calc(100vh - var(--DHIS2-HEADER-HEIGHT) - var(--NAVBAR-HEIGHT));
 }
 
 .mobile-nav {

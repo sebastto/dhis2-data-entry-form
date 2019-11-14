@@ -1,6 +1,6 @@
 .sortingbuttons-container {
-    width: 90%;
-    max-width: 36rem;
+    width: var(--SORTINGBUTTONS-CONTAINER-WIDTH);
+    max-width: var(--SORTINGBUTTONS-CONTAINER-MAX-WIDTH);
     margin: 1rem auto 0;
     padding-left: 12px;
 }
@@ -23,7 +23,7 @@
 .first-option > svg,
 .second-option > svg {
     margin: 0 0 -0.1rem 0.2rem;
-    color: black;
+    color: var(--SORTINGBUTTONS-OPTION-COLOR);
 }
 
 .first-option.null > svg,
@@ -31,10 +31,9 @@
     opacity: 0;
 }
 
-/* Add some kind of shadow/color gradient effect? */
 .first-option.null:hover > svg,
 .second-option.null:hover > svg {
-    opacity: 0.25;
+    opacity: var(--SORTINGBUTTONS-NULL-HOVER-OPACITY);
 }
 
 .first-option:focus,

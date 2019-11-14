@@ -1,8 +1,3 @@
-:root {
-    --error-color: #891515;
-    --warning-color: #ffc324;
-}
-
 .facility-card {
     border: none;
     padding: 0.5rem 1.25rem;
@@ -12,7 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #e3f2ff;
+    background: var(--FACILITY-CARD-BACKGROUND);
     outline: 0;
 }
 
@@ -21,29 +16,29 @@
 }
 
 .facility-card:hover {
-    background-color: #1ea7fd;
-    color: #ffffff;
+    background-color: var(--FACILITY-CARD-HOVER-BACKGRGROUND-COLOR);
+    color: var(--FACILITY-CARD-HOVER-COLOR);
     cursor: pointer;
 }
 
 .facility-card-title {
     font-size: medium;
     text-align: left;
-    width: 50%;
+    width: var(--FACILITY-CARD-TITLE-WIDTH);
 }
 
 .chip-expired {
     justify-content: center;
-    background-color: var(--error-color) !important;
-    color: #ffffff !important;
-    width: 2.7rem;
+    background-color: var(--CHIP-EXPIRED-BACKGROUND-COLOR) !important;
+    color: var(--CHIP-COLOR) !important;
+    width: var(--CHIP-WIDTH);
     float: right;
 }
 
 .chip-due {
     justify-content: center;
-    background-color: var(--warning-color) !important;
-    color: #ffffff !important;
-    width: 2.7rem;
+    background-color: var(--CHIP-DUE-BACKGROUND-COLOR) !important;
+    color: var(--CHIP-COLOR) !important;
+    width: var(--CHIP-WIDTH);
     float: right;
 }

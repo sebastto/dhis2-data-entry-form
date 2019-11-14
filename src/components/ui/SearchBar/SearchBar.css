@@ -1,7 +1,7 @@
 .search-container {
-    width: 80%;
-    min-width: fit-content;
-    max-width: 25rem;
+    width: var(--SEARCH-CONTAINER-WIDTH);
+    min-width: var(--SEARCH-CONTAINER-MIN-WIDTH);
+    max-width: var(--SEARCH-CONTAINER-MAX-WIDTH);
     margin: 1rem auto;
     white-space: nowrap;
 }

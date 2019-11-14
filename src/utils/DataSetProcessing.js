@@ -3,30 +3,34 @@ import { TextFormatter } from './Formatter'
 
 export const processDataSets = organisations => {
     for (const index in organisations) {
+        const holder = []
         const deadlines = {
             closeDue: 0,
             overDue: 0,
         }
         const facilityDataSets = organisations[index].dataSets
 
-        organisations[index].dataSets = facilityDataSets.map(dataSet => {
+        for (let i = 0; i < facilityDataSets.length; i++) {
+            const dataSet = facilityDataSets[i]
             const deadlineInfo = getFormDeadlineInfo(dataSet)
-
-            if (deadlineInfo.formState === FormState.CLOSEDUE) {
-                deadlines.closeDue += 1
-            } else if (deadlineInfo.formState === FormState.OVERDUE) {
-                deadlines.overDue += 1
+            for (let j = 0; j < deadlineInfo.formDates.dueDates.length; j++) {
+                if (deadlineInfo.formStates[j] === FormState.CLOSEDUE) {
+                    deadlines.closeDue += 1
+                } else if (deadlineInfo.formStates[j] === FormState.OVERDUE) {
+                    deadlines.overDue += 1
+                }
+                holder.push({
+                    id: dataSet.id,
+                    displayName: TextFormatter(dataSet.displayName),
+                    dueDate: deadlineInfo.formDates.dueDates[j],
+                    formState: deadlineInfo.formStates[j],
+                    instanceNr: j.toString(),
+                    periodType: dataSet.periodType,
+                    expiryDate: deadlineInfo.formDates.expiryDates[j],
+                })
             }
-
-            return {
-                id: dataSet.id,
-                displayName: TextFormatter(dataSet.displayName),
-                dueDate: deadlineInfo.formDates.dueDate,
-                formState: deadlineInfo.formState,
-                periodType: dataSet.periodType,
-                expiryDate: deadlineInfo.formDates.expiryDate,
-            }
-        })
+        }
+        organisations[index].dataSets = holder.slice()
         organisations[index].deadlines = deadlines
     }
     return organisations
@@ -42,25 +46,29 @@ const getFormDeadlineInfo = dataSet => {
 
     // Set the forms state
     let formState = undefined
+    const formStates = []
 
-    if (formCompleted) {
-        formState = FormState.COMPLETED
-    } else if (
-        formDates.expiryDate !== -1 &&
-        todaysDate > formDates.expiryDate
-    ) {
-        formState = FormState.EXPIRED
-    } else if (todaysDate > formDates.dueDate) {
-        formState = FormState.OVERDUE
-    } else {
-        formState = getFormStateUrgency(
-            todaysDate,
-            formDates.dueDate,
-            dataSet.periodType
-        )
+    for (let i = 0; i < formDates.dueDates.length; i++) {
+        if (formCompleted) {
+            formState = FormState.COMPLETED
+        } else if (
+            formDates.expiryDates[i] !== -1 &&
+            todaysDate > formDates.expiryDates[i]
+        ) {
+            formState = FormState.EXPIRED
+        } else if (todaysDate > formDates.dueDates[i]) {
+            formState = FormState.OVERDUE
+        } else {
+            formState = getFormStateUrgency(
+                todaysDate,
+                formDates.dueDates[i],
+                dataSet.periodType[0]
+            )
+        }
+        formStates.push(formState)
     }
 
-    return { formDates, formState }
+    return { formDates, formStates }
 }
 
 const getFormDates = dataSet => {
@@ -68,6 +76,8 @@ const getFormDates = dataSet => {
     let periodStart = new Date() // set to today temporary
     const day = periodEnd.getDay()
     const month = periodEnd.getMonth()
+    const periodEnds = []
+    const periodStarts = []
 
     //Early Variable declaration (compiler work-around)
     let daysToEnd = -1
@@ -95,6 +105,18 @@ const getFormDates = dataSet => {
             periodStart = new Date(
                 periodEnd.getTime() - 6 * 24 * 60 * 60 * 1000
             )
+
+            periodStart.setHours(0, 0, 0, 0)
+            periodEnd.setHours(23, 59, 59, 999)
+            for (let i = 0; i < 4; i++) {
+                periodEnds.push(new Date(periodEnd))
+                periodStarts.push(new Date(periodStart))
+                periodEnd = new Date(periodEnd.setDate(periodEnd.getDate() - 7))
+                periodEnd.setHours(23, 59, 59, 999)
+                periodStart = new Date(
+                    periodStart.setDate(periodStart.getDate() - 7)
+                )
+            }
             break
         case 'BiWeekly':
             //Finds the current week number
@@ -115,14 +137,45 @@ const getFormDates = dataSet => {
             periodStart = new Date(
                 periodEnd.getTime() - 6.5 * 24 * 60 * 60 * 1000 * 2
             )
+
+            periodStart.setHours(0, 0, 0, 0)
+            periodEnd.setHours(23, 59, 59, 999)
+            for (let i = 0; i < 3; i++) {
+                periodEnds.push(new Date(periodEnd))
+                periodStarts.push(new Date(periodStart))
+                periodEnd = new Date(
+                    periodEnd.setDate(periodEnd.getDate() - 14)
+                )
+                periodEnd.setHours(23, 59, 59, 999)
+                periodStart = new Date(
+                    periodStart.setDate(periodStart.getDate() - 14)
+                )
+            }
             break
         case 'Monthly':
-            //Sets dateEnd to last day of month. Sets dateStart to first day of month
+            //Sets periodEnd to last day of month. Sets periodStart to first day of month
             periodEnd = new Date(periodEnd.getFullYear(), month + 1, 0)
             periodStart = new Date(periodEnd.getFullYear(), month, 1)
+            periodStart.setHours(0, 0, 0, 0)
+            periodEnd.setHours(23, 59, 59, 999)
+            for (let i = 0; i < 3; i++) {
+                periodEnds.push(new Date(periodEnd))
+                periodStarts.push(new Date(periodStart))
+                periodEnd = new Date(
+                    periodEnd.getFullYear(),
+                    periodEnd.getMonth(),
+                    0
+                )
+                periodEnd.setHours(23, 59, 59, 999)
+                periodStart = new Date(
+                    periodStart.getFullYear(),
+                    periodStart.getMonth() - 1,
+                    1
+                )
+            }
             break
         case 'BiMonthly':
-            //Sets dateEnd to last day of every even month. Sets dateStart to first day of month
+            //Sets periodEnd to last day of every even month. Sets periodStart to first day of month
             if (month % 2) {
                 shift = 1
             } else {
@@ -134,9 +187,26 @@ const getFormDates = dataSet => {
                 1
             )
             periodEnd = new Date(periodStart.getFullYear(), month + shift, 0)
+            periodStart.setHours(0, 0, 0, 0)
+            periodEnd.setHours(23, 59, 59, 999)
+            for (let i = 0; i < 3; i++) {
+                periodEnds.push(new Date(periodEnd))
+                periodStarts.push(new Date(periodStart))
+                periodEnd = new Date(
+                    periodEnd.getFullYear(),
+                    periodEnd.getMonth() - 2,
+                    0
+                )
+                periodEnd.setHours(23, 59, 59, 999)
+                periodStart = new Date(
+                    periodStart.getFullYear(),
+                    periodStart.getMonth() - 2,
+                    1
+                )
+            }
             break
         case 'Quarterly':
-            //Set dateEnd to last date in quarter. Sets dateStart to first date in quarter.
+            //Set periodEnd to last date in quarter. Sets periodStart to first date in quarter.
             quarter = Math.floor(month / 3) + 1
             quarterMonth = month - (quarter - 1) * 3
             periodEnd = new Date(
@@ -149,6 +219,15 @@ const getFormDates = dataSet => {
                 month - quarterMonth,
                 1
             )
+            periodStart.setHours(0, 0, 0, 0)
+            periodEnd.setHours(23, 59, 59, 999)
+            for (let i = 0; i < 2; i++) {
+                periodEnds.push(new Date(periodEnd))
+                periodStarts.push(new Date(periodStart))
+                periodEnd.setMonth(periodEnd.getMonth() - 3)
+                periodEnd.setHours(23, 59, 59, 999)
+                periodStart.setMonth(periodStart.getMonth() - 3)
+            }
             break
         case 'SixMonthly':
             if (shift == -1) shift = 1
@@ -156,7 +235,7 @@ const getFormDates = dataSet => {
             if (shift == -1) shift = 4
         case 'SixMonthlyNovember':
             if (shift == -1) shift = 11
-            //Set dateEnd to last date in quarter. Sets dateStart to first date in quarter.
+            //Set periodEnd to last date in quarter. Sets periodStart to first date in quarter.
             let half = 0
             if (shift - month < -4 || (shift - month > 1 && shift - month < 8))
                 half = 1
@@ -170,6 +249,24 @@ const getFormDates = dataSet => {
                 shift + half * 6 - 1,
                 1
             )
+            periodStart.setHours(0, 0, 0, 0)
+            periodEnd.setHours(23, 59, 59, 999)
+            for (let i = 0; i < 2; i++) {
+                periodEnds.push(new Date(periodEnd))
+                periodStarts.push(new Date(periodStart))
+                periodEnd.setDate(20)
+                periodEnd = new Date(
+                    periodEnd.getFullYear(),
+                    periodEnd.getMonth() - 5,
+                    0
+                )
+                periodEnd.setHours(23, 59, 59, 999)
+                periodStart = new Date(
+                    periodStart.getFullYear(),
+                    periodStart.getMonth() - 6,
+                    1
+                )
+            }
             break
         case 'Yearly':
             if (shift == -1) shift = 0
@@ -181,39 +278,67 @@ const getFormDates = dataSet => {
             if (shift == -1) shift = 9
         case 'FinancialNovember':
             if (shift == -1) shift = 10
-            //Set dateEnd to the last day of the year. Sets dateStart to the first day of the year
+            //Set periodEnd to the last day of the year. Sets periodStart to the first day of the year
             periodEnd = new Date(periodEnd.getFullYear(), shift + 12, 0)
             periodStart = new Date(periodStart.getFullYear(), shift, 1)
+            periodStart.setHours(0, 0, 0, 0)
+            periodEnd.setHours(23, 59, 59, 999)
+            for (let i = 0; i < 2; i++) {
+                periodEnds.push(new Date(periodEnd))
+                periodStarts.push(new Date(periodStart))
+                periodEnd.setFullYear(periodEnd.getFullYear() - 1)
+                periodEnd.setHours(23, 59, 59, 999)
+                periodStart.setFullYear(periodStart.getFullYear() - 1)
+            }
             break
         default:
             console.warn(
                 'Unhandled periodType: ' +
-                    dataSet.periodType +
+                    periodType +
                     '. Due date was simply set one week ahead'
             )
             periodEnd.setDate(periodEnd.getDate() + 7)
             periodStart.setDate(periodEnd.getDate() + -7)
+            periodStart.setHours(0, 0, 0, 0)
+            periodEnd.setHours(23, 59, 59, 999)
+            for (let i = 0; i < 2; i++) {
+                periodEnds.push(new Date(periodEnd))
+                periodStarts.push(new Date(periodStart))
+                periodEnd = new Date(
+                    periodEnd.getTime() - 7 * 24 * 60 * 60 * 1000
+                )
+                periodStart = new Date(
+                    periodEnd.getTime() - 7 * 24 * 60 * 60 * 1000
+                )
+            }
     }
 
-    periodStart.setHours(0, 0, 0, 0)
-    periodEnd.setHours(23, 59, 59, 999)
+    const dueDates = []
+    for (let i = 0; i < periodStarts.length; i++) {
+        dueDates.push(
+            new Date(
+                periodStarts[i].getTime() +
+                    dataSet.timelyDays * 24 * 60 * 60 * 1000
+            )
+        )
+    }
 
-    const dueDate = new Date(
-        periodStart.getTime() + dataSet.timelyDays * 24 * 60 * 60 * 1000
-    )
-    const expiryDate =
-        dataSet.expiryDays != 0
-            ? new Date(
-                  periodEnd.getTime() +
-                      (dataSet.timelyDays + dataSet.expiryDays) *
-                          24 *
-                          60 *
-                          60 *
-                          1000
-              )
-            : -1
-
-    return { periodStart, periodEnd, dueDate, expiryDate }
+    const expiryDates = []
+    for (let i = 0; i < periodStarts.length; i++) {
+        expiryDates.push(
+            dataSet.expiryDays != 0
+                ? new Date(
+                      periodEnds[i].getTime() +
+                          (dataSet.timelyDays + dataSet.expiryDays) *
+                              24 *
+                              60 *
+                              60 *
+                              1000
+                  )
+                : -1
+        )
+    }
+    return { periodStarts, periodEnds, dueDates, expiryDates }
 }
 
 const getFormStateUrgency = (todaysDate, dueDate, periodType) => {

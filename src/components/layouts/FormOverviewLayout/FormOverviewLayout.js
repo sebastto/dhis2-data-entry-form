@@ -93,7 +93,11 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                                     <DataEntryBox
                                         {...form}
                                         /* form.id is not uniqe, assume form.id + faciliyname is */
-                                        key={form.id + form.displayName}
+                                        key={
+                                            form.id +
+                                            form.instanceNr +
+                                            form.displayName
+                                        }
                                     />
                                 )
                             }

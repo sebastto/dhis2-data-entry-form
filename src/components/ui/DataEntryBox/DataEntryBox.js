@@ -12,6 +12,7 @@ import { MIN_WIDTH_DATAENTRYBOX } from '../../../constants/constants'
 import { FORM_STATE, STATUS_COLORS } from '../../../constants/enums'
 
 import './DataEntryBox.css'
+import ReadOnlyIcon from '../../icons/ReadOnlyIcon/ReadOnlyIcon'
 
 export const DataEntryBox = ({
     displayName,
@@ -21,6 +22,7 @@ export const DataEntryBox = ({
     editUrl,
     periodType,
     expiryDate,
+    readOnly,
 }) => {
     const [collapsed, setCollapsed] = useState(false)
     const color = getCardStatusColor(formState)
@@ -56,8 +58,9 @@ export const DataEntryBox = ({
                                 type="button"
                                 visibility="hidden"
                                 onClick={() => window.open(editUrl)}
+                                disabled={readOnly}
                             >
-                                <EditIcon />
+                                {readOnly ? <ReadOnlyIcon /> : <EditIcon />}
                                 <p>Edit</p>
                             </Button>
                         </div>
@@ -91,8 +94,9 @@ export const DataEntryBox = ({
                         <Button
                             type="button"
                             onClick={() => window.open(editUrl)}
+                            disabled={readOnly}
                         >
-                            <EditIcon />
+                            {readOnly ? <ReadOnlyIcon /> : <EditIcon />}
                             <p className="datacard-icon-group-text">Edit</p>
                         </Button>
                     </ButtonStrip>

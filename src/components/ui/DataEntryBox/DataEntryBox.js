@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Button, ButtonStrip, Card } from '@dhis2/ui-core'
 import Collapse from '@material-ui/core/Collapse'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
 import PropTypes from 'prop-types'
+
 import EditIcon from '../../icons/EditIcon/EditIcon'
 import ExpandIcon from '../../icons/ExpandIcon/ExpandIcon'
 import ViewIcon from '../../icons/ViewIcon/ViewIcon'
@@ -10,6 +10,7 @@ import { MIN_WIDTH_DATAENTRYBOX } from '../../../constants/constants'
 import { FORM_STATE, STATUS_COLORS } from '../../../constants/enums'
 
 import './DataEntryBox.css'
+import useMedia from '../../../utils/Media'
 
 export const DataEntryBox = ({
     displayName,
@@ -24,7 +25,8 @@ export const DataEntryBox = ({
     const [collapsed, setCollapsed] = useState(false)
     const color = getCardStatusColor(formState)
     const dueString = getDateString(dueDate)
-    const mobileView = !useMediaQuery(MIN_WIDTH_DATAENTRYBOX)
+    const mobileView = !useMedia(MIN_WIDTH_DATAENTRYBOX)
+    console.log('MOBILE VIEW: ', mobileView)
 
     return (
         <Card className="datacard box-shadow">

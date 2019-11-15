@@ -44,7 +44,7 @@
 }
 
 .datebox-due {
-    min-width: var(--DATEBOX-CHIP-WIDTH);
+    min-width: var(--DATEBOX-CHIP-MIN-WIDTH);
     align-self: center;
     text-align: center;
     margin: 0 0.3rem 0 1rem;

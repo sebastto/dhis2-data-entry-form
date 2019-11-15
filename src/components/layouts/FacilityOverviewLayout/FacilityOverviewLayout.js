@@ -89,6 +89,7 @@ const FacilityOverviewLayout = ({
                     objectToSet={setFacilityCards}
                     prevObject={facilities}
                     sortingFunc={facilitySortingFunction}
+                    sortingFuncConditionalReverse={facilitySortingFunction}
                     ref={ref}
                 />
                 {facilityCards ? (

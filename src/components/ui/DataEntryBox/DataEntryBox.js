@@ -25,6 +25,7 @@ export const DataEntryBox = ({
     const color = getCardStatusColor(formState)
     const dueString = getDateString(dueDate)
     const mobileView = !useMediaQuery(MIN_WIDTH_DATAENTRYBOX)
+    //console.log(displayName + " date="+dueString+" has periodType="+periodType)
 
     return (
         <Card className="datacard box-shadow">

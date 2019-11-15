@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Tab, TabBar } from '@dhis2/ui-core'
 import { useDataEngine } from '@dhis2/app-runtime'
 import classNames from 'classNames'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
 import reactRouterDom from 'react-router-dom'
 const { BrowserRouter, useLocation, useHistory } = reactRouterDom
 
@@ -12,6 +11,7 @@ import FacilityOverviewLayout from './components/layouts/FacilityOverviewLayout/
 import FacilityArrow from './components/ui/FacilityArrow/FacilityArrow'
 import FormOverviewLayout from './components/layouts/FormOverviewLayout/FormOverviewLayout'
 import { FACILITIES, FORMS, MIN_WIDTH_APP } from './constants/constants'
+import useMedia from './utils/Media'
 
 import './App.css'
 
@@ -28,7 +28,7 @@ const App = () => {
     const history = useHistory()
     const engine = useDataEngine()
     const getCompleteFormEngine = useDataEngine()
-    const desktopView = useMediaQuery(MIN_WIDTH_APP)
+    const desktopView = useMedia(MIN_WIDTH_APP)
 
     const [selectedFacility, setSelectedFacility] = useState(null)
     const [facilities, setFacilities] = useState(undefined)

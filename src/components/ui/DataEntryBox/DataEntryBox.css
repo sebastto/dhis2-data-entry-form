@@ -107,9 +107,14 @@
 
 .expand-icon {
     width: var(--EXPAND-ICON-WIDTH);
-    transition: transform var(--EXPAND-ICON-TRANSISTION-TIME);
+    transition: transform var(--DATACARD-EXPAND-TRANSISTION);
+    
 }
 
 .expand-icon-collapse {
     transform: rotate(-180deg);
+}
+
+.react-css-collapse-transition {
+  transition: height var(--DATACARD-EXPAND-TRANSISTION);
 }

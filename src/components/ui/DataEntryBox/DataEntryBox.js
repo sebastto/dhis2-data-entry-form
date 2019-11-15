@@ -23,7 +23,10 @@ export const DataEntryBox = ({
 }) => {
     const [collapsed, setCollapsed] = useState(false)
     const color = getCardStatusColor(formState)
-    const dueString = getDateString(dueDate)
+    const dueString =
+        formState === FORM_STATE.COMPLETED
+            ? 'Completed'
+            : getDateString(dueDate)
     const mobileView = !useMediaQuery(MIN_WIDTH_DATAENTRYBOX)
 
     return (

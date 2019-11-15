@@ -1,5 +1,7 @@
 import { TextFormatter } from './Formatter'
 import {
+    DAILY,
+    DAILY_INSTANCES,
     BI_MONTHLY,
     BI_WEEKLY,
     BIWEEKLY_AND_MONTHLY_INSTANCES,
@@ -78,6 +80,7 @@ export const processDataSets = (organisations, engine) => {
 const getFormDeadlineInfo = dataSet => {
     const formDates = getFormDates(dataSet)
     const todaysDate = new Date()
+    todaysDate.setHours(0, 0, 0, 0)
     // TODO: check api for completed form
     const formCompleted = false
 
@@ -99,7 +102,7 @@ const getFormDeadlineInfo = dataSet => {
             formState = getFormStateUrgency(
                 todaysDate,
                 formDates.dueDates[i],
-                dataSet.periodType[0]
+                dataSet.periodType
             )
         }
         formStates.push(formState)
@@ -126,6 +129,19 @@ const getFormDates = dataSet => {
         /*
         Implemented to match these specs:
         https://github.com/dhis2/dhis2-core/blob/master/dhis-2/dhis-api/src/main/java/org/hisp/dhis/period/PeriodType.java        */
+        case DAILY:
+            // Sets periodStart and End to today.
+            periodStart.setHours(0, 0, 0, 0)
+            periodEnd.setHours(23, 59, 59, 999)
+            for (let i = 0; i < DAILY_INSTANCES; i++) {
+                periodEnds.push(new Date(periodEnd))
+                periodStarts.push(new Date(periodStart))
+                periodEnd = new Date(periodEnd.setDate(periodEnd.getDate() - 1))
+                periodStart = new Date(
+                    periodStart.setDate(periodStart.getDate() - 1)
+                )
+            }
+            break
         case WEEKLY:
             if (shift === -1) shift = 0
         case WEEKLY_WEDNESDAY:

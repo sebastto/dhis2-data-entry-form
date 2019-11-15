@@ -33,8 +33,19 @@ const FacilityOverviewLayout = ({
     const [searchInput, setSearchInput] = useState('')
     const [childSwitch, setChildSwitch] = useState(false)
     const [facilityCards, setFacilityCards] = useState(null)
+    const [hideFacilities, setHideFacilities] = useState(false)
 
     const ref = React.createRef()
+
+    useEffect(() => {
+        if (facilities) {
+            setFacilityCards(facilities)
+            if (facilities.length === 1) {
+                setHideFacilities(true)
+                setSelectedFacility(facilities[0])
+            }
+        }
+    }, [facilities])
 
     const facilitySortingFunction = (a, b) => {
         if (a.deadlines.overDue > b.deadlines.overDue) return 1
@@ -47,6 +58,7 @@ const FacilityOverviewLayout = ({
     }
 
     return (
+    !hideFacilities && (
         <div
             className={classNames(
                 'facility-overview-container',
@@ -80,6 +92,7 @@ const FacilityOverviewLayout = ({
                 ref={ref}
             />
             {facilityCards ? (
+                facilityCards.length > 1 && (
                 <section className="facility-card-section">
                     <SimpleBar style={{ height: '100%' }} ref={ref}>
                         {facilityCards.map((facilityCard, index) => {
@@ -114,11 +127,10 @@ const FacilityOverviewLayout = ({
                         })}
                     </SimpleBar>
                 </section>
+                )
             ) : (
                 <FacilityPlaceholder />
             )}
-        </div>
-    )
-}
-
+        </div>)
+)
 export default FacilityOverviewLayout

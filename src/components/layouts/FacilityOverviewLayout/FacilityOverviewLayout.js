@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import classNames from 'classNames'
 import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
+import reactRouterDom from 'react-router-dom'
+const { useHistory } = reactRouterDom
 
 import FacilityCard from '../../ui/FacilityCard/FacilityCard'
 import FacilityPlaceholder from '../../ui/Placeholders/FacilityPlaceholder'
@@ -26,6 +28,7 @@ const FacilityOverviewLayout = ({
     setSelectedFacility,
     setMobileActiveTab,
 }) => {
+    const history = useHistory()
     const [searchInput, setSearchInput] = useState('')
     const [facilityCards, setFacilityCards] = useState(null)
 
@@ -92,6 +95,9 @@ const FacilityOverviewLayout = ({
                                         onClick={() => {
                                             setSelectedFacility(facilityCard)
                                             setMobileActiveTab('forms')
+                                            history.push(
+                                                `/${facilityCard.displayName}`
+                                            )
                                         }}
                                         selected={
                                             selectedFacility

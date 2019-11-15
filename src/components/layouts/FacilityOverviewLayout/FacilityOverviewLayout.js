@@ -95,8 +95,8 @@ const FacilityOverviewLayout = ({
                                         }}
                                         selected={
                                             selectedFacility
-                                                ? facilityCard.id ===
-                                                  selectedFacility.id
+                                                ? facilityCard ===
+                                                  selectedFacility
                                                 : false
                                         }
                                         key={index}

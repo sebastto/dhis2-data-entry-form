@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button, ButtonStrip, Card } from '@dhis2/ui-core'
 import Collapse from 'react-css-collapse'
 import PropTypes from 'prop-types'
+import classNames from 'classNames'
 
 import EditIcon from '../../icons/EditIcon/EditIcon'
 import ExpandIcon from '../../icons/ExpandIcon/ExpandIcon'
@@ -62,21 +63,18 @@ export const DataEntryBox = ({
                                 onClick={() => window.open(viewUrl)}
                             >
                                 <ViewIcon className="url-buttons-icons" />
-                                <p>View</p>
+                                <p className="datacard-icon-group-text">View</p>
                             </Button>
-                            {readOnly ? (
-                                ''
-                            ) : (
-                                <Button
-                                    className={'card-button'}
-                                    type="button"
-                                    visibility="hidden"
-                                    onClick={() => window.open(editUrl)}
-                                >
-                                    <EditIcon />
-                                    <p>Edit</p>
-                                </Button>
-                            )}
+                            <Button
+                                type="button"
+                                onClick={() => window.open(editUrl)}
+                                className={classNames('card-button', {
+                                    hidden: readOnly,
+                                })}
+                            >
+                                <EditIcon className="url-buttons-icons" />
+                                <p className="datacard-icon-group-text">Edit</p>
+                            </Button>
                         </div>
                     )}
                     <p className="datebox-due">{dateBoxDueText}</p>
@@ -106,22 +104,19 @@ export const DataEntryBox = ({
                         <Button
                             type="button"
                             onClick={() => window.open(viewUrl)}
+                            icon={<ViewIcon />}
                         >
-                            <ViewIcon />
-                            <p className="datacard-icon-group-text">View</p>
+                            View
                         </Button>
 
-                        {readOnly ? (
-                            ''
-                        ) : (
-                            <Button
-                                type="button"
-                                onClick={() => window.open(editUrl)}
-                            >
-                                <EditIcon />
-                                <p className="datacard-icon-group-text">Edit</p>
-                            </Button>
-                        )}
+                        <Button
+                            type="button"
+                            onClick={() => window.open(editUrl)}
+                            icon={<EditIcon />}
+                            className={classNames({ hidden: readOnly })}
+                        >
+                            Edit
+                        </Button>
                     </ButtonStrip>
                 </Collapse>
             </div>

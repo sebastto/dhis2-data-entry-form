@@ -1,11 +1,20 @@
+import {
+    DEFAULT,
+    DHIS2_CRITICAL_RED,
+    DHIS2_DEFAULT_BLACK,
+    DHIS2_DISABLED_GRAY,
+    DHIS2_SUCCESS_GREEN,
+    DHIS2_WARNING_YELLOW,
+} from './constants'
+
 /* DATAENTRYBOX ENUMS */
 export const STATUS_COLORS = {
-    OVERDUE: '#891515', // dhis2 critical red
-    CLOSEDUE: '#FFC324', // dhis2 warning yellow
-    NOTCLOSEDUE: '#212934', // dhis2 default black
-    COMPLETED: '#1b5e20', // dhis2 success green
-    EXPIRED: '#a0adba', // dhis2 disabled gray
-    DEFAULT: 'purple',
+    OVERDUE: DHIS2_CRITICAL_RED,
+    CLOSEDUE: DHIS2_WARNING_YELLOW,
+    NOTCLOSEDUE: DHIS2_DEFAULT_BLACK,
+    COMPLETED: DHIS2_SUCCESS_GREEN,
+    EXPIRED: DHIS2_DISABLED_GRAY,
+    DEFAULT: DEFAULT,
 }
 
 export const FORM_STATE = {

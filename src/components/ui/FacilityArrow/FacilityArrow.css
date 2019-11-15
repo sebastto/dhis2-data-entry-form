@@ -5,13 +5,13 @@
 }
 
 .arrow {
-    width: 20vw;
-    height: 20vw;
+    width: var(--FACILITY-ARROW-WIDTH);
+    height: var(--FACILITY-ARROW-HEIGHT);
     margin: auto;
 }
 
 .arrow-text {
     text-align: center;
     font-weight: bold;
-    font-size: 3vw;
+    font-size: var(--FACILITY-ARROW-FONT-SIZE);
 }

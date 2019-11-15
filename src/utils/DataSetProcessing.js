@@ -1,7 +1,10 @@
 import { TextFormatter } from './Formatter'
 import {
+    DAILY,
+    DAILY_INSTANCES,
     BI_MONTHLY,
     BI_WEEKLY,
+    BIWEEKLY_AND_MONTHLY_INSTANCES,
     DAYS_IN_A_MONTH,
     DAYS_IN_A_WEEK,
     DAYS_IN_A_YEAR,
@@ -14,12 +17,16 @@ import {
     MINUTES_IN_AN_HOUR,
     MONTHLY,
     MS_IN_A_DAY,
+    MS_IN_A_SECONDS,
     QUARTERLY,
+    QUARTERLY_SIX_MONTHLY_AND_YEARLY_INSTANCES,
     SECONDS_IN_AN_HOUR,
     SIX_MONTHLY,
     SIX_MONTHLY_APRIL,
     SIX_MONTHLY_NOVEMBER,
+    UNHANDLED_PERIODTYPE_INSTANCES,
     WEEKLY,
+    WEEKLY_INSTANCES,
     WEEKLY_SATURDAY,
     WEEKLY_SUNDAY,
     WEEKLY_THURSDAY,
@@ -27,8 +34,9 @@ import {
     YEARLY,
 } from '../constants/constants'
 import { FORM_STATE } from '../constants/enums'
+import { getCompleteForm } from '../api/Api'
 
-export const processDataSets = organisations => {
+export const processDataSets = (organisations, engine) => {
     for (const index in organisations) {
         const holder = []
         const deadlines = {
@@ -48,24 +56,31 @@ export const processDataSets = organisations => {
                 }
                 holder.push({
                     id: dataSet.id,
+                    organisationId: organisations[index].id,
                     displayName: TextFormatter(dataSet.displayName),
                     dueDate: deadlineInfo.formDates.dueDates[j],
                     formState: deadlineInfo.formStates[j],
                     instanceNr: j.toString(),
                     periodType: dataSet.periodType,
                     expiryDate: deadlineInfo.formDates.expiryDates[j],
+                    periodStarts: deadlineInfo.formDates.periodStarts,
+                    periodEnds: deadlineInfo.formDates.periodEnds,
                 })
             }
         }
         organisations[index].dataSets = holder.slice()
         organisations[index].deadlines = deadlines
     }
+
+    checkCompletedDataSets(organisations, engine)
+
     return organisations
 }
 
 const getFormDeadlineInfo = dataSet => {
     const formDates = getFormDates(dataSet)
     const todaysDate = new Date()
+    todaysDate.setHours(0, 0, 0, 0)
     // TODO: check api for completed form
     const formCompleted = false
 
@@ -87,7 +102,7 @@ const getFormDeadlineInfo = dataSet => {
             formState = getFormStateUrgency(
                 todaysDate,
                 formDates.dueDates[i],
-                dataSet.periodType[0]
+                dataSet.periodType
             )
         }
         formStates.push(formState)
@@ -114,6 +129,19 @@ const getFormDates = dataSet => {
         /*
         Implemented to match these specs:
         https://github.com/dhis2/dhis2-core/blob/master/dhis-2/dhis-api/src/main/java/org/hisp/dhis/period/PeriodType.java        */
+        case DAILY:
+            // Sets periodStart and End to today.
+            periodStart.setHours(0, 0, 0, 0)
+            periodEnd.setHours(23, 59, 59, 999)
+            for (let i = 0; i < DAILY_INSTANCES; i++) {
+                periodEnds.push(new Date(periodEnd))
+                periodStarts.push(new Date(periodStart))
+                periodEnd = new Date(periodEnd.setDate(periodEnd.getDate() - 1))
+                periodStart = new Date(
+                    periodStart.setDate(periodStart.getDate() - 1)
+                )
+            }
+            break
         case WEEKLY:
             if (shift === -1) shift = 0
         case WEEKLY_WEDNESDAY:
@@ -133,12 +161,12 @@ const getFormDates = dataSet => {
                         HOURS_IN_A_DAY *
                         MINUTES_IN_AN_HOUR *
                         MINUTES_IN_AN_HOUR *
-                        1000
+                        MS_IN_A_SECONDS
             )
 
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (let i = 0; i < 4; i++) {
+            for (let i = 0; i < WEEKLY_INSTANCES; i++) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd = new Date(
@@ -146,7 +174,7 @@ const getFormDates = dataSet => {
                 )
                 periodEnd.setHours(23, 59, 59, 999)
                 periodStart = new Date(
-                    periodStart.setDate(periodStart.getDate() - 7)
+                    periodStart.setDate(periodStart.getDate() - DAYS_IN_A_WEEK)
                 )
             }
             break
@@ -172,13 +200,13 @@ const getFormDates = dataSet => {
                         HOURS_IN_A_DAY *
                         MINUTES_IN_AN_HOUR *
                         MINUTES_IN_AN_HOUR *
-                        1000 *
+                        MS_IN_A_SECONDS *
                         2
             )
 
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i < BIWEEKLY_AND_MONTHLY_INSTANCES; i++) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd = new Date(
@@ -198,7 +226,7 @@ const getFormDates = dataSet => {
             periodStart = new Date(periodEnd.getFullYear(), month, 1)
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i < BIWEEKLY_AND_MONTHLY_INSTANCES; i++) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd = new Date(
@@ -229,7 +257,7 @@ const getFormDates = dataSet => {
             periodEnd = new Date(periodStart.getFullYear(), month + shift, 0)
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i < BIWEEKLY_AND_MONTHLY_INSTANCES; i++) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd = new Date(
@@ -261,7 +289,11 @@ const getFormDates = dataSet => {
             )
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (let i = 0; i < 2; i++) {
+            for (
+                let i = 0;
+                i < QUARTERLY_SIX_MONTHLY_AND_YEARLY_INSTANCES;
+                i++
+            ) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd.setMonth(periodEnd.getMonth() - 3)
@@ -291,7 +323,11 @@ const getFormDates = dataSet => {
             )
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (let i = 0; i < 2; i++) {
+            for (
+                let i = 0;
+                i < QUARTERLY_SIX_MONTHLY_AND_YEARLY_INSTANCES;
+                i++
+            ) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd.setDate(20)
@@ -323,7 +359,11 @@ const getFormDates = dataSet => {
             periodStart = new Date(periodStart.getFullYear(), shift, 1)
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (let i = 0; i < 2; i++) {
+            for (
+                let i = 0;
+                i < QUARTERLY_SIX_MONTHLY_AND_YEARLY_INSTANCES;
+                i++
+            ) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd.setFullYear(periodEnd.getFullYear() - 1)
@@ -332,12 +372,12 @@ const getFormDates = dataSet => {
             }
             break
         default:
-            console.warn(DEFAULT_WARN_PERIODTYPE(periodType))
-            periodEnd.setDate(periodEnd.getDate() + 7)
-            periodStart.setDate(periodEnd.getDate() + -7)
+            console.warn(DEFAULT_WARN_PERIODTYPE(dataSet.periodType))
+            periodEnd.setDate(periodEnd.getDate() + DAYS_IN_A_WEEK)
+            periodStart.setDate(periodEnd.getDate() + -DAYS_IN_A_WEEK)
             periodStart.setHours(0, 0, 0, 0)
             periodEnd.setHours(23, 59, 59, 999)
-            for (let i = 0; i < 2; i++) {
+            for (let i = 0; i < UNHANDLED_PERIODTYPE_INSTANCES; i++) {
                 periodEnds.push(new Date(periodEnd))
                 periodStarts.push(new Date(periodStart))
                 periodEnd = new Date(
@@ -346,7 +386,7 @@ const getFormDates = dataSet => {
                             HOURS_IN_A_DAY *
                             MINUTES_IN_AN_HOUR *
                             MINUTES_IN_AN_HOUR *
-                            1000
+                            MS_IN_A_SECONDS
                 )
                 periodStart = new Date(
                     periodEnd.getTime() -
@@ -354,7 +394,7 @@ const getFormDates = dataSet => {
                             HOURS_IN_A_DAY *
                             MINUTES_IN_AN_HOUR *
                             MINUTES_IN_AN_HOUR *
-                            1000
+                            MS_IN_A_SECONDS
                 )
             }
     }
@@ -368,7 +408,7 @@ const getFormDates = dataSet => {
                         HOURS_IN_A_DAY *
                         MINUTES_IN_AN_HOUR *
                         MINUTES_IN_AN_HOUR *
-                        1000
+                        MS_IN_A_SECONDS
             )
         )
     }
@@ -383,7 +423,7 @@ const getFormDates = dataSet => {
                               HOURS_IN_A_DAY *
                               MINUTES_IN_AN_HOUR *
                               MINUTES_IN_AN_HOUR *
-                              1000
+                              MS_IN_A_SECONDS
                   )
                 : -1
         )
@@ -393,7 +433,8 @@ const getFormDates = dataSet => {
 
 const getFormStateUrgency = (todaysDate, dueDate, periodType) => {
     const daysToDeadLine =
-        (dueDate - todaysDate) / (1000 * SECONDS_IN_AN_HOUR * HOURS_IN_A_DAY)
+        (dueDate - todaysDate) /
+        (MS_IN_A_SECONDS * SECONDS_IN_AN_HOUR * HOURS_IN_A_DAY)
     let fullDaysToDeadLine = -1
 
     switch (periodType) {
@@ -426,5 +467,104 @@ const getFormStateUrgency = (todaysDate, dueDate, periodType) => {
         return FORM_STATE.CLOSEDUE
     } else {
         return FORM_STATE.NOTCLOSEDUE
+    }
+}
+
+const checkCompletedDataSets = (organisations, engine) => {
+    const dataSetsByPeriodType = {}
+
+    for (const organisation of organisations) {
+        // Not allowed to access viewOnly facilities
+        if (organisation.readOnly) {
+            continue
+        }
+
+        for (const dataSet of organisation.dataSets) {
+            const periodType = dataSet.periodType
+
+            if (!dataSetsByPeriodType[periodType]) {
+                dataSetsByPeriodType[periodType] = []
+            }
+
+            dataSetsByPeriodType[periodType].push(dataSet)
+        }
+    }
+
+    // Now divide into cycles within each
+
+    const dataSetsByCycle = {}
+
+    for (const period in dataSetsByPeriodType) {
+        const dataSets = dataSetsByPeriodType[period]
+        dataSetsByCycle[period] = []
+
+        for (const dataSet of dataSets) {
+            for (let i = 0; i < dataSet.periodStarts.length; i++) {
+                if (!dataSetsByCycle[period][i]) {
+                    dataSetsByCycle[period][i] = {
+                        dataSetIds: [],
+                        organisationIds: [],
+                        startDate: '',
+                        endDate: '',
+                    }
+                }
+
+                if (
+                    !dataSetsByCycle[period][i].dataSetIds.includes(dataSet.id)
+                ) {
+                    dataSetsByCycle[period][i].dataSetIds.push(dataSet.id)
+                }
+
+                if (
+                    !dataSetsByCycle[period][i].organisationIds.includes(
+                        dataSet.organisationId
+                    )
+                ) {
+                    dataSetsByCycle[period][i].organisationIds.push(
+                        dataSet.organisationId
+                    )
+                }
+
+                dataSetsByCycle[period][i].startDate = dataSet.periodStarts[i]
+                    .toISOString()
+                    .substring(0, 10)
+                dataSetsByCycle[period][i].endDate = dataSet.periodEnds[i]
+                    .toISOString()
+                    .substring(0, 10)
+            }
+        }
+    }
+
+    for (const period in dataSetsByCycle) {
+        const cycles = dataSetsByCycle[period]
+
+        for (let i = 0; i < cycles.length; i++) {
+            const cycleDataSets = cycles[i]
+
+            getCompleteForm(cycleDataSets, engine).then(myData => {
+                // If a dataSet was completed, we need to update the FormState of the corresponding dataSet of the organisation
+                if (!myData || !myData.completeDataSetRegistrations) {
+                    return
+                }
+
+                for (const completedRegistration of myData.completeDataSetRegistrations) {
+                    const { organisationUnit, dataSet } = completedRegistration
+                    const matchingOrganisation = organisations.filter(
+                        organisation => organisation.id === organisationUnit
+                    )[0]
+                    const matchingDataSets = matchingOrganisation.dataSets.filter(
+                        orgDataSet => orgDataSet.id === dataSet
+                    )
+                    const matchingDataSet = matchingDataSets.filter(
+                        matchDataSet => matchDataSet.instanceNr === i.toString()
+                    )[0]
+
+                    // For admin user it does not always find a matching data set
+                    if (matchingDataSet) {
+                        matchingDataSet.formState = FORM_STATE.COMPLETED
+                    }
+                }
+            })
+        }
     }
 }

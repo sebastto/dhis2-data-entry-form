@@ -1,8 +1,3 @@
-:root {
-    --error-color: #891515;
-    --warning-color: #ffc324;
-}
-
 .facility-card {
     border: none;
     padding: 0.5rem 1.25rem;
@@ -12,38 +7,64 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #e3f2ff;
+    background: inherit;
     outline: 0;
 }
 
-.facility-card:nth-child(even) {
-    background: inherit;
+.facility-card.selected {
+    background-color: var(--FACILITY-CARD-SELECTED-BACKGROUND-COLOR);
+    color: var(--FACILITY-CARD-SELECTED-COLOR);
 }
 
-.facility-card:hover {
-    background-color: #1ea7fd;
-    color: #ffffff;
+.facility-card:not(.selected):nth-child(odd) {
+    background: var(--FACILITY-CARD-BACKGROUND);
+}
+
+.facility-card:not(.selected):hover {
+    background-color: var(--FACILITY-CARD-HOVER-BACKGROUND-COLOR);
     cursor: pointer;
 }
 
 .facility-card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: medium;
     text-align: left;
-    width: 50%;
+    width: var(--FACILITY-CARD-TITLE-WIDTH);
+}
+
+.chip-container {
+    width: 30%;
 }
 
 .chip-expired {
     justify-content: center;
-    background-color: var(--error-color) !important;
-    color: #ffffff !important;
-    width: 2.7rem;
+    background-color: var(--CHIP-EXPIRED-BACKGROUND-COLOR) !important;
+    color: var(--CHIP-COLOR) !important;
+    width: var(--CHIP-WIDTH);
     float: right;
 }
 
 .chip-due {
     justify-content: center;
-    background-color: var(--warning-color) !important;
-    color: #ffffff !important;
-    width: 2.7rem;
+    background-color: var(--CHIP-DUE-BACKGROUND-COLOR) !important;
+    color: var(--CHIP-COLOR) !important;
+    width: var(--CHIP-WIDTH);
     float: right;
+}
+
+.read-only-span {
+    opacity: 0.7;
+    font-size: 0.7rem;
+    text-align: left;
+    display: inline-flex;
+    flex-direction: column-reverse;
+    align-items: center;
+}
+
+.read-only-icon {
+    height: 2rem;
+    width: 2rem;
+    vertical-align: bottom;
 }

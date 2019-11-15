@@ -1,8 +1,8 @@
 .datacard {
-    height: auto !important;
-    width: 90% !important;
+    height: var(--DATACARD-HEIGHT) !important;
+    width: var(--DATACARD-WIDTH) !important;
     margin: 1rem auto !important;
-    background-color: #fafafa !important;
+    background-color: var(--DATACARD-BACKGROUND-COLOR) !important;
     display: flex !important;
     flex-direction: row !important;
     justify-content: space-between !important;
@@ -16,7 +16,7 @@
 }
 
 .datacard-colormark {
-    width: 0.7rem;
+    min-width: 0.7rem;
     min-height: 100%;
     align-self: stretch;
     border-top-left-radius: 3px;
@@ -38,25 +38,16 @@
 }
 
 .titlebox {
-    /*border-right: 1px solid;*/
     padding: 0 1rem;
-    width: 80%;
+    width: var(--TITLEBOX-WIDTH);
     align-self: center;
 }
 
 .datebox-due {
-    /*padding: 0 1.5rem;*/
-    width: 67px;
+    min-width: var(--DATEBOX-CHIP-MIN-WIDTH);
     align-self: center;
     text-align: center;
     margin: 0 0.3rem 0 1rem;
-}
-
-.datebox-expiration {
-    /*padding: 0 1.5rem;*/
-    width: 67px;
-    text-align: center;
-    margin-left: 1rem;
 }
 
 .data-card-button-strip {
@@ -96,15 +87,28 @@
 }
 
 .card-button:hover {
-    background-color: #e4e8eb !important;
+    background-color: var(--CARD-BUTTON-HOVER) !important;
 }
 
 .icon-holder {
     align-self: center;
+    padding-right: 10px;
 }
 
-.expand-icon,
-.shrink-icon {
-    width: 30px;
-    padding-right: 10px;
+.url-buttons-icons {
+    width: 1.3rem;
+}
+
+.expand-icon {
+    width: var(--EXPAND-ICON-WIDTH);
+    transition: transform var(--DATACARD-EXPAND-TRANSISTION);
+    
+}
+
+.expand-icon-collapse {
+    transform: rotate(-180deg);
+}
+
+.react-css-collapse-transition {
+  transition: height var(--DATACARD-EXPAND-TRANSISTION);
 }

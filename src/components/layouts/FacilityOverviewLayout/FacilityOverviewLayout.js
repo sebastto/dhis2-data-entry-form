@@ -22,9 +22,11 @@ const FacilityOverviewLayout = ({
     hidden,
     mobileView,
     facilities,
+    selectedFacility,
     setSelectedFacility,
     setMobileActiveTab,
 }) => {
+    const history = useHistory()
     const [searchInput, setSearchInput] = useState('')
     const [facilityCards, setFacilityCards] = useState(null)
 
@@ -87,9 +89,16 @@ const FacilityOverviewLayout = ({
                                         onClick={() => {
                                             setSelectedFacility(facilityCard)
                                             setMobileActiveTab('forms')
-                                            console.log('Set facility:')
-                                            console.log(facilityCard)
+                                            history.push(
+                                                `/${facilityCard.displayName}`
+                                            )
                                         }}
+                                        selected={
+                                            selectedFacility
+                                                ? facilityCard ===
+                                                  selectedFacility
+                                                : false
+                                        }
                                         key={index}
                                     />
                                 )

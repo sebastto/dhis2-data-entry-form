@@ -1,12 +1,12 @@
 .form-overview-light-container {
     padding-top: 0.5rem;
-    background-color: #e8f3ff;
+    background-color: var(--FORM-OVERVIEW-LIGHT-CONTAINER-BACKGROUND-COLOR);
     width: 100%;
 }
 
 .form-overview-form-section {
     width: 100%;
-    max-width: 40rem;
+    max-width: var(--FORM-OVERVIEW-FORM-SECTION-MAX-WIDTH);
     margin: 0.5rem auto 1rem auto;
     height: 100vh;
     overflow: hidden;
@@ -15,11 +15,19 @@
 .tab-bar {
     justify-content: center;
     box-shadow: none !important;
-    background-color: #e8f3ff !important;
+    background-color: var(--TAB-BAR-BACKGROUND-COLOR) !important;
 }
 
 .tab {
     border: none !important;
+}
+
+@media only screen and (max-width: 400px) {
+    .tab {
+        border: none !important;
+        padding-right: 6px !important;
+        padding-left: 6px !important;
+    }
 }
 
 .form-overview-container {
@@ -35,7 +43,9 @@
     position: fixed;
     transition: right 0.3s;
     right: 0;
-    max-height: calc(100vh - 48px - 47px) !important;
+    max-height: calc(
+        100vh - var(--DHIS2-HEADER-HEIGHT) - var(--NAVBAR-HEIGHT)
+    ) !important;
     min-height: 0;
 }
 

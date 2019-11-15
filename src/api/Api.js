@@ -19,8 +19,8 @@ const allChildOrganisationUnits = {
 const completeForms = {
     myData: {
         resource: 'completeDataSetRegistrations',
-        id: ({ organisationId, dataSetId, period }) =>
-            `?orgUnit=${organisationId}&dataSet=${dataSetId}&period=${period}`,
+        id: ({ startDate, endDate, organisationId, dataSetId }) =>
+            `?startDate=${startDate}&endDate=${endDate}${organisationId}${dataSetId}`,
     },
 }
 
@@ -76,19 +76,38 @@ export const getAllOrganisationData = async engine => {
  * 2004S1; January-June(half-year) 2004. 2004; 2004
  *
  */
-export const getCompleteForm = (organisationId, dataSetId, period) => {
-    const { error, data } = useDataQuery(completeForms, {
-        variables: {
-            organisationId,
-            dataSetId,
-            period,
-        },
-    })
+export const getCompleteForm = async (dataSets, engine) => {
+    const allMyData = { completeDataSetRegistrations: [] }
 
-    {
-        error && `ERROR: ${error.message}`
+    // Divide large requests into smaller chunks to avoid network error
+    while (dataSets.organisationIds.length > 0) {
+        const currentOrganisationIds = dataSets.organisationIds.splice(0, 220)
+
+        const queryParams = {
+            startDate: dataSets.startDate,
+            endDate: dataSets.endDate,
+            organisationId: '',
+            dataSetId: '',
+        }
+
+        for (const dataSetId of dataSets.dataSetIds) {
+            queryParams.dataSetId += `&dataSet=${dataSetId}`
+        }
+
+        for (const organisationId of currentOrganisationIds) {
+            queryParams.organisationId += `&orgUnit=${organisationId}`
+        }
+
+        const { myData } = await engine.query(completeForms, {
+            variables: queryParams,
+        })
+
+        if (myData && myData.completeDataSetRegistrations) {
+            allMyData.completeDataSetRegistrations.push(
+                ...myData.completeDataSetRegistrations
+            )
+        }
     }
-    if (data && data.myData) {
-        return data.myData
-    }
+
+    return allMyData
 }

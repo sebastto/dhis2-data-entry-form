@@ -58,6 +58,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
             <AppHeader
                 title="Form Overview"
                 subtitle={selectedFacility && selectedFacility.displayName}
+                readOnly={selectedFacility && selectedFacility.readOnly}
             />
             <div className="form-overview-light-container">
                 <SearchBar
@@ -109,8 +110,9 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                                         key={
                                             form.id +
                                             form.instanceNr +
-                                            form.displayName
+                                            selectedFacility.displayName
                                         }
+                                        readOnly={selectedFacility.readOnly}
                                     />
                                 )
                             }

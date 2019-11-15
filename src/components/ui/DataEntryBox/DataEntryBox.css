@@ -50,12 +50,6 @@
     margin: 0 0.3rem 0 1rem;
 }
 
-.datebox-expiration {
-    width: var(--DATEBOX-CHIP-WIDTH);
-    text-align: center;
-    margin-left: 1rem;
-}
-
 .data-card-button-strip {
     margin: 0.5rem 0;
 }

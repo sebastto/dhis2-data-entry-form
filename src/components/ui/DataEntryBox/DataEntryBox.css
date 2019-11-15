@@ -98,14 +98,19 @@
 
 .icon-holder {
     align-self: center;
+    padding-right: 10px;
 }
 
 .url-buttons-icons {
     width: 1.3rem;
 }
 
-.expand-icon,
-.shrink-icon {
-    width: var(--EXPAND-SHRINK-ICON-WIDTH);
-    padding-right: 10px;
+.expand-icon {
+    width: var(--EXPAND-ICON-WIDTH);
+    transition: transform var(--EXPAND-ICON-TRANSISTION-TIME);
+    
+}
+
+.expand-icon-collapse {
+    transform: rotate(-180deg);
 }

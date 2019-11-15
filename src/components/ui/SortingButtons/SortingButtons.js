@@ -42,7 +42,12 @@ const SortingButtons = React.forwardRef(
 
         useEffect(() => {
             /* Runs on componentDidMount aswell, to handle default caret cases */
-            if (objectToSet && prevObject && sortingFunc) {
+            if (
+                objectToSet &&
+                prevObject &&
+                sortingFunc &&
+                sortingFuncConditionalReverse
+            ) {
                 if (firstCaretUp !== null) {
                     Sorting(
                         {
@@ -111,6 +116,7 @@ SortingButtons.propTypes = {
     objectToSet: PropTypes.func.isRequired,
     prevObject: PropTypes.array,
     sortingFunc: PropTypes.func.isRequired,
+    sortingFuncConditionalReverse: PropTypes.func.isRequired,
 }
 
 SortingButtons.defaultProps = {

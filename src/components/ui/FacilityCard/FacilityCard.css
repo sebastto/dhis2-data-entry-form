@@ -1,5 +1,6 @@
 .facility-card {
     border: none;
+    min-height: var(--FACILITY-CARD-MIN-HEIGHT);
     padding: 0.5rem 1.25rem;
     font-size: 1.2rem;
     width: 100%;

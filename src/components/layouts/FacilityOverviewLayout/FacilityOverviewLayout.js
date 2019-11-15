@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import classNames from 'classNames'
 import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
+import reactRouterDom from 'react-router-dom'
+const { useHistory } = reactRouterDom
 
 import FacilityCard from '../../ui/FacilityCard/FacilityCard'
 import FacilityPlaceholder from '../../ui/Placeholders/FacilityPlaceholder'

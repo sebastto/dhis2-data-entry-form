@@ -36,7 +36,14 @@ const App = () => {
 
     useEffect(() => {
         getAllOrganisationData(engine).then(({ organisations }) => {
-            setFacilities(processDataSets(organisations, getCompleteFormEngine))
+            const facilities = processDataSets(
+                organisations,
+                getCompleteFormEngine
+            )
+            setFacilities(facilities)
+            if (facilities.length === 1) {
+                setMobileActiveTab(FORMS)
+            }
         })
     }, [])
 
@@ -84,7 +91,7 @@ const App = () => {
                         selectedFacility={selectedFacility}
                     />
                 ) : (
-                    <FacilityArrow />
+                    desktopView && <FacilityArrow />
                 )}
                 {!desktopView && (
                     <nav className="mobile-nav">

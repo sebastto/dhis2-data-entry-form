@@ -5,6 +5,7 @@
     max-height: inherit;
     display: flex;
     flex-direction: column;
+    right: 100%;
 }
 
 .facility-overview-title {
@@ -26,4 +27,6 @@
 
 .hidden-facility {
     right: 100% !important;
+    position: fixed;
+    z-index: 2;
 }

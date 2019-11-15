@@ -24,6 +24,7 @@
     --DATACARD-EXPAND-TRANSISTION: 200ms cubic-bezier(0.4, 0, 0.2, 1);
     --TITLEBOX-WIDTH: 80%;
     --DATEBOX-CHIP-MIN-WIDTH: 90px;
+    --DATEBOX-DUE-MIN-WIDTH: 43px;
     --CARD-BUTTON-HOVER: #e4e8eb;
     --EXPAND-ICON-WIDTH: 25px;
 

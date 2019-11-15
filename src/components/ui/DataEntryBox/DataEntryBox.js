@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button, ButtonStrip, Card } from '@dhis2/ui-core'
 import Collapse from 'react-css-collapse'
 import PropTypes from 'prop-types'
-import classNames from 'classNames'
+import classNames from 'classnames'
 
 import EditIcon from '../../icons/EditIcon/EditIcon'
 import ExpandIcon from '../../icons/ExpandIcon/ExpandIcon'
@@ -49,12 +49,7 @@ export const DataEntryBox = ({
                 onClick={() => setCollapsed(!collapsed)}
             >
                 <div className="datacard-content-info">
-                    <p
-                        className="titlebox"
-                        style={{ borderRight: !mobileView ? 0 : '1px solid' }}
-                    >
-                        {displayName}
-                    </p>
+                    <p className="titlebox">{displayName}</p>
                     {!collapsed && !mobileView && (
                         <div className="url-buttons">
                             <Button
@@ -77,7 +72,13 @@ export const DataEntryBox = ({
                             </Button>
                         </div>
                     )}
-                    <p className="datebox-due">{dateBoxDueText}</p>
+                    <p
+                        className={classNames('datebox-due', {
+                            'datebox-mobile': mobileView,
+                        })}
+                    >
+                        {dateBoxDueText}
+                    </p>
                     <div className="icon-holder">
                         <ExpandIcon
                             className={

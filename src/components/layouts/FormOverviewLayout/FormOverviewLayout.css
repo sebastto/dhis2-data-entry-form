@@ -36,11 +36,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    right: 0;
+    background: white;
 }
 
 .max-width {
     width: 100% !important;
-    position: fixed;
     transition: right 0.3s;
     right: 0;
     max-height: calc(
@@ -51,6 +52,8 @@
 
 .hidden-form {
     right: -100% !important;
+    position: fixed;
+    z-index: 2;
 }
 
 .form-overview-form-section .simplebar-track.simplebar-vertical {

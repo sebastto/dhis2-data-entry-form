@@ -36,12 +36,6 @@ const FacilityOverviewLayout = ({
 
     const ref = React.createRef()
 
-    useEffect(() => {
-        if (facilities) {
-            setFacilityCards(facilities)
-        }
-    }, [facilities])
-
     const facilitySortingFunction = (a, b) => {
         if (a.deadlines.overDue > b.deadlines.overDue) return 1
         else if (a.deadlines.overDue < b.deadlines.overDue) return -1
@@ -76,10 +70,12 @@ const FacilityOverviewLayout = ({
                 secondOption={{
                     key: SORTING_KEY_DUE,
                     title: FORMS_TITLE,
+                    default: true,
+                    defaultState: false,
                 }}
                 onClick={Sorting}
                 objectToSet={setFacilityCards}
-                prevObject={facilityCards}
+                prevObject={facilities}
                 sortingFunc={facilitySortingFunction}
                 ref={ref}
             />

@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { Button, ButtonStrip, Card } from '@dhis2/ui-core'
-import Collapse from '@material-ui/core/Collapse'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import Collapse from 'react-css-collapse'
 import PropTypes from 'prop-types'
+import classNames from 'classNames'
+
 import EditIcon from '../../icons/EditIcon/EditIcon'
 import ExpandIcon from '../../icons/ExpandIcon/ExpandIcon'
 import ViewIcon from '../../icons/ViewIcon/ViewIcon'
+import useMedia from '../../../utils/Media'
 import { MIN_WIDTH_DATAENTRYBOX } from '../../../constants/constants'
 import { FORM_STATE, STATUS_COLORS } from '../../../constants/enums'
 
@@ -23,8 +25,21 @@ export const DataEntryBox = ({
 }) => {
     const [collapsed, setCollapsed] = useState(false)
     const color = getCardStatusColor(formState)
-    const dueString = getDateString(dueDate)
-    const mobileView = !useMediaQuery(MIN_WIDTH_DATAENTRYBOX)
+    const mobileView = !useMedia(MIN_WIDTH_DATAENTRYBOX)
+
+    const dueDateString = getDateString(dueDate)
+
+    // Text that will be displayed in top level of data entry box
+    let dateBoxDueText = dueDateString
+    let expandedModeShowDueDate = false
+
+    if (formState === FORM_STATE.COMPLETED) {
+        dateBoxDueText = 'Completed'
+        expandedModeShowDueDate = true
+    } else if (formState === FORM_STATE.EXPIRED) {
+        dateBoxDueText = 'Expired'
+        expandedModeShowDueDate = true
+    }
 
     return (
         <Card className="datacard box-shadow">
@@ -48,24 +63,21 @@ export const DataEntryBox = ({
                                 onClick={() => window.open(viewUrl)}
                             >
                                 <ViewIcon className="url-buttons-icons" />
-                                <p>View</p>
+                                <p className="datacard-icon-group-text">View</p>
                             </Button>
-                            {readOnly ? (
-                                ''
-                            ) : (
-                                <Button
-                                    className={'card-button'}
-                                    type="button"
-                                    visibility="hidden"
-                                    onClick={() => window.open(editUrl)}
-                                >
-                                    <EditIcon />
-                                    <p>Edit</p>
-                                </Button>
-                            )}
+                            <Button
+                                type="button"
+                                onClick={() => window.open(editUrl)}
+                                className={classNames('card-button', {
+                                    hidden: readOnly,
+                                })}
+                            >
+                                <EditIcon className="url-buttons-icons" />
+                                <p className="datacard-icon-group-text">Edit</p>
+                            </Button>
                         </div>
                     )}
-                    <p className="datebox-due">{dueString && dueString}</p>
+                    <p className="datebox-due">{dateBoxDueText}</p>
                     <div className="icon-holder">
                         <ExpandIcon
                             className={
@@ -77,7 +89,10 @@ export const DataEntryBox = ({
                     </div>
                 </div>
 
-                <Collapse in={collapsed}>
+                <Collapse isOpen={collapsed}>
+                    {expandedModeShowDueDate && (
+                        <p>Form was due {dueDateString}</p>
+                    )}
                     <p>Period type: {periodType}</p>
                     <p>
                         Expiration date (will close at):{' '}
@@ -89,22 +104,19 @@ export const DataEntryBox = ({
                         <Button
                             type="button"
                             onClick={() => window.open(viewUrl)}
+                            icon={<ViewIcon />}
                         >
-                            <ViewIcon />
-                            <p className="datacard-icon-group-text">View</p>
+                            View
                         </Button>
 
-                        {readOnly ? (
-                            ''
-                        ) : (
-                            <Button
-                                type="button"
-                                onClick={() => window.open(editUrl)}
-                            >
-                                <EditIcon />
-                                <p className="datacard-icon-group-text">Edit</p>
-                            </Button>
-                        )}
+                        <Button
+                            type="button"
+                            onClick={() => window.open(editUrl)}
+                            icon={<EditIcon />}
+                            className={classNames({ hidden: readOnly })}
+                        >
+                            Edit
+                        </Button>
                     </ButtonStrip>
                 </Collapse>
             </div>

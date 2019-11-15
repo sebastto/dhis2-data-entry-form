@@ -13,11 +13,13 @@ export const SECONDS_IN_AN_HOUR = 3600
 export const MS_IN_A_SECONDS = 1000
 
 /* BUSINESS LOGIC */
+export const DAILY_INSTANCES = 4
 export const WEEKLY_INSTANCES = 4
 export const BIWEEKLY_AND_MONTHLY_INSTANCES = 3
 export const QUARTERLY_SIX_MONTHLY_AND_YEARLY_INSTANCES = 2
 export const UNHANDLED_PERIODTYPE_INSTANCES = 2
 
+export const DAILY = 'Daily'
 export const WEEKLY = 'Weekly'
 export const WEEKLY_WEDNESDAY = 'WeeklyWednesday'
 export const WEEKLY_THURSDAY = 'WeeklyThursday'

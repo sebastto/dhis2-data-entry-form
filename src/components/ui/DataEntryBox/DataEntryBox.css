@@ -16,7 +16,7 @@
 }
 
 .datacard-colormark {
-    width: 0.7rem;
+    min-width: 0.7rem;
     min-height: 100%;
     align-self: stretch;
     border-top-left-radius: 3px;
@@ -44,16 +44,10 @@
 }
 
 .datebox-due {
-    width: var(--DATEBOX-CHIP-WIDTH);
+    min-width: var(--DATEBOX-CHIP-MIN-WIDTH);
     align-self: center;
     text-align: center;
     margin: 0 0.3rem 0 1rem;
-}
-
-.datebox-expiration {
-    width: var(--DATEBOX-CHIP-WIDTH);
-    text-align: center;
-    margin-left: 1rem;
 }
 
 .data-card-button-strip {
@@ -107,9 +101,14 @@
 
 .expand-icon {
     width: var(--EXPAND-ICON-WIDTH);
-    transition: transform var(--EXPAND-ICON-TRANSISTION-TIME);
+    transition: transform var(--DATACARD-EXPAND-TRANSISTION);
+    
 }
 
 .expand-icon-collapse {
     transform: rotate(-180deg);
+}
+
+.react-css-collapse-transition {
+  transition: height var(--DATACARD-EXPAND-TRANSISTION);
 }

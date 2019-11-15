@@ -70,7 +70,7 @@ export const DataEntryBox = ({
                         <ExpandIcon
                             className={
                                 !collapsed
-                                    ? 'expand-icon expand-icon-expand'
+                                    ? 'expand-icon'
                                     : 'expand-icon expand-icon-collapse'
                             }
                         />

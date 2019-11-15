@@ -91,7 +91,7 @@ const App = () => {
                         selectedFacility={selectedFacility}
                     />
                 ) : (
-                    <FacilityArrow />
+                    desktopView && <FacilityArrow />
                 )}
                 {!desktopView && (
                     <nav className="mobile-nav">

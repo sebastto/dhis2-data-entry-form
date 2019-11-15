@@ -22,6 +22,7 @@ import {
     SIX_MONTHLY,
     SIX_MONTHLY_APRIL,
     SIX_MONTHLY_NOVEMBER,
+    UNHANDLED_PERIODTYPE_INSTANCES,
     WEEKLY,
     WEEKLY_INSTANCES,
     WEEKLY_SATURDAY,
@@ -542,7 +543,10 @@ const checkCompletedDataSets = (organisations, engine) => {
                         matchDataSet => matchDataSet.instanceNr === i.toString()
                     )[0]
 
-                    matchingDataSet.formState = FORM_STATE.COMPLETED
+                    // For admin user it does not always find a matching data set
+                    if (matchingDataSet) {
+                        matchingDataSet.formState = FORM_STATE.COMPLETED
+                    }
                 }
             })
         }

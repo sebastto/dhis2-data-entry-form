@@ -7,17 +7,21 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: var(--FACILITY-CARD-BACKGROUND);
+    background: inherit;
     outline: 0;
 }
 
-.facility-card:nth-child(even) {
-    background: inherit;
+.facility-card.selected {
+    background-color: var(--FACILITY-CARD-SELECTED-BACKGROUND-COLOR);
+    color: var(--FACILITY-CARD-SELECTED-COLOR);
 }
 
-.facility-card:hover {
-    background-color: var(--FACILITY-CARD-HOVER-BACKGRGROUND-COLOR);
-    color: var(--FACILITY-CARD-HOVER-COLOR);
+.facility-card:not(.selected):nth-child(odd) {
+    background: var(--FACILITY-CARD-BACKGROUND);
+}
+
+.facility-card:not(.selected):hover {
+    background-color: var(--FACILITY-CARD-HOVER-BACKGROUND-COLOR);
     cursor: pointer;
 }
 

@@ -11,7 +11,7 @@ import FacilityOverviewLayout from './components/layouts/FacilityOverviewLayout/
 import FacilityArrow from './components/ui/FacilityArrow/FacilityArrow'
 import FormOverviewLayout from './components/layouts/FormOverviewLayout/FormOverviewLayout'
 import { FACILITIES, FORMS, MIN_WIDTH_APP } from './constants/constants'
-import useMediaQuery from './utils/Media'
+import useMedia from './utils/Media'
 
 import './App.css'
 
@@ -28,7 +28,7 @@ const App = () => {
     const history = useHistory()
     const engine = useDataEngine()
     const getCompleteFormEngine = useDataEngine()
-    const desktopView = useMediaQuery(MIN_WIDTH_APP)
+    const desktopView = useMedia(MIN_WIDTH_APP)
 
     const [selectedFacility, setSelectedFacility] = useState(null)
     const [facilities, setFacilities] = useState(undefined)

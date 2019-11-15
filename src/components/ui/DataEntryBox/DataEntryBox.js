@@ -24,8 +24,21 @@ export const DataEntryBox = ({
 }) => {
     const [collapsed, setCollapsed] = useState(false)
     const color = getCardStatusColor(formState)
-    const dueString = getDateString(dueDate)
     const mobileView = !useMedia(MIN_WIDTH_DATAENTRYBOX)
+
+    const dueDateString = getDateString(dueDate)
+
+    // Text that will be displayed in top level of data entry box
+    let dateBoxDueText = dueDateString
+    let expandedModeShowDueDate = false
+
+    if (formState === FORM_STATE.COMPLETED) {
+        dateBoxDueText = 'Completed'
+        expandedModeShowDueDate = true
+    } else if (formState === FORM_STATE.EXPIRED) {
+        dateBoxDueText = 'Expired'
+        expandedModeShowDueDate = true
+    }
 
     return (
         <Card className="datacard box-shadow">
@@ -66,7 +79,7 @@ export const DataEntryBox = ({
                             )}
                         </div>
                     )}
-                    <p className="datebox-due">{dueString && dueString}</p>
+                    <p className="datebox-due">{dateBoxDueText}</p>
                     <div className="icon-holder">
                         <ExpandIcon
                             className={
@@ -79,6 +92,9 @@ export const DataEntryBox = ({
                 </div>
 
                 <Collapse isOpen={collapsed}>
+                    {expandedModeShowDueDate && (
+                        <p>Form was due {dueDateString}</p>
+                    )}
                     <p>Period type: {periodType}</p>
                     <p>
                         Expiration date (will close at):{' '}

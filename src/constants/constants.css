@@ -23,7 +23,7 @@
     --DATACARD-BACKGROUND-COLOR: #fafafa;
     --DATACARD-EXPAND-TRANSISTION: 200ms cubic-bezier(.4, 0, .2, 1);
     --TITLEBOX-WIDTH: 80%;
-    --DATEBOX-CHIP-WIDTH: 67px;
+    --DATEBOX-CHIP-MIN-WIDTH: 90px;
     --CARD-BUTTON-HOVER: #e4e8eb;
     --EXPAND-ICON-WIDTH: 25px;
 

@@ -50,28 +50,30 @@ export const DataEntryBox = ({
             >
                 <div className="datacard-content-info">
                     <p className="titlebox">{displayName}</p>
-                    {!collapsed && !mobileView && (
-                        <div className="url-buttons">
-                            <Button
-                                className={'card-button'}
-                                type="button"
-                                onClick={() => window.open(viewUrl)}
-                            >
-                                <ViewIcon className="url-buttons-icons" />
-                                <p className="datacard-icon-group-text">View</p>
-                            </Button>
-                            <Button
-                                type="button"
-                                onClick={() => window.open(editUrl)}
-                                className={classNames('card-button', {
-                                    hidden: readOnly,
-                                })}
-                            >
-                                <EditIcon className="url-buttons-icons" />
-                                <p className="datacard-icon-group-text">Edit</p>
-                            </Button>
-                        </div>
-                    )}
+                    <div
+                        className={classNames('url-buttons', {
+                            hidden: collapsed || mobileView,
+                        })}
+                    >
+                        <Button
+                            className={'card-button'}
+                            type="button"
+                            onClick={() => window.open(viewUrl)}
+                        >
+                            <ViewIcon className="url-buttons-icons" />
+                            <p className="datacard-icon-group-text">View</p>
+                        </Button>
+                        <Button
+                            type="button"
+                            onClick={() => window.open(editUrl)}
+                            className={classNames('card-button', {
+                                hidden: readOnly,
+                            })}
+                        >
+                            <EditIcon className="url-buttons-icons" />
+                            <p className="datacard-icon-group-text">Edit</p>
+                        </Button>
+                    </div>
                     <p
                         className={classNames('datebox-due', {
                             'datebox-mobile': mobileView,

@@ -43,6 +43,7 @@ const MyApp = () => {
                     }
                     mobileView={!desktopView ? 'max-width' : ''}
                     facilities={facilities}
+                    selectedFacility={selectedFacility}
                     setSelectedFacility={setSelectedFacility}
                     setMobileActiveTab={setMobileActiveTab}
                 />

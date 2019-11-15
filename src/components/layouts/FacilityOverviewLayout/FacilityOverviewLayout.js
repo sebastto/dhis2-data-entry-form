@@ -22,6 +22,7 @@ const FacilityOverviewLayout = ({
     hidden,
     mobileView,
     facilities,
+    selectedFacility,
     setSelectedFacility,
     setMobileActiveTab,
 }) => {
@@ -92,6 +93,12 @@ const FacilityOverviewLayout = ({
                                             setSelectedFacility(facilityCard)
                                             setMobileActiveTab('forms')
                                         }}
+                                        selected={
+                                            selectedFacility
+                                                ? facilityCard ===
+                                                  selectedFacility
+                                                : false
+                                        }
                                         key={index}
                                     />
                                 )

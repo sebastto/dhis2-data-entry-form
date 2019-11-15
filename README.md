@@ -1,31 +1,45 @@
 # DHIS2 - Case 4 - Group project (2019)
 
+## Prerequisite
+
+- Bash or a terminal that can run `.sh`-scripts (Git on Windows will do!)
+
 ## How to install & run
 
 Do:
 
 ```
 > yarn install
-> yarn start 
+> yarn start
 ```
 
+##****NB!!****
+
+Because of how DHIS2-app creation is built you have to do one extra step if you do not have any `.d2` files.
+
+After you are done generating `.d2` files with `yarn start` or `yarn start --force`, you want to cancel the operation.
+
+Then run `yarn start`, this will copy the necessary files to the generated `.d2` folder and everything will work like a charm (hopefully)!
+ 
+
+-----
 This will launch at `localhost:3000`.
-Use thse values:
+Use these values:
 
 ```
 Server: https://debug.dhis2.org/2.32.1
 Username: admin
-Password: district 
+Password: district
 ```
-If you have any problems with `yarn start ` try running `yarn start --force`.
 
-
+If you have any problems with `yarn start` try running `yarn start --force`.
 
 PS! Your folders can't have spaces in them, you'll get a compiling error.
 
 Happy coding!! :)))
 
 ## Style
+
 To prettify all the js code in the project run `yarn run pretty`.
 
 Commit also need to follow the standard of `type-of-commit(what-are-you-fixing): your message`

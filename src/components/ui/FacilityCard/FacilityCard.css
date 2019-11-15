@@ -11,16 +11,16 @@
     outline: 0;
 }
 
-.facility-card.facility-card-selected {
-    background-color: var(--FACILITY-CARD-SELECTED-BACKGROUND-COLOR) !important;
-    color: var(--FACILITY-CARD-SELECTED-COLOR) !important;
+.facility-card.selected {
+    background-color: var(--FACILITY-CARD-SELECTED-BACKGROUND-COLOR);
+    color: var(--FACILITY-CARD-SELECTED-COLOR);
 }
 
-.facility-card:nth-child(odd) {
+.facility-card:not(.selected):nth-child(odd) {
     background: var(--FACILITY-CARD-BACKGROUND);
 }
 
-.facility-card:hover {
+.facility-card:not(.selected):hover {
     background-color: var(--FACILITY-CARD-HOVER-BACKGROUND-COLOR);
     cursor: pointer;
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Chip } from '@dhis2/ui-core'
+import classNames from 'classNames'
 import PropTypes from 'prop-types'
 
 import ReadOnlyIcon from '../../icons/ReadOnlyIcon/ReadOnlyIcon'
@@ -17,11 +18,7 @@ const FacilityCard = ({
 }) => {
     return (
         <button
-            className={
-                selected
-                    ? 'facility-card facility-card-selected'
-                    : 'facility-card'
-            }
+            className={classNames('facility-card', { selected: selected })}
             onClick={onClick}
         >
             <span className="facility-card-title">{displayName}</span>

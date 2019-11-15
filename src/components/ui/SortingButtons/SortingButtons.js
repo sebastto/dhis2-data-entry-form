@@ -22,10 +22,10 @@ const SortingButtons = React.forwardRef(
     ) => {
         /* Carets by default are with pointy  side up for names (chronoligcal) and for dates (oldest first)*/
         const [firstCaretUp, setFirstCaret] = useState(
-            firstOption.default ? true : null
+            firstOption.default ? firstOption.defaultState : null
         )
         const [secondCaretUp, setSecondCaret] = useState(
-            secondOption.default ? true : null
+            secondOption.default ? secondOption.defaultState : null
         )
 
         /* Set default sorting options when null, follow Windows standard */
@@ -65,7 +65,7 @@ const SortingButtons = React.forwardRef(
                     ref.current.getScrollElement().scrollTop = 0
                 }
             }
-        }, [firstCaretUp, secondCaretUp])
+        }, [firstCaretUp, secondCaretUp, prevObject])
 
         return (
             <div className={className}>
@@ -98,6 +98,7 @@ const optionShape = {
     key: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     default: PropTypes.bool,
+    defaultState: PropTypes.bool,
 }
 
 SortingButtons.propTypes = {
@@ -113,9 +114,11 @@ SortingButtons.defaultProps = {
     className: 'sortingbuttons-container',
     firstOption: PropTypes.shape({
         default: false,
+        defaultState: true,
     }),
     secondOption: PropTypes.shape({
         default: false,
+        defaultState: true,
     }),
     prevObject: null,
 }

@@ -83,6 +83,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                     key: SORTING_KEY_DUE,
                     title: DUE_DATE_TITLE,
                     default: true,
+                    defaultState: true,
                 }}
                 objectToSet={setDisplayedForms}
                 prevObject={selectedFacility.dataSets}

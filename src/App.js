@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Tab, TabBar } from '@dhis2/ui-core'
 import { useDataEngine } from '@dhis2/app-runtime'
 import classNames from 'classNames'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import { getAllOrganisationData } from './api/Api'
 import { processDataSets } from './utils/DataSetProcessing'
@@ -10,6 +9,7 @@ import FacilityOverviewLayout from './components/layouts/FacilityOverviewLayout/
 import FacilityArrow from './components/ui/FacilityArrow/FacilityArrow'
 import FormOverviewLayout from './components/layouts/FormOverviewLayout/FormOverviewLayout'
 import { FACILITIES, FORMS, MIN_WIDTH_APP } from './constants/constants'
+import useMediaQuery from './utils/Media'
 
 import './App.css'
 

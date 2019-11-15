@@ -24,12 +24,26 @@ Then run `yarn start`, this will copy the necessary files to the generated `.d2`
 
 -----
 This will launch at `localhost:3000`.
-Use these values:
 
+We have created different users to simulate Karen and Frank. Use these users to operate with a realistic amount of facilites.
+
+Use these values for Karen:
 ```
 Server: https://debug.dhis2.org/2.32.1
-Username: admin
-Password: district
+Username: bert
+Password: District9.
+```
+Use these values for Frank:
+```
+Server: https://debug.dhis2.org/2.32.1
+Username: leif
+Password: District9.
+```
+Use these values to test for cases with a huge amount of facilities:
+```
+Server: https://debug.dhis2.org/2.32.1
+Username: bert2
+Password: District9.
 ```
 
 If you have any problems with `yarn start` try running `yarn start --force`.

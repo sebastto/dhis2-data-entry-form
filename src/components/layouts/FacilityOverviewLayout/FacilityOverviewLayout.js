@@ -32,7 +32,6 @@ const FacilityOverviewLayout = ({
 
     useEffect(() => {
         if (facilities) {
-            console.log(facilities)
             setFacilityCards(facilities)
         }
     }, [facilities])
@@ -92,8 +91,6 @@ const FacilityOverviewLayout = ({
                                         onClick={() => {
                                             setSelectedFacility(facilityCard)
                                             setMobileActiveTab('forms')
-                                            console.log('Set facility:')
-                                            console.log(facilityCard)
                                         }}
                                         key={index}
                                     />

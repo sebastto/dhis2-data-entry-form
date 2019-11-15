@@ -5,8 +5,7 @@ import { TextFormatter } from '../utils/Formatter'
 const organisations = {
     userData: {
         resource: 'me',
-        id:
-            '?fields=organisationUnits[displayName,id],dataViewOrganisationUnits[name~rename(displayName),id]',
+        id: '?fields=organisationUnits[id],dataViewOrganisationUnits[id]',
     },
 }
 const allChildOrganisationUnits = {
@@ -29,18 +28,19 @@ export const getAllOrganisationData = async engine => {
     const orgList = []
     const { userData } = await engine.query(organisations)
 
-    for (const unit of userData.organisationUnits) {
+    for (const parent of userData.organisationUnits) {
         const { childOrganisations } = await engine.query(
             allChildOrganisationUnits,
             {
                 variables: {
-                    orgID: unit.id,
+                    orgID: parent.id,
                 },
             }
         )
         childOrganisations.organisationUnits.forEach(unit => {
             unit['displayName'] = TextFormatter(unit['displayName'])
             unit['readOnly'] = false
+            unit['parent'] = parent.id === unit.id
 
             orgList.push(unit)
         })
@@ -58,6 +58,7 @@ export const getAllOrganisationData = async engine => {
         childOrganisations.organisationUnits.forEach(unit => {
             unit['displayName'] = TextFormatter(unit['displayName'])
             unit['readOnly'] = true
+            unit['parent'] = viewUnit.id === unit.id
 
             orgList.push(unit)
         })

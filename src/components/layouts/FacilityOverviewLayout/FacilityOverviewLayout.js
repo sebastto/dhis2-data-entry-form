@@ -19,6 +19,7 @@ import {
 } from '../../../constants/constants'
 
 import './FacilityOverviewLayout.css'
+import LevelSwitch from '../../ui/LevelSwitch/LevelSwitch'
 
 const FacilityOverviewLayout = ({
     hidden,
@@ -30,6 +31,7 @@ const FacilityOverviewLayout = ({
 }) => {
     const history = useHistory()
     const [searchInput, setSearchInput] = useState('')
+    const [childSwitch, setChildSwitch] = useState(false)
     const [facilityCards, setFacilityCards] = useState(null)
 
     const ref = React.createRef()
@@ -64,6 +66,7 @@ const FacilityOverviewLayout = ({
                 placeholder={FACILITY_SEARCH_PLACEHOLDER}
                 onChange={event => setSearchInput(event.target.value)}
             />
+            <LevelSwitch value={childSwitch} onChange={setChildSwitch} />
             <SortingButtons
                 className={'facility-sorting-buttons'}
                 firstOption={{
@@ -87,7 +90,11 @@ const FacilityOverviewLayout = ({
                             if (
                                 facilityCard.displayName
                                     .toLocaleLowerCase()
-                                    .startsWith(searchInput.toLocaleLowerCase())
+                                    .startsWith(
+                                        searchInput.toLocaleLowerCase()
+                                    ) &&
+                                ((!childSwitch && facilityCard.parent) ||
+                                    childSwitch)
                             )
                                 return (
                                     <FacilityCard

@@ -41,7 +41,6 @@ const App = () => {
     }, [])
 
     useEffect(() => {
-        console.log(location)
         if (facilities) {
             const selected = facilities.filter(
                 e => e.displayName === location.pathname.substring(1)

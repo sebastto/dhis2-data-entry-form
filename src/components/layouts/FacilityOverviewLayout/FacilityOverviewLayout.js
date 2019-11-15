@@ -58,79 +58,83 @@ const FacilityOverviewLayout = ({
     }
 
     return (
-    !hideFacilities && (
-        <div
-            className={classNames(
-                'facility-overview-container',
-                hidden,
-                mobileView
-            )}
-        >
-            <h2 className="facility-overview-title">Facilities</h2>
-            <SearchBar
-                value={searchInput}
-                placeholder={FACILITY_SEARCH_PLACEHOLDER}
-                onChange={event => setSearchInput(event.target.value)}
-            />
-            <LevelSwitch value={childSwitch} onChange={setChildSwitch} />
-            <SortingButtons
-                className={'facility-sorting-buttons'}
-                firstOption={{
-                    key: SORTING_KEY_NAME,
-                    title: FACILITY_TITLE,
-                }}
-                secondOption={{
-                    key: SORTING_KEY_DUE,
-                    title: FORMS_TITLE,
-                    default: true,
-                    defaultState: false,
-                }}
-                onClick={Sorting}
-                objectToSet={setFacilityCards}
-                prevObject={facilities}
-                sortingFunc={facilitySortingFunction}
-                ref={ref}
-            />
-            {facilityCards ? (
-                facilityCards.length > 1 && (
-                <section className="facility-card-section">
-                    <SimpleBar style={{ height: '100%' }} ref={ref}>
-                        {facilityCards.map((facilityCard, index) => {
-                            if (
-                                facilityCard.displayName
-                                    .toLocaleLowerCase()
-                                    .startsWith(
-                                        searchInput.toLocaleLowerCase()
-                                    ) &&
-                                ((!childSwitch && facilityCard.parent) ||
-                                    childSwitch)
-                            )
-                                return (
-                                    <FacilityCard
-                                        {...facilityCard}
-                                        onClick={() => {
-                                            setSelectedFacility(facilityCard)
-                                            setMobileActiveTab('forms')
-                                            history.push(
-                                                `/${facilityCard.displayName}`
+        !hideFacilities && (
+            <div
+                className={classNames(
+                    'facility-overview-container',
+                    hidden,
+                    mobileView
+                )}
+            >
+                <h2 className="facility-overview-title">Facilities</h2>
+                <SearchBar
+                    value={searchInput}
+                    placeholder={FACILITY_SEARCH_PLACEHOLDER}
+                    onChange={event => setSearchInput(event.target.value)}
+                />
+                <LevelSwitch value={childSwitch} onChange={setChildSwitch}/>
+                <SortingButtons
+                    className={'facility-sorting-buttons'}
+                    firstOption={{
+                        key: SORTING_KEY_NAME,
+                        title: FACILITY_TITLE,
+                    }}
+                    secondOption={{
+                        key: SORTING_KEY_DUE,
+                        title: FORMS_TITLE,
+                        default: true,
+                        defaultState: false,
+                    }}
+                    onClick={Sorting}
+                    objectToSet={setFacilityCards}
+                    prevObject={facilities}
+                    sortingFunc={facilitySortingFunction}
+                    ref={ref}
+                />
+                {facilityCards ? (
+                        (facilityCards.length > 1 || mobileView) && (
+
+                            <section className="facility-card-section">
+                                <SimpleBar style={{height: '100%'}} ref={ref}>
+                                    {facilityCards.map((facilityCard, index) => {
+                                        if (
+                                            facilityCard.displayName
+                                                .toLocaleLowerCase()
+                                                .startsWith(
+                                                    searchInput.toLocaleLowerCase()
+                                                ) &&
+                                            ((!childSwitch && facilityCard.parent) ||
+                                                childSwitch)
+                                        )
+                                            return (
+                                                <FacilityCard
+                                                    {...facilityCard}
+                                                    onClick={() => {
+                                                        setSelectedFacility(facilityCard)
+                                                        setMobileActiveTab('forms')
+                                                        history.push(
+                                                            `/${facilityCard.displayName}`
+                                                        )
+                                                    }}
+                                                    selected={
+                                                        selectedFacility
+                                                            ? facilityCard ===
+                                                            selectedFacility
+                                                            : false
+                                                    }
+                                                    key={index}
+                                                />
                                             )
-                                        }}
-                                        selected={
-                                            selectedFacility
-                                                ? facilityCard ===
-                                                  selectedFacility
-                                                : false
-                                        }
-                                        key={index}
-                                    />
-                                )
-                        })}
-                    </SimpleBar>
-                </section>
-                )
-            ) : (
-                <FacilityPlaceholder />
-            )}
-        </div>)
-)
+                                    })}
+                                </SimpleBar>
+                            </section>)
+                    )
+
+                    : (
+                        <FacilityPlaceholder/>
+                    )}
+            </div>)
+
+    )
+}
 export default FacilityOverviewLayout

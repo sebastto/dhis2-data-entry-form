@@ -15,6 +15,7 @@ const SortingButtons = React.forwardRef(
             firstOption,
             secondOption,
             sortingFunc,
+            sortingFuncConditionalReverse,
             objectToSet,
             prevObject,
         },
@@ -58,7 +59,9 @@ const SortingButtons = React.forwardRef(
                             key: secondOption.key,
                         },
                         { objectToSet, prevObject },
-                        sortingFunc
+                        secondCaretUp
+                            ? sortingFunc
+                            : sortingFuncConditionalReverse
                     )
                 }
                 if (ref.current) {

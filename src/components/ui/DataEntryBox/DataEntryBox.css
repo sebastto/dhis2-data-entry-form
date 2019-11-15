@@ -116,7 +116,6 @@
 .expand-icon {
     width: var(--EXPAND-ICON-WIDTH);
     transition: transform var(--DATACARD-EXPAND-TRANSISTION);
-
 }
 
 .expand-icon-collapse {
@@ -124,5 +123,5 @@
 }
 
 .react-css-collapse-transition {
-  transition: height var(--DATACARD-EXPAND-TRANSISTION);
+    transition: height var(--DATACARD-EXPAND-TRANSISTION);
 }

@@ -1,10 +1,7 @@
 # DHIS2
+.d2
 i18n
-.d2/devOut/
-.d2/shell/.pnp/unplugged/
-.d2/shell/adapter/build/
-.d2/shell/node_modules/
-.d2/shell/src/current-d2-app/
+src/locales
 
 .idea
 

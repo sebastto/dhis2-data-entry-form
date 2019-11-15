@@ -1,5 +1,9 @@
 # DHIS2 - Case 4 - Group project (2019)
 
+## Prerequisite
+
+- Bash or a terminal that can run `.sh`-scripts (Git on Windows will do!)
+
 ## How to install & run
 
 Do:
@@ -9,8 +13,18 @@ Do:
 > yarn start
 ```
 
+##****NB!!****
+
+Because of how DHIS2-app creation is built you have to do one extra step if you do not have any `.d2` files.
+
+After you are done generating `.d2` files with `yarn start` or `yarn start --force`, you want to cancel the operation.
+
+Then run `yarn start`, this will copy the necessary files to the generated `.d2` folder and everything will work like a charm (hopefully)!
+ 
+
+-----
 This will launch at `localhost:3000`.
-Use thse values:
+Use these values:
 
 ```
 Server: https://debug.dhis2.org/2.32.1

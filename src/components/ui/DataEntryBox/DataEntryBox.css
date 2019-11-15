@@ -108,7 +108,6 @@
 .expand-icon {
     width: var(--EXPAND-ICON-WIDTH);
     transition: transform var(--EXPAND-ICON-TRANSISTION-TIME);
-    
 }
 
 .expand-icon-collapse {

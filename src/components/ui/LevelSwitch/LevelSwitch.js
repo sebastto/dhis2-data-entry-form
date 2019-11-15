@@ -20,7 +20,7 @@ const LevelSwitch = ({ value, onChange }) => {
 }
 
 LevelSwitch.propTypes = {
-    value: PropTypes.string.isRequired,
+    value: PropTypes.bool.isRequired,
     onChange: PropTypes.func.isRequired,
 }
 

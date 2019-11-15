@@ -21,7 +21,7 @@
     --DATACARD-HEIGHT: auto;
     --DATACARD-WIDTH: 90%;
     --DATACARD-BACKGROUND-COLOR: #fafafa;
-    --DATACARD-EXPAND-TRANSISTION: 200ms cubic-bezier(.4, 0, .2, 1);
+    --DATACARD-EXPAND-TRANSISTION: 200ms cubic-bezier(0.4, 0, 0.2, 1);
     --TITLEBOX-WIDTH: 80%;
     --DATEBOX-CHIP-MIN-WIDTH: 90px;
     --CARD-BUTTON-HOVER: #e4e8eb;

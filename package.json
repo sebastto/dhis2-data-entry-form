@@ -23,6 +23,7 @@
         "eslint-plugin-react": "^7.16.0",
         "postcss-import": "^12.0.1",
         "react-content-loader": "^4.3.2",
+        "react-css-collapse": "^3.6.1",
         "simplebar-react": "^2.0.8"
     }
 }

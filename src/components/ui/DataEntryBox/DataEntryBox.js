@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, ButtonStrip, Card } from '@dhis2/ui-core'
-import Collapse from '@material-ui/core/Collapse'
+import Collapse from 'react-css-collapse'
 import PropTypes from 'prop-types'
 
 import EditIcon from '../../icons/EditIcon/EditIcon'
@@ -79,7 +79,7 @@ export const DataEntryBox = ({
                     </div>
                 </div>
 
-                <Collapse in={collapsed}>
+                <Collapse isOpen={collapsed}>
                     <p>Period type: {periodType}</p>
                     <p>
                         Expiration date (will close at):{' '}

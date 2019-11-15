@@ -3,10 +3,8 @@ import { Button, ButtonStrip, Card } from '@dhis2/ui-core'
 import Collapse from '@material-ui/core/Collapse'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import PropTypes from 'prop-types'
-
 import EditIcon from '../../icons/EditIcon/EditIcon'
 import ExpandIcon from '../../icons/ExpandIcon/ExpandIcon'
-import ShrinkIcon from '../../icons/ShrinkIcon/ShrinkIcon'
 import ViewIcon from '../../icons/ViewIcon/ViewIcon'
 import { MIN_WIDTH_DATAENTRYBOX } from '../../../constants/constants'
 import { FORM_STATE, STATUS_COLORS } from '../../../constants/enums'
@@ -69,11 +67,13 @@ export const DataEntryBox = ({
                     )}
                     <p className="datebox-due">{dueString && dueString}</p>
                     <div className="icon-holder">
-                        {!collapsed ? (
-                            <ExpandIcon className={'expand-icon'} />
-                        ) : (
-                            <ShrinkIcon className={'shrink-icon'} />
-                        )}
+                        <ExpandIcon
+                            className={
+                                !collapsed
+                                    ? 'expand-icon expand-icon-expand'
+                                    : 'expand-icon expand-icon-collapse'
+                            }
+                        />
                     </div>
                 </div>
 

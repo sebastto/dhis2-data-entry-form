@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Tab, TabBar } from '@dhis2/ui-core'
 import { useDataEngine } from '@dhis2/app-runtime'
 import classNames from 'classNames'
+import reactRouterDom from 'react-router-dom'
+const { BrowserRouter, useLocation, useHistory } = reactRouterDom
 
 import { getAllOrganisationData } from './api/Api'
 import { processDataSets } from './utils/DataSetProcessing'
@@ -14,6 +16,16 @@ import useMediaQuery from './utils/Media'
 import './App.css'
 
 const MyApp = () => {
+    return (
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    )
+}
+
+const App = () => {
+    const location = useLocation()
+    const history = useHistory()
     const engine = useDataEngine()
     const getCompleteFormEngine = useDataEngine()
     const desktopView = useMediaQuery(MIN_WIDTH_APP)
@@ -27,6 +39,21 @@ const MyApp = () => {
             setFacilities(processDataSets(organisations, getCompleteFormEngine))
         })
     }, [])
+
+    useEffect(() => {
+        console.log(location)
+        if (facilities) {
+            const selected = facilities.filter(
+                e => e.displayName === location.pathname.substring(1)
+            )
+            if (selected.length === 1) {
+                setSelectedFacility(selected[0])
+                setMobileActiveTab('forms')
+            } else {
+                history.push('')
+            }
+        }
+    }, [facilities])
 
     return (
         <>

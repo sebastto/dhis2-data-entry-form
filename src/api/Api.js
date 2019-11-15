@@ -77,24 +77,37 @@ export const getAllOrganisationData = async engine => {
  *
  */
 export const getCompleteForm = async (dataSets, engine) => {
-    const queryParams = {
-        startDate: dataSets.startDate,
-        endDate: dataSets.endDate,
-        organisationId: '',
-        dataSetId: '',
+    const allMyData = { completeDataSetRegistrations: [] }
+
+    // Divide large requests into smaller chunks to avoid network error
+    while (dataSets.organisationIds.length > 0) {
+        const currentOrganisationIds = dataSets.organisationIds.splice(0, 220)
+
+        const queryParams = {
+            startDate: dataSets.startDate,
+            endDate: dataSets.endDate,
+            organisationId: '',
+            dataSetId: '',
+        }
+
+        for (const dataSetId of dataSets.dataSetIds) {
+            queryParams.dataSetId += `&dataSet=${dataSetId}`
+        }
+
+        for (const organisationId of currentOrganisationIds) {
+            queryParams.organisationId += `&orgUnit=${organisationId}`
+        }
+
+        const { myData } = await engine.query(completeForms, {
+            variables: queryParams,
+        })
+
+        if (myData && myData.completeDataSetRegistrations) {
+            allMyData.completeDataSetRegistrations.push(
+                ...myData.completeDataSetRegistrations
+            )
+        }
     }
 
-    for (const dataSetId of dataSets.dataSetIds) {
-        queryParams.dataSetId += `&dataSet=${dataSetId}`
-    }
-
-    for (const organisationId of dataSets.organisationIds) {
-        queryParams.organisationId += `&orgUnit=${organisationId}`
-    }
-
-    const { myData } = await engine.query(completeForms, {
-        variables: queryParams,
-    })
-
-    return myData
+    return allMyData
 }

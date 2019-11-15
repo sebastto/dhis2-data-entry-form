@@ -109,7 +109,7 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                                         key={
                                             form.id +
                                             form.instanceNr +
-                                            form.displayName
+                                            selectedFacility.displayName
                                         }
                                         readOnly={selectedFacility.readOnly}
                                     />

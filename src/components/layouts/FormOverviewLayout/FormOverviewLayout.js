@@ -87,7 +87,22 @@ const FormOverviewLayout = ({ hidden, mobileView, selectedFacility }) => {
                 }}
                 objectToSet={setDisplayedForms}
                 prevObject={selectedFacility.dataSets}
-                sortingFunc={(a, b) => a.dueDate - b.dueDate}
+                sortingFunc={(a, b) =>
+                    a.formState === FORM_STATE.EXPIRED ||
+                    a.formState === FORM_STATE.COMPLETED ||
+                    b.formState === FORM_STATE.EXPIRED ||
+                    b.formState === FORM_STATE.COMPLETED
+                        ? a.formState - b.formState
+                        : a.dueDate - b.dueDate
+                }
+                sortingFuncConditionalReverse={(a, b) =>
+                    a.formState === FORM_STATE.EXPIRED ||
+                    a.formState === FORM_STATE.COMPLETED ||
+                    b.formState === FORM_STATE.EXPIRED ||
+                    b.formState === FORM_STATE.COMPLETED
+                        ? b.formState - a.formState
+                        : a.dueDate - b.dueDate
+                }
                 ref={ref}
             />
             <section className="form-overview-form-section">

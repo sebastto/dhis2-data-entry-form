@@ -21,6 +21,7 @@ export const DataEntryBox = ({
     editUrl,
     periodType,
     expiryDate,
+    readOnly,
 }) => {
     const [collapsed, setCollapsed] = useState(false)
     const color = getCardStatusColor(formState)
@@ -48,18 +49,22 @@ export const DataEntryBox = ({
                                 type="button"
                                 onClick={() => window.open(viewUrl)}
                             >
-                                <ViewIcon className="expand-icon" />
+                                <ViewIcon className="url-buttons-icons" />
                                 <p>View</p>
                             </Button>
-                            <Button
-                                className={'card-button'}
-                                type="button"
-                                visibility="hidden"
-                                onClick={() => window.open(editUrl)}
-                            >
-                                <EditIcon />
-                                <p>Edit</p>
-                            </Button>
+                            {readOnly ? (
+                                ''
+                            ) : (
+                                <Button
+                                    className={'card-button'}
+                                    type="button"
+                                    visibility="hidden"
+                                    onClick={() => window.open(editUrl)}
+                                >
+                                    <EditIcon />
+                                    <p>Edit</p>
+                                </Button>
+                            )}
                         </div>
                     )}
                     <p className="datebox-due">{dueString && dueString}</p>
@@ -88,13 +93,18 @@ export const DataEntryBox = ({
                             <ViewIcon />
                             <p className="datacard-icon-group-text">View</p>
                         </Button>
-                        <Button
-                            type="button"
-                            onClick={() => window.open(editUrl)}
-                        >
-                            <EditIcon />
-                            <p className="datacard-icon-group-text">Edit</p>
-                        </Button>
+
+                        {readOnly ? (
+                            ''
+                        ) : (
+                            <Button
+                                type="button"
+                                onClick={() => window.open(editUrl)}
+                            >
+                                <EditIcon />
+                                <p className="datacard-icon-group-text">Edit</p>
+                            </Button>
+                        )}
                     </ButtonStrip>
                 </Collapse>
             </div>
@@ -108,6 +118,7 @@ DataEntryBox.propTypes = {
     formState: PropTypes.oneOf(Object.values(FORM_STATE)),
     viewUrl: PropTypes.string,
     editUrl: PropTypes.string,
+    readOnly: PropTypes.bool,
 }
 
 DataEntryBox.defaultProps = {
@@ -117,6 +128,7 @@ DataEntryBox.defaultProps = {
     editUrl:
         process.env.REACT_APP_DHIS2_BASE_URL +
         process.env.REACT_APP_DHIS2_FORM_EDIT_URL,
+    readOnly: false,
 }
 
 const getCardStatusColor = formState => {

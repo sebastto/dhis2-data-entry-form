@@ -2,15 +2,25 @@ import React from 'react'
 import { Chip } from '@dhis2/ui-core'
 import PropTypes from 'prop-types'
 
+import ReadOnlyIcon from '../../icons/ReadOnlyIcon/ReadOnlyIcon'
+
 import { VALUE_OVER_99 } from '../../../constants/constants'
 
 import './FacilityCard.css'
 
-const FacilityCard = ({ displayName, onClick, deadlines }) => {
+const FacilityCard = ({ displayName, onClick, deadlines, readOnly }) => {
     return (
         <button className="facility-card" onClick={onClick}>
             <span className="facility-card-title">{displayName}</span>
-            <span>
+            {readOnly ? (
+                <span className="read-only-span">
+                    <span>Read Only</span>
+                    <ReadOnlyIcon />
+                </span>
+            ) : (
+                ''
+            )}
+            <span className="chip-container">
                 {deadlines.overDue > 0 ? (
                     <Chip className="chip-expired">
                         {deadlines.overDue > 99

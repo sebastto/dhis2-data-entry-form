@@ -22,9 +22,16 @@
 }
 
 .facility-card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: medium;
     text-align: left;
     width: var(--FACILITY-CARD-TITLE-WIDTH);
+}
+
+.chip-container {
+    width: 30%;
 }
 
 .chip-expired {
@@ -41,4 +48,19 @@
     color: var(--CHIP-COLOR) !important;
     width: var(--CHIP-WIDTH);
     float: right;
+}
+
+.read-only-span {
+    opacity: 0.7;
+    font-size: 0.7rem;
+    text-align: left;
+    display: inline-flex;
+    flex-direction: column-reverse;
+    align-items: center;
+}
+
+.read-only-icon {
+    height: 2rem;
+    width: 2rem;
+    vertical-align: bottom;
 }

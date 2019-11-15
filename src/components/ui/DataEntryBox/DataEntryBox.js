@@ -50,7 +50,7 @@ export const DataEntryBox = ({
                                 onClick={() => window.open(viewUrl)}
                             >
                                 <ViewIcon className="url-buttons-icons" />
-                                View
+                                <p className="datacard-icon-group-text">View</p>
                             </Button>
                             <Button
                                 type="button"
@@ -60,7 +60,7 @@ export const DataEntryBox = ({
                                 })}
                             >
                                 <EditIcon className="url-buttons-icons" />
-                                Edit
+                                <p className="datacard-icon-group-text">Edit</p>
                             </Button>
                         </div>
                     )}

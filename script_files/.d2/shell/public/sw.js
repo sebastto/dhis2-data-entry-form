@@ -6,7 +6,9 @@ self.addEventListener('fetch', function(event) {
                 return fetch(event.request)
                     .then(function(response) {
                         /* Add does not add responses with codes other thatn 200-299. */
-                        cache.add(event.request, response.clone())
+                        cache
+                            .add(event.request, response.clone())
+                            .catch(e => {})
                         return response
                     })
                     .catch(err => {

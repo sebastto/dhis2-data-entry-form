@@ -25,45 +25,50 @@ const completeForms = {
 
 // Gets all organisations that this user belong to
 export const getAllOrganisationData = async engine => {
-    const orgList = []
-    const { userData } = await engine.query(organisations)
+    try {
+        const orgList = []
+        const { userData } = await engine.query(organisations)
 
-    for (const parent of userData.organisationUnits) {
-        const { childOrganisations } = await engine.query(
-            allChildOrganisationUnits,
-            {
-                variables: {
-                    orgID: parent.id,
-                },
-            }
-        )
-        childOrganisations.organisationUnits.forEach(unit => {
-            unit['displayName'] = TextFormatter(unit['displayName'])
-            unit['readOnly'] = false
-            unit['parent'] = parent.id === unit.id
+        for (const parent of userData.organisationUnits) {
+            const { childOrganisations } = await engine.query(
+                allChildOrganisationUnits,
+                {
+                    variables: {
+                        orgID: parent.id,
+                    },
+                }
+            )
+            childOrganisations.organisationUnits.forEach(unit => {
+                unit['displayName'] = TextFormatter(unit['displayName'])
+                unit['readOnly'] = false
+                unit['parent'] = parent.id === unit.id
 
-            orgList.push(unit)
-        })
+                orgList.push(unit)
+            })
+        }
+
+        for (const viewUnit of userData.dataViewOrganisationUnits) {
+            const { childOrganisations } = await engine.query(
+                allChildOrganisationUnits,
+                {
+                    variables: {
+                        orgID: viewUnit.id,
+                    },
+                }
+            )
+            childOrganisations.organisationUnits.forEach(unit => {
+                unit['displayName'] = TextFormatter(unit['displayName'])
+                unit['readOnly'] = true
+                unit['parent'] = viewUnit.id === unit.id
+
+                orgList.push(unit)
+            })
+        }
+        return { organisations: orgList }
+    } catch (e) {
+        console.error('Error @ getAllOrganisationData: ', e)
+        throw e
     }
-
-    for (const viewUnit of userData.dataViewOrganisationUnits) {
-        const { childOrganisations } = await engine.query(
-            allChildOrganisationUnits,
-            {
-                variables: {
-                    orgID: viewUnit.id,
-                },
-            }
-        )
-        childOrganisations.organisationUnits.forEach(unit => {
-            unit['displayName'] = TextFormatter(unit['displayName'])
-            unit['readOnly'] = true
-            unit['parent'] = viewUnit.id === unit.id
-
-            orgList.push(unit)
-        })
-    }
-    return { organisations: orgList }
 }
 
 //Get a list of completed dataSets in a given ogranisation in selected period
@@ -78,37 +83,45 @@ export const getAllOrganisationData = async engine => {
  *
  */
 export const getCompleteForm = async (dataSets, engine) => {
-    const allMyData = { completeDataSetRegistrations: [] }
+    try {
+        const allMyData = { completeDataSetRegistrations: [] }
 
-    // Divide large requests into smaller chunks to avoid network error
-    while (dataSets.organisationIds.length > 0) {
-        const currentOrganisationIds = dataSets.organisationIds.splice(0, 220)
-
-        const queryParams = {
-            startDate: dataSets.startDate,
-            endDate: dataSets.endDate,
-            organisationId: '',
-            dataSetId: '',
-        }
-
-        for (const dataSetId of dataSets.dataSetIds) {
-            queryParams.dataSetId += `&dataSet=${dataSetId}`
-        }
-
-        for (const organisationId of currentOrganisationIds) {
-            queryParams.organisationId += `&orgUnit=${organisationId}`
-        }
-
-        const { myData } = await engine.query(completeForms, {
-            variables: queryParams,
-        })
-
-        if (myData && myData.completeDataSetRegistrations) {
-            allMyData.completeDataSetRegistrations.push(
-                ...myData.completeDataSetRegistrations
+        // Divide large requests into smaller chunks to avoid network error
+        while (dataSets.organisationIds.length > 0) {
+            const currentOrganisationIds = dataSets.organisationIds.splice(
+                0,
+                220
             )
-        }
-    }
 
-    return allMyData
+            const queryParams = {
+                startDate: dataSets.startDate,
+                endDate: dataSets.endDate,
+                organisationId: '',
+                dataSetId: '',
+            }
+
+            for (const dataSetId of dataSets.dataSetIds) {
+                queryParams.dataSetId += `&dataSet=${dataSetId}`
+            }
+
+            for (const organisationId of currentOrganisationIds) {
+                queryParams.organisationId += `&orgUnit=${organisationId}`
+            }
+
+            const { myData } = await engine.query(completeForms, {
+                variables: queryParams,
+            })
+
+            if (myData && myData.completeDataSetRegistrations) {
+                allMyData.completeDataSetRegistrations.push(
+                    ...myData.completeDataSetRegistrations
+                )
+            }
+        }
+
+        return allMyData
+    } catch (e) {
+        console.error('Error @ getCompleteForm: ', e)
+        throw e
+    }
 }

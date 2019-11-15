@@ -1,7 +1,7 @@
 {
-    "name": "deb-g4-2019",
+    "name": "group-4-data-set-browser",
     "version": "1.0.0",
-    "description": "",
+    "description": "Browse data set forms, and get a quick overview of what needs to be done",
     "license": "BSD-3-Clause",
     "private": true,
     "scripts": {

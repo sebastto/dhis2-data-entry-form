@@ -1,7 +1,13 @@
 # DHIS2
-.d2
 i18n
 src/locales
+.d2/devOut/
+.d2/adapter/
+.d2/.pnp/
+.d2/node_modules/
+.d2/src/current-d2-app/
+
+
 
 .idea
 

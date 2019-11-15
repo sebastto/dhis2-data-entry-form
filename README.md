@@ -6,7 +6,7 @@ Do:
 
 ```
 > yarn install
-> yarn start 
+> yarn start
 ```
 
 This will launch at `localhost:3000`.
@@ -15,17 +15,17 @@ Use thse values:
 ```
 Server: https://debug.dhis2.org/2.32.1
 Username: admin
-Password: district 
+Password: district
 ```
-If you have any problems with `yarn start ` try running `yarn start --force`.
 
-
+If you have any problems with `yarn start` try running `yarn start --force`.
 
 PS! Your folders can't have spaces in them, you'll get a compiling error.
 
 Happy coding!! :)))
 
 ## Style
+
 To prettify all the js code in the project run `yarn run pretty`.
 
 Commit also need to follow the standard of `type-of-commit(what-are-you-fixing): your message`

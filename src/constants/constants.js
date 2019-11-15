@@ -75,3 +75,8 @@ export const INTRO_TEXT = 'Choose a facility to get started!'
 /* MEDIA QUERIES */
 export const MIN_WIDTH_DATAENTRYBOX = '(min-width:870px)'
 export const MIN_WIDTH_APP = '(min-width:710px)'
+
+/* OFFLINE STORAGE */
+export const LOCAL_STORAGE_FACILITY_KEY = 'facilities'
+export const COMPRESSION_KEY = 'compress'
+export const DECOMPRESS_KEY = 'decompress'

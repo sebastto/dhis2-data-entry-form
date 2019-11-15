@@ -22,12 +22,13 @@ const MyApp = () => {
     const [facilities, setFacilities] = useState(undefined)
     const [mobileActiveTab, setMobileActiveTab] = useState(FACILITIES)
 
+    /*
     useEffect(() => {
         getAllOrganisationData(engine).then(({ organisations }) => {
             setFacilities(processDataSets(organisations, getCompleteFormEngine))
         })
     }, [])
-
+*/
     return (
         <>
             <div
@@ -42,7 +43,7 @@ const MyApp = () => {
                             : ''
                     }
                     mobileView={!desktopView ? 'max-width' : ''}
-                    facilities={facilities}
+                    facilities={null}
                     setSelectedFacility={setSelectedFacility}
                     setMobileActiveTab={setMobileActiveTab}
                 />

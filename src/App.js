@@ -87,7 +87,6 @@ const App = () => {
             }
         }
         if (selectedFacility && !doneOne) {
-            selectedFacility.dataSets = []
             if (selectedFacility.dataSets.length === 0) {
                 return (
                     <AlertBar info duration={6000}>

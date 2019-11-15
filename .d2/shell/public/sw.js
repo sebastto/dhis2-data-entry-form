@@ -1,27 +1,19 @@
-self.addEventListener('install', function(e) {
-    console.log('EHRE!!!')
-    caches.keys().then(keys => {
-        console.log('all keys ', keys)
-    })
-    e.waitUntil(
-        caches.open('dhis2-form-viewer').then(function(cache) {
-            return cache.addAll(['/index.html'])
-        })
-    )
-})
-
 self.addEventListener('fetch', function(event) {
     console.log(event.request.url)
     event.respondWith(
         caches.open('dhis2-form-overview').then(function(cache) {
             return cache.match(event.request).then(function(response) {
-                return (
-                    response ||
-                    fetch(event.request).then(function(response) {
-                        cache.put(event.request, response.clone())
+                /* Tries to fetch a new version. If the fetch fails we serve the cache */
+                return fetch(event.request)
+                    .then(function(response) {
+                        /* Add does not add responses with codes other thatn 200-299. */
+                        cache.add(event.request, response.clone())
                         return response
                     })
-                )
+                    .catch(err => {
+                        console.warn('Fetch failed. Serving from cache!', err)
+                        return response
+                    })
             })
         })
     )

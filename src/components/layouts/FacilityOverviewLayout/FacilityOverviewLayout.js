@@ -9,10 +9,6 @@ import SearchBar from '../../ui/SearchBar/SearchBar'
 import Sorting from '../../../utils/Sorting'
 import SortingButtons from '../../ui/SortingButtons/SortingButtons'
 import {
-    getFromLocalStorage,
-    setLocalStorage,
-} from '../../../utils/LocalStorageAdapter'
-import {
     FACILITY_SEARCH_PLACEHOLDER,
     FACILITY_TITLE,
     FORMS_TITLE,
@@ -37,26 +33,6 @@ const FacilityOverviewLayout = ({
     useEffect(() => {
         if (facilities) {
             setFacilityCards(facilities)
-            setLocalStorage(facilities)
-                .then(res => {
-                    console.log('Saved to localStorage: ', res)
-                })
-                .catch(err => {
-                    console.log('Error when saving to localStorage: ', err)
-                })
-        } else {
-            console.log('Retrieving from lcoal storage')
-            getFromLocalStorage(facilities)
-                .then(res => {
-                    console.log('Retrieved from localStorage: ')
-                    setFacilityCards(res)
-                })
-                .catch(err => {
-                    console.log(
-                        'Error when retrieving from localStorage: ',
-                        err
-                    )
-                })
         }
     }, [facilities])
 

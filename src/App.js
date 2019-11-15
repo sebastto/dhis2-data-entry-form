@@ -36,20 +36,22 @@ const App = () => {
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        setError(null)
         try {
-            getAllOrganisationData(engine).then(({ organisations }) => {
-                const facilities = processDataSets(
-                    organisations,
-                    getCompleteFormEngine
-                )
-                setFacilities(facilities)
-                if (facilities.length === 1) {
-                    setMobileActiveTab(FORMS)
-                }
-            })
+            getAllOrganisationData(engine)
+                .then(({ organisations }) => {
+                    const facilities = processDataSets(
+                        organisations,
+                        getCompleteFormEngine
+                    )
+                    setFacilities(facilities)
+                    if (facilities.length === 1) {
+                        setMobileActiveTab(FORMS)
+                    }
+                })
+                .catch(e => {
+                    setError(['error', e])
+                })
         } catch (e) {
-            console.error(e)
             setError(['error', e])
         }
     }, [])

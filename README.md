@@ -61,3 +61,7 @@ Commit also need to follow the standard of `type-of-commit(what-are-you-fixing):
 One example could be if I just implemented a feature the commit would be: `feat(cli-style): added dhis2 cli style to the project`
 
 There is also commit hooks on the project so it will tell you if there is anything that you need to fix before you can commit.
+
+## Our Trello board
+
+https://trello.com/b/u0qHayVp/utvikling
